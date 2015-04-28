@@ -1,0 +1,3 @@
+event_controller:
+  type:     rest
+  resource: Mickadoo\Yarnyard\Bundle\ApplicationBundle\Controller\SecurityController

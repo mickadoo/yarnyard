@@ -1,0 +1,3 @@
+user_controller:
+  type:     rest
+  resource: Mickadoo\Yarnyard\Bundle\UserBundle\Controller\UserController

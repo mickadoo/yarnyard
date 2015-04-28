@@ -1,0 +1,33 @@
+services:
+
+  ##### manager ######
+
+  mickadoo_yarnyard_user.user.manager:
+    class: Doctrine\ORM\EntityManager
+    factory_service: "doctrine"
+    factory_method: "getManagerForClass"
+    arguments:
+      - Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User
+
+  ##### entity repository ######
+
+  mickadoo_yarnyard_user.user.repository:
+    class: Mickadoo\Yarnyard\Bundle\UserBundle\Entity\UserRepository
+    factory_service: mickadoo_yarnyard_user.user.manager
+    factory_method: getRepository
+    arguments:
+      - Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User
+
+  ##### provider ######
+
+  mickadoo_yarnyard_user.user.provider:
+    class: Mickadoo\Yarnyard\Bundle\UserBundle\Entity\UserProvider
+    arguments:
+      - @mickadoo_yarnyard_user.user.repository
+
+  ##### param converter ######
+
+  user_param_converter:
+    class: Mickadoo\Yarnyard\Bundle\UserBundle\ParamConverter\UserParamConverter
+    tags:
+      - { name: request.param_converter, priority: -2, converter: user_param_converter }
