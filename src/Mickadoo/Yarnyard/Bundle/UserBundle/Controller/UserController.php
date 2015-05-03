@@ -12,6 +12,25 @@ class UserController extends Controller
 {
     /**
      * @ApiDoc(
+     *  description="Get a user",
+     *  section="user"
+     * )
+     *
+     * @Rest\View()
+     * @Rest\Route("user/{id}")
+     *
+     * @ParamConverter("user", class="User")
+     *
+     * @param User $user
+     * @return User
+     */
+    public function getUserAction(User $user)
+    {
+        return $user;
+    }
+
+    /**
+     * @ApiDoc(
      *  description="Add a new user",
      *  section="user"
      * )
