@@ -4,11 +4,11 @@ parameters:
 #    parameter_name: value
 
 services:
+    kernel.listener.mickadoo_exception_handler:
+        class: Mickadoo\Yarnyard\Library\ExceptionHandler\ExceptionHandler
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
-
-  mickadoo_yarnyard_user.user.provider:
-    class: Mickadoo\Yarnyard\Bundle\UserBundle\Entity\UserProvider
-    arguments:
-      - @mickadoo_yarnyard_user.user.repository

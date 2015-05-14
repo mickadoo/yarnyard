@@ -7,6 +7,8 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Mickadoo\Yarnyard\Library\Controller\RestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class UserController extends RestController
 {
@@ -18,8 +20,6 @@ class UserController extends RestController
      *
      * @Rest\View()
      * @Rest\Route("user/{id}")
-     *
-     * @ParamConverter("user", class="\Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User")
      *
      * @param User $user
      * @return User
@@ -38,13 +38,15 @@ class UserController extends RestController
      * @Rest\View()
      * @Rest\Route("user")
      *
-     * @ParamConverter("user", class="User", converter="user_param_converter")
+     * @ParamConverter("user", class="\Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User", converter="user_param_converter")
      *
      * @param User $user
      * @return User
      */
     public function postUserAction(User $user)
     {
+        $this->get('mickadoo_yarnyard_user.user.repository')->save($user);
+
         return $user;
     }
 

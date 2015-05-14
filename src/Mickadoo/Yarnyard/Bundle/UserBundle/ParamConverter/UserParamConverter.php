@@ -16,9 +16,11 @@ class UserParamConverter implements ParamConverterInterface {
      */
     public function apply(Request $request, ParamConverter $configuration)
     {
+        // todo get param from request
         $user = new User();
-        $user->setUsername("mickadoo");
-        $user->setEmail("michaeldevery@gmail.com");
+        $user->setUsername("test")
+            ->setEmail("testuser@gmail.com")
+            ->setPassword('foo');
 
         $request->attributes->set($configuration->getName(), $user);
 
@@ -31,7 +33,7 @@ class UserParamConverter implements ParamConverterInterface {
      */
     public function supports(ParamConverter $configuration)
     {
-        return $configuration->getClass() === "User";
+        return $configuration->getClass() === '\\' . get_class(new User());
     }
 
 }

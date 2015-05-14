@@ -24,11 +24,8 @@ class UserProvider implements UserProviderInterface
     {
         $q = $this->userRepository
             ->createQueryBuilder('u')
-            ->select('user')
-            ->from('MickadooYarnyardUserBundle:User', 'user')
-            ->where('u.username = :username OR u.email = :email')
+            ->where('u.username = :username')
             ->setParameter('username', $username)
-            ->setParameter('email', $username)
             ->getQuery();
 
         try {
