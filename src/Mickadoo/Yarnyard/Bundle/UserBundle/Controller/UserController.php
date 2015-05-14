@@ -3,12 +3,12 @@
 namespace Mickadoo\Yarnyard\Bundle\UserBundle\Controller;
 
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Mickadoo\Yarnyard\Library\Controller\RestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
-class UserController extends Controller
+class UserController extends RestController
 {
     /**
      * @ApiDoc(
@@ -19,7 +19,7 @@ class UserController extends Controller
      * @Rest\View()
      * @Rest\Route("user/{id}")
      *
-     * @ParamConverter("user", class="User")
+     * @ParamConverter("user", class="\Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User")
      *
      * @param User $user
      * @return User
@@ -46,6 +46,22 @@ class UserController extends Controller
     public function postUserAction(User $user)
     {
         return $user;
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Get currently logged in user",
+     *  section="user"
+     * )
+     *
+     * @Rest\View()
+     * @Rest\Route("me")
+     *
+     * @return User
+     */
+    public function getMeAction()
+    {
+        return $this->getUser();
     }
 
 }

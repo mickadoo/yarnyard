@@ -11,6 +11,9 @@ use Doctrine\ORM\NoResultException;
 
 class UserProvider implements UserProviderInterface
 {
+    /**
+     * @var UserRepository
+     */
     protected $userRepository;
 
     public function __construct(ObjectRepository $userRepository){
@@ -21,6 +24,8 @@ class UserProvider implements UserProviderInterface
     {
         $q = $this->userRepository
             ->createQueryBuilder('u')
+            ->select('user')
+            ->from('MickadooYarnyardUserBundle:User', 'user')
             ->where('u.username = :username OR u.email = :email')
             ->setParameter('username', $username)
             ->setParameter('email', $username)
@@ -35,6 +40,8 @@ class UserProvider implements UserProviderInterface
             );
             throw new UsernameNotFoundException($message, 0, $e);
         }
+
+
 
         return $user;
     }

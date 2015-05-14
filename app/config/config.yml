@@ -99,7 +99,7 @@ fos_oauth_server:
     refresh_token_class: Mickadoo\Yarnyard\Bundle\ApplicationBundle\Entity\RefreshToken
     auth_code_class:     Mickadoo\Yarnyard\Bundle\ApplicationBundle\Entity\AuthCode
     service:
-        user_provider: platform.user.provider
+        user_provider: mickadoo_yarnyard_user.user.provider
         options:
             supported_scopes: user
 
