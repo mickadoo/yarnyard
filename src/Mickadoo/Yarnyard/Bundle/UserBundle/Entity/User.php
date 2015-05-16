@@ -3,6 +3,7 @@
 namespace Mickadoo\Yarnyard\Bundle\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Mickadoo\Yarnyard\Bundle\UserBundle\FieldConstants\UserFieldConstantsInterface;
 use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -11,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @ORM\Entity(repositoryClass="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\UserRepository")
  */
-class User implements UserInterface
+class User implements UserInterface, UserFieldConstantsInterface
 {
     /**
      * @var integer

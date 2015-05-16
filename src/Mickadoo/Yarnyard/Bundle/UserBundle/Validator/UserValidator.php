@@ -66,6 +66,13 @@ class UserValidator extends AbstractValidator implements UserErrorConstantsInter
             return false;
         }
 
+        if (count($this->getUserRepository()->findBy([User::USER_FIELD_EMAIL => $email])) > 0) {
+            $this->setErrorResponse(self::ERROR_USER_EMAIL_ALREADY_EXISTS);
+
+            return false;
+        }
+
+
         return true;
     }
 
@@ -75,7 +82,7 @@ class UserValidator extends AbstractValidator implements UserErrorConstantsInter
      */
     private function isUserUsernameValid($username)
     {
-        if ($username() == '') {
+        if ($username == '') {
             $this->setErrorResponse(self::ERROR_USER_USERNAME_NOT_SET);
 
             return false;
@@ -95,6 +102,12 @@ class UserValidator extends AbstractValidator implements UserErrorConstantsInter
 
         if (!$this->isStringAsciiOnly($username)) {
             $this->setErrorResponse(self::ERROR_USER_USERNAME_CONTAINS_NON_ASCII);
+
+            return false;
+        }
+
+        if (count($this->getUserRepository()->findBy([User::USER_FIELD_USERNAME => $username])) > 0) {
+            $this->setErrorResponse(self::ERROR_USER_USERNAME_ALREADY_EXISTS);
 
             return false;
         }

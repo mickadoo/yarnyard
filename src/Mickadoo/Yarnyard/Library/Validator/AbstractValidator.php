@@ -5,6 +5,7 @@ namespace Mickadoo\Yarnyard\Library\Validator;
 
 use FOS\OAuthServerBundle\Model\Token;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
+use Mickadoo\Yarnyard\Library\EntityRepository\RepositoryTrait;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -13,6 +14,7 @@ abstract class AbstractValidator implements ValidatorInterface, ContainerAwareIn
 {
 
     use ContainerAwareTrait;
+    use RepositoryTrait;
 
     /**
      * @var int
