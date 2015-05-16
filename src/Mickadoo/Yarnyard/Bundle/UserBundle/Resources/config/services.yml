@@ -2,7 +2,7 @@ services:
 
   ##### manager ######
 
-  mickadoo_yarnyard_user.user.manager:
+  yarnyard.user.user.manager:
     class: Doctrine\ORM\EntityManager
     factory_service: "doctrine"
     factory_method: "getManagerForClass"
@@ -11,18 +11,26 @@ services:
 
   ##### entity repository ######
 
-  mickadoo_yarnyard_user.user.repository:
+  yarnyard.user.user.repository:
     class: Mickadoo\Yarnyard\Bundle\UserBundle\Entity\UserRepository
-    factory_service: mickadoo_yarnyard_user.user.manager
+    factory_service: yarnyard.user.user.manager
     factory_method: getRepository
     arguments:
       - Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User
 
   ##### provider ######
 
-  mickadoo_yarnyard_user.user.provider:
+  yarnyard.user.user.provider:
     class: Mickadoo\Yarnyard\Bundle\UserBundle\Entity\UserProvider
     arguments:
-      - @mickadoo_yarnyard_user.user.repository
+      - @yarnyard.user.user.repository
+
+  ##### validator ######
+
+  yarnyard.user.user.validator:
+    class: Mickadoo\Yarnyard\Bundle\UserBundle\Validator\UserValidator
+    parent: yarnyard.library.validator.abstract_validator
 
   ##### param converter ######
+
+
