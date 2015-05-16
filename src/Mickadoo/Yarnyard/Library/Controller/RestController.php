@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Mickadoo\Yarnyard\Library\Controller;
-
 
 use FOS\RestBundle\Controller\FOSRestController;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
@@ -14,11 +12,13 @@ class RestController extends FOSRestController
 {
 
     /**
-     * @return User | null
+     * @return User|null
      */
     public function getUser()
     {
-        return $this->container->get('security.context')->getToken()->getUser();
+        $token = $this->container->get('security.token_storage')->getToken();
+
+        return $token->getUser();
     }
 
     /**
