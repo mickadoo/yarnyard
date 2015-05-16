@@ -64,13 +64,12 @@ class UserController extends RestController
     public function postUserAction(User $user)
     {
         $validator = $this->get('yarnyard.user.user.validator');
-//        $validator->setUser($user);
+        $validator->setUser($user);
 
         if (! $validator->isValid()) {
             return $this->createResponseFromValidator($validator);
         }
 
-        return $user;
         $this->get('yarnyard.user.user.repository')->save($user);
 
         return $user;

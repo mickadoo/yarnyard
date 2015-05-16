@@ -53,7 +53,7 @@ abstract class AbstractValidator implements ValidatorInterface, ContainerAwareIn
      * @param string $key
      * @param int $code
      */
-    public function setErrorResponse($key, $code = 400)
+    protected function setErrorResponse($key, $code = 400)
     {
         $this->setErrorKey($key);
         $this->setErrorCode($code);
@@ -71,7 +71,7 @@ abstract class AbstractValidator implements ValidatorInterface, ContainerAwareIn
      * @param $errorCode
      * @return $this
      */
-    public function setErrorCode($errorCode)
+    protected function setErrorCode($errorCode)
     {
         $this->errorCode = $errorCode;
 
@@ -90,7 +90,7 @@ abstract class AbstractValidator implements ValidatorInterface, ContainerAwareIn
      * @param string $errorKey
      * @return $this
      */
-    public function setErrorKey($errorKey)
+    protected function setErrorKey($errorKey)
     {
         $this->errorKey = $errorKey;
 
@@ -100,7 +100,7 @@ abstract class AbstractValidator implements ValidatorInterface, ContainerAwareIn
     /**
      * @return User
      */
-    public function getCurrentUser()
+    protected function getCurrentUser()
     {
         return $this->currentUser;
     }
@@ -114,6 +114,16 @@ abstract class AbstractValidator implements ValidatorInterface, ContainerAwareIn
         $this->currentUser = $currentUser;
 
         return $this;
+    }
+
+    /**
+     * @param $string
+     * @return bool
+     */
+    protected function isStringAsciiOnly($string)
+    {
+        return 0 == preg_match('/[^\x00-\x7F]/', $string);
+
     }
 
 }
