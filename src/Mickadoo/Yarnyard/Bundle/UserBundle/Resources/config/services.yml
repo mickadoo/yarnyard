@@ -26,8 +26,3 @@ services:
       - @mickadoo_yarnyard_user.user.repository
 
   ##### param converter ######
-
-  user_param_converter:
-    class: Mickadoo\Yarnyard\Bundle\UserBundle\ParamConverter\UserParamConverter
-    tags:
-      - { name: request.param_converter, priority: -2, converter: user_param_converter }

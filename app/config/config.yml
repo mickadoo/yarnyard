@@ -77,6 +77,8 @@ doctrine_migrations:
 fos_rest:
     param_fetcher_listener: true
     body_listener: true
+    body_converter:
+        enabled: true
     format_listener: true
     routing_loader:
         include_format: false

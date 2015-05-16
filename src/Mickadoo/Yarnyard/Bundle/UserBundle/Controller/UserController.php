@@ -7,8 +7,6 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Mickadoo\Yarnyard\Library\Controller\RestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class UserController extends RestController
 {
@@ -31,20 +29,43 @@ class UserController extends RestController
 
     /**
      * @ApiDoc(
-     *  description="Add a new user",
-     *  section="user"
+     * description="Add a new user",
+     * section="user",
+     * requirements={
+     *      {
+     *          "name"="email",
+     *          "dataType"="string",
+     *          "requirement"="\w+",
+     *          "description"="email address"
+     *      },
+     *      {
+     *          "name"="username",
+     *          "dataType"="string",
+     *          "requirement"="\w+",
+     *          "description"="username for new user"
+     *      },
+     *      {
+     *          "name"="password",
+     *          "dataType"="string",
+     *          "requirement"="\w+",
+     *          "description"="password for new user"
+     *      }
+     *  }
      * )
      *
      * @Rest\View()
      * @Rest\Route("user")
      *
-     * @ParamConverter("user", class="\Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User", converter="user_param_converter")
+     * @ParamConverter("user", converter="fos_rest.request_body")
      *
      * @param User $user
      * @return User
      */
     public function postUserAction(User $user)
     {
+
+
+        return $user;
         $this->get('mickadoo_yarnyard_user.user.repository')->save($user);
 
         return $user;
