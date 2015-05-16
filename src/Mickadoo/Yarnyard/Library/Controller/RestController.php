@@ -4,6 +4,7 @@ namespace Mickadoo\Yarnyard\Library\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
+use Mickadoo\Yarnyard\Library\EntityRepository\RepositoryTrait;
 use Mickadoo\Yarnyard\Library\Validator\ValidatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,14 +13,22 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class RestController extends FOSRestController
 {
 
+    use RepositoryTrait;
+
     /**
      * @return User|null
      */
     public function getUser()
     {
-        $token = $this->container->get('security.token_storage')->getToken();
+        return $this->getToken()->getUser();
+    }
 
-        return $token->getUser();
+    /**
+     * @return null|TokenInterface
+     */
+    public function getToken()
+    {
+        return $this->container->get('security.token_storage')->getToken();
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace Mickadoo\Yarnyard\Bundle\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Mickadoo\Yarnyard\Bundle\UserBundle\FieldConstants\UserFieldConstantsInterface;
 use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -17,7 +18,7 @@ class User implements UserInterface, UserFieldConstantsInterface
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -26,21 +27,21 @@ class User implements UserInterface, UserFieldConstantsInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", length=16, nullable=false)
+     * @ORM\Column(type="string", length=16, nullable=false)
      */
     private $username;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $email;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=32, nullable=false)
+     * @ORM\Column(type="string", length=60, nullable=false)
      */
     private $password;
 
@@ -52,9 +53,18 @@ class User implements UserInterface, UserFieldConstantsInterface
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="create_time", type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Timestampable(on="create")
      */
     private $createdTime;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Timestampable(on="update")
+     */
+    private $updatedTime;
 
     /**
      * @var Role[]

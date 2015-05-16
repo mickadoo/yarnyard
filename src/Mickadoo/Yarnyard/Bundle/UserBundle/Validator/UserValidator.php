@@ -88,7 +88,7 @@ class UserValidator extends AbstractValidator implements UserErrorConstantsInter
             return false;
         }
 
-        if (strlen($username) < 6) {
+        if (strlen($username) < 5) {
             $this->setErrorResponse(self::ERROR_USER_USERNAME_TOO_SHORT);
 
             return false;
