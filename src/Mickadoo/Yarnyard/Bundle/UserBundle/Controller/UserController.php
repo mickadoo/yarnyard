@@ -70,6 +70,10 @@ class UserController extends RestController
             return $this->createResponseFromValidator($validator);
         }
 
+        $user->setSalt(uniqid(mt_rand(), true));
+        $encoder = $this->get('security.password_encoder');
+        $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
+
         $this->get('yarnyard.user.user.repository')->save($user);
 
         return $user;

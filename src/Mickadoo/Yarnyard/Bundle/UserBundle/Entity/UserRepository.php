@@ -14,12 +14,6 @@ class UserRepository extends EntityRepository
      */
     public function save(User $user)
     {
-        $encoder = new BCryptPasswordEncoder(15);
-        $user->setSalt(uniqid(mt_rand(), true));
-        $password = $encoder->encodePassword($user->getPassword(), $user->getSalt());
-
-        $user->setPassword($password);
-
         $this->_em->persist($user);
         $this->_em->flush($user);
 
