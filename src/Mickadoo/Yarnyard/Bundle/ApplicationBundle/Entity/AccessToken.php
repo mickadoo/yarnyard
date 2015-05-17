@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mickadoo
- * Date: 08.03.15
- * Time: 14:38
- */
 
 namespace Mickadoo\Yarnyard\Bundle\ApplicationBundle\Entity;
 

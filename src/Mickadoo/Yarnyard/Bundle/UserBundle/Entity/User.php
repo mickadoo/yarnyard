@@ -2,10 +2,10 @@
 
 namespace Mickadoo\Yarnyard\Bundle\UserBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Mickadoo\Yarnyard\Bundle\UserBundle\FieldConstants\UserFieldConstantsInterface;
-use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @ORM\Entity(repositoryClass="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\UserRepository")
  */
-class User implements UserInterface, UserFieldConstantsInterface
+class User implements UserFieldConstantsInterface, UserInterface
 {
     /**
      * @var integer
@@ -67,29 +67,31 @@ class User implements UserInterface, UserFieldConstantsInterface
     private $updatedTime;
 
     /**
-     * @var Role[]
+     *
+     * @ORM\OneToMany(targetEntity="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\UserRole", mappedBy="user")
+     *
+     * @var UserRole[]
+     *
      */
-    private $roles;
+    private $userRoles;
 
-    public function eraseCredentials()
+    /**
+     * @return UserRole[]|ArrayCollection
+     */
+    public function getUserRoles()
     {
-
+        return $this->userRoles;
     }
 
     /**
-     * @return \Symfony\Component\Security\Core\Role\Role[]
+     * @param UserRole[] $userRoles
+     * @return $this
      */
-    public function getRoles()
+    public function setUserRoles($userRoles)
     {
-        return $this->roles;
-    }
+        $this->userRoles = $userRoles;
 
-    /**
-     * @param \Symfony\Component\Security\Core\Role\Role[] $roles
-     */
-    public function setRoles($roles)
-    {
-        $this->roles = $roles;
+        return $this;
     }
 
     /**
@@ -172,26 +174,20 @@ class User implements UserInterface, UserFieldConstantsInterface
     }
 
     /**
-     * Set createTime
-     *
-     * @param \DateTime $createdTime
-     * @return User
-     */
-    public function setCreatedTime($createdTime)
-    {
-        $this->createdTime = $createdTime;
-
-        return $this;
-    }
-
-    /**
-     * Get createTime
      *
      * @return \DateTime 
      */
     public function getCreatedTime()
     {
         return $this->createdTime;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedTime()
+    {
+        return $this->updatedTime;
     }
 
     /**
@@ -209,4 +205,29 @@ class User implements UserInterface, UserFieldConstantsInterface
     {
         $this->salt = $salt;
     }
+
+    /**
+     *
+     * Needed for UserInterface
+     * If UserInterface is removed then OauthBundle will not work
+     *
+     * @return array
+     * @deprecated
+     */
+    public function getRoles()
+    {
+        return $this->userRoles->toArray();
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
+     */
+    public function eraseCredentials()
+    {
+
+    }
+
 }

@@ -32,6 +32,10 @@ monolog:
                 VERBOSITY_VERY_VERBOSE: NOTICE
                 VERBOSITY_DEBUG: DEBUG
             channels: ["doctrine"]
+        error:
+            type: syslog
+            level: error
+            path: "%kernel.logs_dir%/%kernel.environment%.error.log"
 
 assetic:
     use_controller: true
