@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Mickadoo\Yarnyard\Bundle\UserBundle\FieldConstants\UserFieldConstantsInterface;
+use Mickadoo\Yarnyard\Library\Annotation\Serializer;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -42,11 +43,15 @@ class User implements UserFieldConstantsInterface, UserInterface
      * @var string
      *
      * @ORM\Column(type="string", length=60, nullable=false)
+     * @Serializer(ignorable=true)
      */
     private $password;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=32)
+     * @Serializer(ignorable=true)
      */
     private $salt;
 

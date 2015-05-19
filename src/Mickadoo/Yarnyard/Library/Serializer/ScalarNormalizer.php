@@ -2,12 +2,22 @@
 
 namespace Mickadoo\Yarnyard\Library\Serializer;
 
+use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Util\ClassUtils;
+use Mickadoo\Yarnyard\Library\Annotation\Serializer;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\SerializerAwareNormalizer;
 
 class ScalarNormalizer  extends SerializerAwareNormalizer implements NormalizerInterface, DenormalizerInterface
 {
+
+    const DOC_COMMENT_IGNORE = 'Ignore';
+
+    /**
+     * @var array
+     */
+    protected $config;
 
     /**
      * @param object $object
@@ -17,19 +27,23 @@ class ScalarNormalizer  extends SerializerAwareNormalizer implements NormalizerI
      */
     public function normalize($object, $format = null, array $context = array())
     {
+        $className = ClassUtils::getRealClass(get_class($object));
 
-        $reflectionObject = new \ReflectionObject($object);
+        $reflectionObject = new \ReflectionObject(new $className());
         $reflectionMethods = $reflectionObject->getMethods(\ReflectionMethod::IS_PUBLIC);
+
+        $ignoredAttributes = $this->getIgnoredAttributes($reflectionObject);
 
         $attributes = array();
 
         foreach ($reflectionMethods as $method) {
+
             if ($this->isGetMethod($method)) {
                 $attributeName = lcfirst(substr($method->name, 0 === strpos($method->name, 'is') ? 2 : 3));
 
-//                if (in_array($attributeName, $this->ignoredAttributes)) {
-//                    continue;
-//                }
+                if (in_array($attributeName, $ignoredAttributes)) {
+                    continue;
+                }
 
                 $attributeValue = $method->invoke($object);
 
@@ -103,6 +117,28 @@ class ScalarNormalizer  extends SerializerAwareNormalizer implements NormalizerI
                 (0 === strpos($method->name, 'is') && 2 < $methodLength)) &&
             0 === $method->getNumberOfRequiredParameters()
         );
+    }
+
+    /**
+     * @param \ReflectionObject $reflectionObject
+     * @return array
+     */
+    private function getIgnoredAttributes(\ReflectionObject $reflectionObject)
+    {
+        $reader = new AnnotationReader();
+        $ignoredAttributes = [];
+        $reflectionProperties = $reflectionObject->getProperties();
+
+        foreach ($reflectionProperties as $property)
+        {
+            /** @var Serializer $propertyAnnotation */
+            $propertyAnnotation = $reader->getPropertyAnnotation($property, Serializer::CLASS_NAME);
+            if ($propertyAnnotation && $propertyAnnotation->ignorable) {
+                $ignoredAttributes[] = $property->getName();
+            }
+        }
+
+        return $ignoredAttributes;
     }
 
 }
