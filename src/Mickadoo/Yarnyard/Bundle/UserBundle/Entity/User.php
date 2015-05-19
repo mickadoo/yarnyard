@@ -200,6 +200,7 @@ class User implements UserFieldConstantsInterface, UserInterface
 
     /**
      * @param mixed $salt
+     *
      */
     public function setSalt($salt)
     {
@@ -216,7 +217,7 @@ class User implements UserFieldConstantsInterface, UserInterface
      */
     public function getRoles()
     {
-        return $this->userRoles->toArray();
+        return $this->getUserRoles()->toArray();
     }
 
     /**
