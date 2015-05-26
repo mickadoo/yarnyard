@@ -2,6 +2,7 @@
 
 namespace Mickadoo\Yarnyard\Bundle\UserBundle\Controller;
 
+
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Mickadoo\Yarnyard\Library\Controller\RestController;
@@ -10,6 +11,25 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class UserController extends RestController
 {
+
+    /**
+     * @ApiDoc(
+     *  description="Get all users",
+     *  section="user"
+     * )
+     *
+     * @Rest\View()
+     * @Rest\Route("user")
+     *
+     * @return User[]
+     */
+    public function getAllUsersAction()
+    {
+        $query = $this->getUserRepository()->createQueryBuilder('user');
+
+        return $this->paginate($query);
+    }
+
     /**
      * @ApiDoc(
      *  description="Get a user",

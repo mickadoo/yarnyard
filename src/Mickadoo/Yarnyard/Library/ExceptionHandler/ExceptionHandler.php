@@ -29,6 +29,8 @@ class ExceptionHandler
         if ($exception instanceof NonCriticalException) {
             // todo translate message
             $responseBody['error']['key'] = $exception->getKey();
+        } else {
+            throw $exception; // todo decide how to handle other errors
         }
 
         return json_encode($responseBody);
