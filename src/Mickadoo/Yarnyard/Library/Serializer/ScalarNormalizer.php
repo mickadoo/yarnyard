@@ -29,7 +29,8 @@ class ScalarNormalizer  extends SerializerAwareNormalizer implements NormalizerI
     {
         $className = ClassUtils::getRealClass(get_class($object));
 
-        $reflectionObject = new \ReflectionObject(new $className());
+        $reflectionClass = new \ReflectionClass($className);
+        $reflectionObject = new \ReflectionObject($reflectionClass->newInstanceWithoutConstructor());
         $reflectionMethods = $reflectionObject->getMethods(\ReflectionMethod::IS_PUBLIC);
 
         $ignoredAttributes = $this->getIgnoredAttributes($reflectionObject);
