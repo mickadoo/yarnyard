@@ -80,6 +80,11 @@ class User implements UserFieldConstantsInterface, UserInterface
      */
     private $userRoles;
 
+    function __construct()
+    {
+        $this->userRoles = new ArrayCollection();
+    }
+
     /**
      * @return UserRole[]|ArrayCollection
      */

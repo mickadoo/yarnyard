@@ -60,19 +60,36 @@ class ScalarNormalizer  extends SerializerAwareNormalizer implements NormalizerI
     }
 
     /**
-     * Denormalizes data back into an object of the given class.
-     *
-     * @param mixed $data data to restore
-     * @param string $class the expected class to instantiate
-     * @param string $format format the given data was extracted from
-     * @param array $context options available to the denormalizer
-     *
+     * @param mixed $data
+     * @param string $class
+     * @param null $format
+     * @param array $context
      * @return object
+     * @throws \Exception
      */
     public function denormalize($data, $class, $format = null, array $context = array())
     {
-        return null;
-        // TODO: Implement denormalize() method.
+        if (!class_exists($class)) {
+            throw new \Exception('Denormalization class does not exist');
+        }
+
+        $reflectionClass = new \ReflectionClass($class);
+
+        if (! $reflectionClass->getConstructor()->getParameters()) {
+            $object = $reflectionClass->newInstance();
+        } else {
+            $object = $reflectionClass->newInstanceWithoutConstructor();
+        }
+
+        foreach ($data as $property => $propertyValue) {
+            $setter = 'set' . ucfirst($property);
+
+            if ($reflectionClass->hasMethod($setter)) {
+                $object->$setter($propertyValue);
+            }
+        }
+
+        return $object;
     }
 
     /**

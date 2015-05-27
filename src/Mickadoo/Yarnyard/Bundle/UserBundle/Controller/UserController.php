@@ -78,7 +78,7 @@ class UserController extends RestController
      * @Rest\View()
      * @Rest\Route("user")
      *
-     * @ParamConverter("user", converter="fos_rest.request_body")
+     * @ParamConverter("user", converter="fos_rest.request_body", class="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User")
      *
      * @param User $user
      * @return User
