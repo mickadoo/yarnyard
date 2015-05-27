@@ -6,6 +6,7 @@ use FOS\OAuthServerBundle\Model\TokenInterface;
 use FOS\RestBundle\Controller\FOSRestController;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 use Mickadoo\Yarnyard\Library\EntityRepository\RepositoryTrait;
+use Mickadoo\Yarnyard\Library\Pagination\PaginationHelper;
 use Mickadoo\Yarnyard\Library\Validator\ValidatorInterface;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
@@ -68,31 +69,27 @@ class RestController extends FOSRestController
     }
 
     /**
+     * @param Request $request
      * @param QueryBuilder $queryBuilder
      * @return Response
      */
-    protected function paginate(QueryBuilder $queryBuilder)
+    protected function paginate(Request $request, QueryBuilder $queryBuilder)
     {
-        // todo cleanup, move to RestController
+        $pagerfanta = new Pagerfanta(new DoctrineORMAdapter($queryBuilder));
 
-        $adapter = new DoctrineORMAdapter($queryBuilder);
-        $pagerfanta = new Pagerfanta($adapter);
+        // todo replace with parameters.yml default max
+        $maxPerPage = $request->query->get(PaginationHelper::KEY_MAX_PER_PAGE, PaginationHelper::DEFAULT_MAX);
+        $pagerfanta->setMaxPerPage($maxPerPage);
 
-        $body = $this->get('serializer')->serialize($pagerfanta->getCurrentPageResults()->getArrayCopy(), 'json');
+        $currentPage = $request->query->get(PaginationHelper::KEY_PAGE, 1);
+        $pagerfanta->setCurrentPage($currentPage);
 
-        $currentUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        $nextPageNumber = $pagerfanta->hasNextPage() ? $pagerfanta->getNextPage() : null;
-        $maxPerPage = $pagerfanta->getMaxPerPage();
-        $lastPage = $pagerfanta->getNbPages();
+        /** @var \ArrayIterator $results */
+        $results = $pagerfanta->getCurrentPageResults();
+        $body = $this->get('serializer')->serialize($results->getArrayCopy(), 'json');
 
-        $nextPageUrl = $pagerfanta->hasNextPage() ? "$currentUrl&per_page=$maxPerPage&page=$nextPageNumber" : null;
-        $lastPageUrl = "$currentUrl&per_page=$maxPerPage&page=$lastPage";
-
-        $response = new Response(
-            $body,
-            200,
-            ["Link" => "<$nextPageUrl>; rel='next', <$lastPageUrl>; rel='last'"]
-        );
+        $response = new Response($body);
+        $response->headers = PaginationHelper::getPaginationHeaders($request, $pagerfanta);
 
         return $response;
     }

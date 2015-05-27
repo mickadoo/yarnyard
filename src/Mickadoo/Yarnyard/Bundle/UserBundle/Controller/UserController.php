@@ -8,6 +8,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Mickadoo\Yarnyard\Library\Controller\RestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends RestController
 {
@@ -21,13 +22,14 @@ class UserController extends RestController
      * @Rest\View()
      * @Rest\Route("user")
      *
+     * @param Request $request
      * @return User[]
      */
-    public function getAllUsersAction()
+    public function getAllUsersAction(Request $request)
     {
         $query = $this->getUserRepository()->createQueryBuilder('user');
 
-        return $this->paginate($query);
+        return $this->paginate($request, $query);
     }
 
     /**

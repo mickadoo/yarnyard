@@ -30,6 +30,8 @@ class ExceptionHandler
             // todo translate message
             $responseBody['error']['key'] = $exception->getKey();
         } else {
+            var_dump($exception);
+            die();
             throw $exception; // todo decide how to handle other errors
         }
 
