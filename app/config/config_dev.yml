@@ -17,6 +17,10 @@ monolog:
             type:   stream
             path:   "%kernel.logs_dir%/%kernel.environment%.log"
             level:  debug
+        error:
+            type: stream
+            level: error
+            path: "%kernel.logs_dir%/%kernel.environment%.error.log"
         console:
             type:   console
             bubble: false
@@ -32,10 +36,6 @@ monolog:
                 VERBOSITY_VERY_VERBOSE: NOTICE
                 VERBOSITY_DEBUG: DEBUG
             channels: ["doctrine"]
-        error:
-            type: syslog
-            level: error
-            path: "%kernel.logs_dir%/%kernel.environment%.error.log"
 
 assetic:
     use_controller: true
