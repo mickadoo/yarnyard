@@ -15,27 +15,18 @@ class ExceptionHandler
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $exception = $event->getException();
-        $responseBody = $this->getResponseBody($exception);
-        $code = $exception->getCode() ? (int) $exception->getCode() : 400;
 
-        $response = new Response($responseBody, $code);
-        $event->setResponse($response);
-    }
-
-    private function getResponseBody(\Exception $exception)
-    {
-        $responseBody = array('error' => ['message' => $exception->getMessage()]);
-
-        if ($exception instanceof NonCriticalException) {
-            // todo translate message
-            $responseBody['error']['key'] = $exception->getKey();
-        } else {
-            var_dump($exception);
-            die();
-            throw $exception; // todo decide how to handle other errors
+        if (! $exception instanceof NonCriticalException) {
+            // ignore and allow other listeners handle it
+            return;
         }
 
-        return json_encode($responseBody);
+        $responseBody = array('error' => [
+            'message' => $exception->getMessage(),
+            'key' => $exception->getKey()
+        ]);
+
+        $event->setResponse(new Response(json_encode($responseBody), $exception->getCode()));
     }
 
 }
