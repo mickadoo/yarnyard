@@ -101,20 +101,6 @@ class UserController extends RestController
         return $user;
     }
 
-    /**
-     * @ApiDoc(
-     *  description="Get currently logged in user",
-     *  section="user"
-     * )
-     *
-     * @Rest\View()
-     * @Rest\Route("me")
-     *
-     * @return User
-     */
-    public function getMeAction()
-    {
-        return $this->getUser();
-    }
+
 
 }
