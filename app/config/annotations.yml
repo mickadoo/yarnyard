@@ -1,0 +1,48 @@
+
+getAllUsersAction:
+  description: 'Get all users'
+  section: 'user'
+
+getUserAction:
+  description: 'Get a user'
+  section: 'user'
+  requirements: 
+    -
+      name: 'id'
+      dataType: 'int'
+      requirement: '\d+'
+      description: 'The user id'
+
+postUserAction:
+  description: 'Add a new user'
+  section: 'user'
+  requirements: 
+    -
+      name: 'email'
+      dataType: 'string'
+      requirement: '\w+'
+      description: 'email address'
+    -
+      name: 'username'
+      dataType: 'string'
+      requirement: '\w+'
+      description: 'username for new user'
+    -
+      name: 'password'
+      dataType: 'string'
+      requirement: '\w+'
+      description: 'password for new user'
+
+patchUserAction:
+  description: 'Update a user'
+  section: 'user'
+  requirements: 
+    -
+      name: 'id'
+      dataType: 'int'
+      requirement: '\d+'
+      description: 'user id'
+
+getMeAction:
+  description: 'Get currently logged in user'
+  section: 'me'

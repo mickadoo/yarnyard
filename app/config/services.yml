@@ -12,3 +12,15 @@ services:
         class: Mickadoo\Yarnyard\Library\Serializer\ScalarNormalizer
         tags:
             - { name: serializer.normalizer }
+
+    yarnyard.api_doc.annotation.yaml_reader_handler:
+        class: Mickadoo\Yarnyard\Library\Annotation\ApiDocYamlAnnotation
+        tags:
+            - { name: nelmio_api_doc.extractor.handler }
+        calls:
+            - [setContainer, ['@service_container']]
+
+#    yarnyard.api_doc.annotation.yaml_generation_handler:
+#        class: Mickadoo\Yarnyard\Library\Annotation\ApiDocYamlGenerationAnnotation
+#        tags:
+#            - { name: nelmio_api_doc.extractor.handler }

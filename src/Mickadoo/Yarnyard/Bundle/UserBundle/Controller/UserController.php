@@ -33,13 +33,11 @@ class UserController extends RestController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Get a user",
-     *  section="user"
-     * )
      *
      * @Rest\View()
      * @Rest\Route("user/{id}")
+     *
+     * @ApiDoc()
      *
      * @param User $user
      * @return User
@@ -99,6 +97,35 @@ class UserController extends RestController
         $this->get('yarnyard.user.user.repository')->save($user);
 
         return $user;
+    }
+
+    /**
+     * @ApiDoc(
+     * description="Update a user",
+     * section="user",
+     *  requirements={
+     *      {
+     *          "name"="id",
+     *          "dataType"="int",
+     *          "requirement"="\d+",
+     *          "description"="user id"
+     *      }
+     *  }
+     * )
+     *
+     *
+     *
+     * @Rest\View()
+     * @Rest\Route("user/{id}")
+     *
+     * @ParamConverter("user", converter="fos_rest.request_body", class="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User")
+     *
+     * @param User $user
+     * @return User
+     */
+    public function patchUserAction(User $user)
+    {
+
     }
 
 
