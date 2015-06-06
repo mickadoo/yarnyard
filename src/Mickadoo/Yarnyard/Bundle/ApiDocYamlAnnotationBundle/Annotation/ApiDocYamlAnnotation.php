@@ -1,6 +1,6 @@
 <?php
 
-namespace Mickadoo\Yarnyard\Library\Annotation;
+namespace Mickadoo\Yarnyard\Bundle\ApiDocYamlAnnotationBundle\Annotation;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Nelmio\ApiDocBundle\Extractor\HandlerInterface;
@@ -9,9 +9,6 @@ use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Yaml\Yaml;
 
-/**
- * @Annotation
- */
 class ApiDocYamlAnnotation implements HandlerInterface, ContainerAwareInterface
 {
 

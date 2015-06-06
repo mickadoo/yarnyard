@@ -1,6 +1,6 @@
 <?php
 
-namespace Mickadoo\Yarnyard\Bundle\ApiDocYamlAnnoationBundle\DependencyInjection;
+namespace Mickadoo\Yarnyard\Bundle\ApiDocYamlAnnotationBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -18,7 +18,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('mickadoo_yarnyard_api_doc_yaml_annoation');
+        $rootNode = $treeBuilder->root('mickadoo_yarnyard_api_doc_yaml_annotation');
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for

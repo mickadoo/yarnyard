@@ -1,5 +1,5 @@
-mickadoo_yarnyard_api_doc_yaml_annoation:
-    resource: "@MickadooYarnyardApiDocYamlAnnoationBundle/Resources/config/routing.yml"
+mickadoo_yarnyard_api_doc_yaml_annotation:
+    resource: "@MickadooYarnyardApiDocYamlAnnotationBundle/Resources/config/routing.yml"
     prefix:   /
 
 mickadoo_yarnyard_user:
