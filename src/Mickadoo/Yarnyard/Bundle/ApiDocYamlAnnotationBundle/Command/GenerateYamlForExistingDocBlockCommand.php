@@ -1,16 +1,21 @@
 <?php
 
-namespace Mickadoo\Yarnyard\Library\Annotation;
+namespace Mickadoo\Yarnyard\Bundle\ApiDocYamlAnnotationBundle\DependencyInjection;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Nelmio\ApiDocBundle\Extractor\HandlerInterface;
 use Symfony\Component\Routing\Route;
 
-class ApiDocYamlGenerationAnnotation implements HandlerInterface
+class GenerateYamlForExistingDocBlockCommand implements HandlerInterface
 {
 
     public function __construct()
     {
+        // todo make this a real command
+        /**
+         * maybe register as service on the fly and fake request to api/docs?
+         */
+
         $filename = 'annotations.yml';
 
         if (file_exists($filename)) {
