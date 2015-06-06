@@ -1,0 +1,4 @@
+services:
+#    mickadoo_yarnyard_api_doc_yaml_annoation.example:
+#        class: Mickadoo\Yarnyard\Bundle\ApiDocYamlAnnoationBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

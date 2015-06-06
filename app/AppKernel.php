@@ -23,6 +23,7 @@ class AppKernel extends Kernel
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Mickadoo\Yarnyard\Bundle\UserBundle\MickadooYarnyardUserBundle(),
             new Mickadoo\Yarnyard\Bundle\ApplicationBundle\MickadooYarnyardApplicationBundle(),
+            new Mickadoo\Yarnyard\Bundle\ApiDocYamlAnnoationBundle\MickadooYarnyardApiDocYamlAnnoationBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

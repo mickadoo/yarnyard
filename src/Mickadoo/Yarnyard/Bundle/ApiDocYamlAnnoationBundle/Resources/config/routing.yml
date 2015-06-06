@@ -1,0 +1,3 @@
+mickadoo_yarnyard_api_doc_yaml_annoation_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: MickadooYarnyardApiDocYamlAnnoationBundle:Default:index }
