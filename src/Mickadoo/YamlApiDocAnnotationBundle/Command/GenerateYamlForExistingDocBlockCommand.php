@@ -1,6 +1,6 @@
 <?php
 
-namespace Mickadoo\Yarnyard\Bundle\ApiDocYamlAnnotationBundle\Command;
+namespace Mickadoo\YamlApiDocAnnotationBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;

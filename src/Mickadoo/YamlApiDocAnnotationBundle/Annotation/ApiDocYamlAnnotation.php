@@ -1,6 +1,6 @@
 <?php
 
-namespace Mickadoo\Yarnyard\Bundle\ApiDocYamlAnnotationBundle\Annotation;
+namespace Mickadoo\YamlApiDocAnnotationBundle\Annotation;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Nelmio\ApiDocBundle\Extractor\HandlerInterface;
@@ -60,7 +60,7 @@ class ApiDocYamlAnnotation implements HandlerInterface, ContainerAwareInterface
     {
         $annotationConfigPath = $this->container->get('kernel')->getRootDir() . self::ANNOTATION_FILE_PATH;
 
-        if (! file_exists($annotationConfigPath)) {
+        if (!file_exists($annotationConfigPath)) {
             throw new \Exception('Annotation config file not found');
         }
 

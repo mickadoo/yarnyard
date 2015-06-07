@@ -1,7 +1,7 @@
 services:
 
-    yarnyard.api_doc.annotation.yaml_reader_handler:
-        class: Mickadoo\Yarnyard\Bundle\ApiDocYamlAnnotationBundle\Annotation\ApiDocYamlAnnotation
+    mickadoo_yaml_api_doc_annotation.yaml_reader_handler:
+        class: Mickadoo\YamlApiDocAnnotationBundle\Annotation\ApiDocYamlAnnotation
         tags:
             - { name: nelmio_api_doc.extractor.handler }
         calls:

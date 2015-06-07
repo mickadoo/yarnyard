@@ -110,3 +110,6 @@ stof_doctrine_extensions:
     orm:
         default:
             timestampable: true
+
+#mickadoo_api_doc_yaml_annotation:
+#    filename: 'myfile.txt'

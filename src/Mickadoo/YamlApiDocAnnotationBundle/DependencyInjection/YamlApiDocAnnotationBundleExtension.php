@@ -1,9 +1,9 @@
 <?php
 
-namespace Mickadoo\Yarnyard\Bundle\ApiDocYamlAnnotationBundle\DependencyInjection;
+namespace Mickadoo\YamlApiDocAnnotationBundle\DependencyInjection;
 
-use Mickadoo\Yarnyard\Bundle\ApiDocYamlAnnotationBundle\Annotation\ApiDocYamlGenerator;
-use Mickadoo\Yarnyard\Bundle\ApiDocYamlAnnotationBundle\Command\GenerateYamlForExistingDocBlockCommand;
+use Mickadoo\YamlApiDocAnnotationBundle\Annotation\ApiDocYamlGenerator;
+use Mickadoo\YamlApiDocAnnotationBundle\Command\GenerateYamlForExistingDocBlockCommand;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Definition;
@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class MickadooYarnyardApiDocYamlAnnotationExtension extends Extension
+class YamlApiDocAnnotationBundleExtension extends Extension
 {
     /**
      * {@inheritdoc}
@@ -25,26 +25,33 @@ class MickadooYarnyardApiDocYamlAnnotationExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-
         if ($this->isYamlDocGenerateCommand()) {
-            $generatorDefinition = $this->getGeneratorDefinitionClass();
-            $container->setDefinition('api_doc.annotation.yaml_generation_handler', $generatorDefinition);
+            $generatorDefinition = $this->getGeneratorDefinitionClass($configs);
+            $container->setDefinition('mickadoo_yaml_api_doc_annotation.yaml_generation_handler', $generatorDefinition);
         }
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
     }
 
     /**
+     * @param array $configs
      * @return Definition
+     * @throws \Exception
      */
-    private function getGeneratorDefinitionClass()
+    private function getGeneratorDefinitionClass(array $configs)
     {
+        if (!isset($configs[0]['filename'])) {
+            throw new \Exception('Filename for generated yaml annotations not defined. Please define it in your config.yml under the mickadoo_yaml_api_doc node');
+        }
+
         $generatorDefinition = new Definition();
-        $generatorDefinition->setClass(ApiDocYamlGenerator::CLASSNAME);
-        $generatorDefinition->setTags([
-            'nelmio_api_doc.extractor.handler' => [[]]
-        ]);
+        $generatorDefinition
+            ->setClass(ApiDocYamlGenerator::CLASSNAME)
+            ->setTags([
+                'nelmio_api_doc.extractor.handler' => [[]]
+            ])
+            ->addMethodCall('setBaseFileName', [$configs[0]['filename']]);
 
         return $generatorDefinition;
     }
@@ -58,7 +65,7 @@ class MickadooYarnyardApiDocYamlAnnotationExtension extends Extension
             return false;
         }
 
-        if (! isset($_SERVER['argv'])) {
+        if (!isset($_SERVER['argv'])) {
             return false;
         }
 
