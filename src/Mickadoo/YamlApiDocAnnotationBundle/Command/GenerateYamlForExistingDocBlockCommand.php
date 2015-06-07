@@ -2,6 +2,7 @@
 
 namespace Mickadoo\YamlApiDocAnnotationBundle\Command;
 
+use Mickadoo\YamlApiDocAnnotationBundle\Annotation\ApiDocYamlGenerator;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,6 +22,8 @@ class GenerateYamlForExistingDocBlockCommand extends ContainerAwareCommand
     public function run(InputInterface $input, OutputInterface $output)
     {
         $request = Request::create('/api/doc');
+        $rootDirectory = $this->getContainer()->get('kernel')->getRootDir();
+        $this->getContainer()->get(ApiDocYamlGenerator::SERVICE_ID)->setFilename($rootDirectory);
         $this->getContainer()->get('kernel')->handle($request);
     }
 }

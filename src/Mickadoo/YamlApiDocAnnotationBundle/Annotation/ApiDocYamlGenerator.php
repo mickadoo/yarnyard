@@ -10,22 +10,17 @@ class ApiDocYamlGenerator implements HandlerInterface
 {
 
     const CLASSNAME = __CLASS__;
+    const SERVICE_ID = 'mickadoo_yaml_api_doc_annotation.yaml_generation_handler';
 
-    public $filename = 'foo';
+    /**
+     * @var string
+     */
+    protected $filename;
 
     /**
      * @var string
      */
     private $baseFileName;
-
-    public function __construct()
-    {
-        $filename = 'annotations.yml';
-
-        if (file_exists($filename)) {
-            unlink($filename);
-        }
-    }
 
     /**
      * Parse route parameters in order to populate ApiDoc.
@@ -37,9 +32,7 @@ class ApiDocYamlGenerator implements HandlerInterface
      */
     public function handle(ApiDoc $annotation, array $annotations, Route $route, \ReflectionMethod $method)
     {
-        $filename = 'annotations.yml';
-
-        $fileHandle = fopen($filename, 'a');
+        $fileHandle = fopen($this->getFileName(), 'a');
         fwrite($fileHandle, PHP_EOL);
         fwrite($fileHandle, $method->getName() . ':' . PHP_EOL);
         fwrite($fileHandle, "  description: " . sprintf("'%s'", $annotation->getDescription()) . PHP_EOL);
@@ -60,6 +53,14 @@ class ApiDocYamlGenerator implements HandlerInterface
     }
 
     /**
+     * @return string
+     */
+    protected function getFileName()
+    {
+        return $this->filename;
+    }
+
+    /**
      * @param string $baseFilename
      * @return $this
      * @throws \Exception
@@ -71,6 +72,28 @@ class ApiDocYamlGenerator implements HandlerInterface
         } else {
             throw new \Exception('Base filename can only be set at boot-time (defined in config.yml)');
         }
+
+        return $this;
+    }
+
+    /**
+     * @param string $rootDirectory
+     * @return $this
+     * @throws \Exception
+     */
+    public function setFilename($rootDirectory)
+    {
+        if ($this->filename) {
+            throw new \Exception('Filename can only be set implicitly when running the generation command');
+        }
+
+        $fileName = $rootDirectory . '/' . $this->baseFileName;
+
+        if (! file_exists(dirname($fileName))) {
+            throw new \Exception('Error, directory to save output does not exist: ' . dirname($fileName));
+        }
+
+        $this->filename = $fileName ;
 
         return $this;
     }

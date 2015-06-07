@@ -27,7 +27,7 @@ class MickadooYamlApiDocAnnotationExtension extends Extension
 
         if ($this->isYamlDocGenerateCommand()) {
             $generatorDefinition = $this->getGeneratorDefinitionClass($configs);
-            $container->setDefinition('mickadoo_yaml_api_doc_annotation.yaml_generation_handler', $generatorDefinition);
+            $container->setDefinition(ApiDocYamlGenerator::SERVICE_ID, $generatorDefinition);
         }
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
@@ -42,7 +42,7 @@ class MickadooYamlApiDocAnnotationExtension extends Extension
     private function getGeneratorDefinitionClass(array $configs)
     {
         if (!isset($configs[0]['filename'])) {
-            throw new \Exception('Filename for generated yaml annotations not defined. Please define it in your config.yml under the mickadoo_yaml_api_doc node');
+            throw new \Exception('Filename for generated yaml annotations not defined. Please define it in your config.yml under the mickadoo_yaml_api_doc_annotation node');
         }
 
         $generatorDefinition = new Definition();
