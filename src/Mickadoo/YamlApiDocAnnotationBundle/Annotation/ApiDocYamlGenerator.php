@@ -66,7 +66,7 @@ class ApiDocYamlGenerator implements HandlerInterface
      */
     public function setBaseFileName($baseFilename)
     {
-        if ($this->baseFileName) {
+        if (! $this->baseFileName) {
             $this->baseFileName = $baseFilename;
         } else {
             throw new \Exception('Base filename can only be set at boot-time (defined in config.yml)');

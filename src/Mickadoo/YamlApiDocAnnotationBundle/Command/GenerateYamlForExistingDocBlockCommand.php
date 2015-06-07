@@ -13,7 +13,9 @@ class GenerateYamlForExistingDocBlockCommand extends ContainerAwareCommand
 
     protected function configure()
     {
-        $this->setName(self::NAME);
+        $this
+            ->setName(self::NAME)
+            ->setDescription('Create yaml annotations for existing api doc block sections in the code');
     }
 
     public function run(InputInterface $input, OutputInterface $output)

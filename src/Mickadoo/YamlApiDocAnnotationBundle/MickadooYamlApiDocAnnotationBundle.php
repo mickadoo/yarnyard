@@ -4,6 +4,6 @@ namespace Mickadoo\YamlApiDocAnnotationBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class YamlApiDocAnnotationBundle extends Bundle
+class MickadooYamlApiDocAnnotationBundle extends Bundle
 {
 }
