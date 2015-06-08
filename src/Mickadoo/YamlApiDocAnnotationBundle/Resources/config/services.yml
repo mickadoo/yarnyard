@@ -1,9 +1,0 @@
-services:
-
-    mickadoo_yaml_api_doc_annotation.yaml_reader_handler:
-        class: Mickadoo\YamlApiDocAnnotationBundle\Annotation\ApiDocYamlAnnotation
-        tags:
-            - { name: nelmio_api_doc.extractor.handler }
-        calls:
-            - [setContainer, ['@service_container']]
-            - [setContainer, ['@service_container']]
