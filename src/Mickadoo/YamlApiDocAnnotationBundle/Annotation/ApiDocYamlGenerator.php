@@ -32,30 +32,84 @@ class ApiDocYamlGenerator implements HandlerInterface
      */
     public function handle(ApiDoc $annotation, array $annotations, Route $route, \ReflectionMethod $method)
     {
+        // if no filename then the generator service is probably just cached and trying to be run
+        // todo: fix caching of service problem, only inject generator when run from command
+        if (! $this->getFileName()) {
+            return;
+        }
+
         $fileHandle = fopen($this->getFileName(), 'a');
+
         fwrite($fileHandle, PHP_EOL);
         fwrite($fileHandle, $method->getName() . ':' . PHP_EOL);
-        fwrite($fileHandle, "  description: " . sprintf("'%s'", $annotation->getDescription()) . PHP_EOL);
-        fwrite($fileHandle, "  section: " . sprintf("'%s'", $annotation->getSection()) . PHP_EOL);
-        if ($annotation->getRequirements()) {
-            fwrite($fileHandle, "  requirements: " . PHP_EOL);
+        $this->writeSimpleValues($fileHandle, $annotation);
+        $this->writeArrayValues($fileHandle, $annotation);
+        fclose($fileHandle);
+    }
 
-            foreach ($annotation->getRequirements() as $name => $requirement) {
-                fwrite($fileHandle, "    -" . PHP_EOL);
-                fwrite($fileHandle, "      name: '$name'" . PHP_EOL);
-                foreach ($requirement as $key => $parameter) {
-                    fwrite($fileHandle, "      $key: " . sprintf("'%s'", $parameter) . PHP_EOL);
+    /**
+     * @param $handle
+     * @param ApiDoc $annotation
+     */
+    private function writeSimpleValues($handle, ApiDoc $annotation)
+    {
+        $keys = ['description', 'section', 'https', 'resource', 'input', 'output', 'link', 'deprecated'];
+
+        foreach ($keys as $key) {
+            $getter = 'get' . ucfirst($key);
+            if (method_exists($annotation, $getter) && ! in_array($annotation->$getter(), [null, false])) {
+                $value = $annotation->$getter();
+                fwrite($handle, sprintf("  %s: '%s'" . PHP_EOL, $key, $value));
+            }
+        }
+    }
+
+    /**
+     * @param $handle
+     * @param ApiDoc $annotation
+     */
+    private function writeArrayValues($handle, ApiDoc $annotation)
+    {
+        $values = ['requirements', 'views', 'parameters', 'statusCodes'];
+
+        foreach ($values as $value) {
+            $getter = 'get' . ucfirst($value);
+            if (method_exists($annotation, $getter) && $annotation->$getter() !== null && is_array($annotation->$getter()) && ! $this->isEmptyArray($annotation->$getter())) {
+                fwrite($handle, sprintf("  %s: " . PHP_EOL, $value));
+                foreach ($annotation->$getter() as $key => $arrayValue) {
+                    if (is_array($arrayValue) && ! $this->isEmptyArray($arrayValue)) {
+                        fwrite($handle, "    -" . PHP_EOL);
+                        fwrite($handle, sprintf("      name: '%s'", $key) . PHP_EOL);
+                        foreach ($arrayValue as $name => $nestedValue) {
+                            fwrite($handle, sprintf("      %s: '%s'", $name, $nestedValue) . PHP_EOL);
+                        }
+                    } elseif (!is_array($arrayValue)) {
+                        fwrite($handle, sprintf("    - '%s'", $arrayValue) . PHP_EOL);
+                    }
                 }
             }
         }
+    }
 
-        fclose($fileHandle);
+    /**
+     * @param array $array
+     * @return bool
+     */
+    private function isEmptyArray(array $array)
+    {
+        foreach ($array as $value) {
+            if ($value) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
      * @return string
      */
-    protected function getFileName()
+    public function getFileName()
     {
         return $this->filename;
     }

@@ -21,9 +21,12 @@ class GenerateYamlForExistingDocBlockCommand extends ContainerAwareCommand
 
     public function run(InputInterface $input, OutputInterface $output)
     {
+        // todo: if no cache exists then an exception will be thrown. need to fix it so that generator service is always injected when this command is run
         $request = Request::create('/api/doc');
+        $this->getContainer()->get('kernel')->handle($request);
         $rootDirectory = $this->getContainer()->get('kernel')->getRootDir();
         $this->getContainer()->get(ApiDocYamlGenerator::SERVICE_ID)->setFilename($rootDirectory);
         $this->getContainer()->get('kernel')->handle($request);
+        $output->writeln("Generated file: " . realpath($this->getContainer()->get(ApiDocYamlGenerator::SERVICE_ID)->getFilename()));
     }
 }
