@@ -14,10 +14,7 @@ class UserController extends RestController
 {
 
     /**
-     * @ApiDoc(
-     *  description="Get all users",
-     *  section="user"
-     * )
+     * @ApiDoc()
      *
      * @Rest\View()
      * @Rest\Route("user")
@@ -48,30 +45,7 @@ class UserController extends RestController
     }
 
     /**
-     * @ApiDoc(
-     * description="Add a new user",
-     * section="user",
-     * requirements={
-     *      {
-     *          "name"="email",
-     *          "dataType"="string",
-     *          "requirement"="\w+",
-     *          "description"="email address"
-     *      },
-     *      {
-     *          "name"="username",
-     *          "dataType"="string",
-     *          "requirement"="\w+",
-     *          "description"="username for new user"
-     *      },
-     *      {
-     *          "name"="password",
-     *          "dataType"="string",
-     *          "requirement"="\w+",
-     *          "description"="password for new user"
-     *      }
-     *  }
-     * )
+     * @ApiDoc()
      *
      * @Rest\View()
      * @Rest\Route("user")
@@ -100,20 +74,7 @@ class UserController extends RestController
     }
 
     /**
-     * @ApiDoc(
-     * description="Update a user",
-     * section="user",
-     *  requirements={
-     *      {
-     *          "name"="id",
-     *          "dataType"="int",
-     *          "requirement"="\d+",
-     *          "description"="user id"
-     *      }
-     *  }
-     * )
-     *
-     *
+     * @ApiDoc()
      *
      * @Rest\View()
      * @Rest\Route("user/{id}")

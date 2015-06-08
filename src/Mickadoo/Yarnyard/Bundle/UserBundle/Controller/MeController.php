@@ -11,10 +11,7 @@ class MeController extends RestController
 {
 
     /**
-     * @ApiDoc(
-     *  description="Get currently logged in user",
-     *  section="me"
-     * )
+     * @ApiDoc()
      *
      * @Rest\View()
      * @Rest\Route("me")

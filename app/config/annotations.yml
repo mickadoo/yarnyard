@@ -1,22 +1,25 @@
 
-getAllUsersAction:
-  description: 'Get all users'
-  section: 'user'
-
 getUserAction:
   description: 'Get a user'
   section: 'user'
-  requirements: 
+  requirements:
     -
       name: 'id'
       dataType: 'int'
       requirement: '\d+'
       description: 'The user id'
 
+getAllUsersAction:
+  description: 'Get all users'
+  section: 'user'
+
+getUserAction:
+  requirements:
+
 postUserAction:
   description: 'Add a new user'
   section: 'user'
-  requirements: 
+  requirements:
     -
       name: 'email'
       dataType: 'string'
@@ -36,7 +39,7 @@ postUserAction:
 patchUserAction:
   description: 'Update a user'
   section: 'user'
-  requirements: 
+  requirements:
     -
       name: 'id'
       dataType: 'int'
@@ -46,3 +49,6 @@ patchUserAction:
 getMeAction:
   description: 'Get currently logged in user'
   section: 'me'
+  views:
+    - 'default'
+    - 'me'
