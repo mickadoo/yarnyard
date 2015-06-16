@@ -5,7 +5,7 @@ namespace Mickadoo\Yarnyard\Library\Controller;
 use FOS\OAuthServerBundle\Model\TokenInterface;
 use FOS\RestBundle\Controller\FOSRestController;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
-use Mickadoo\Yarnyard\Library\EntityRepository\RepositoryTrait;
+use Mickadoo\Yarnyard\Library\EntityHelper\RepositoryTrait;
 use Mickadoo\Yarnyard\Library\Pagination\PaginationHelper;
 use Mickadoo\Yarnyard\Library\Validator\ValidatorInterface;
 use Pagerfanta\Adapter\DoctrineORMAdapter;

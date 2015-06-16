@@ -4,7 +4,7 @@ namespace Mickadoo\Yarnyard\Bundle\UserBundle\Validator;
 
 use Mickadoo\Yarnyard\Bundle\UserBundle\ConstantsInterface\UserErrorConstantsInterface;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
-use Mickadoo\Yarnyard\Library\Exception\NonCriticalException;
+use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
 use Mickadoo\Yarnyard\Library\Validator\AbstractValidator;
 
 class UserValidator extends AbstractValidator implements UserErrorConstantsInterface
@@ -24,18 +24,18 @@ class UserValidator extends AbstractValidator implements UserErrorConstantsInter
         $user = $this->user;
 
         if (!$user) {
-            throw new NonCriticalException(self::ERROR_USER_NOT_SET, 500);
+            throw new YarnyardException(self::ERROR_USER_NOT_SET, 500);
         }
 
-        if (!$this->isUserEmailValid($user->getEmail())) {
+        if (!$this->isUserEmailValid()) {
             return false;
         }
 
-        if (!$this->isUserUsernameValid($user->getUsername())) {
+        if (!$this->isUserUsernameValid()) {
             return false;
         }
 
-        if (!$this->isUserPasswordValid($user->getPassword())) {
+        if (!$this->isUserPasswordValid()) {
             return false;
         }
 
@@ -43,11 +43,12 @@ class UserValidator extends AbstractValidator implements UserErrorConstantsInter
     }
 
     /**
-     * @param string $email
      * @return bool
      */
-    private function isUserEmailValid($email)
+    protected function isUserEmailValid()
     {
+        $email = $this->user->getEmail();
+
         if ($email == '') {
             $this->setErrorResponse(self::ERROR_USER_EMAIL_NOT_SET);
 
@@ -66,22 +67,16 @@ class UserValidator extends AbstractValidator implements UserErrorConstantsInter
             return false;
         }
 
-        if (count($this->getUserRepository()->findBy([User::USER_FIELD_EMAIL => $email])) > 0) {
-            $this->setErrorResponse(self::ERROR_USER_EMAIL_ALREADY_EXISTS);
-
-            return false;
-        }
-
-
         return true;
     }
 
     /**
-     * @param string $username
      * @return bool
      */
-    private function isUserUsernameValid($username)
+    protected function isUserUsernameValid()
     {
+        $username = $this->user->getUsername();
+
         if ($username == '') {
             $this->setErrorResponse(self::ERROR_USER_USERNAME_NOT_SET);
 
@@ -106,17 +101,13 @@ class UserValidator extends AbstractValidator implements UserErrorConstantsInter
             return false;
         }
 
-        if (count($this->getUserRepository()->findBy([User::USER_FIELD_USERNAME => $username])) > 0) {
-            $this->setErrorResponse(self::ERROR_USER_USERNAME_ALREADY_EXISTS);
-
-            return false;
-        }
-
         return true;
     }
 
-    private function isUserPasswordValid($password)
+    protected function isUserPasswordValid()
     {
+        $password = $this->user->getPassword();
+
         if ($password == '') {
             $this->setErrorResponse(self::ERROR_USER_PASSWORD_NOT_SET);
 
@@ -125,12 +116,6 @@ class UserValidator extends AbstractValidator implements UserErrorConstantsInter
 
         if (strlen($password) < 5) {
             $this->setErrorResponse(self::ERROR_USER_PASSWORD_TOO_SHORT);
-
-            return false;
-        }
-
-        if (strlen($password) > 55) {
-            $this->setErrorResponse(self::ERROR_USER_PASSWORD_TOO_LONG);
 
             return false;
         }

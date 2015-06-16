@@ -1,6 +1,6 @@
 <?php
 
-namespace Mickadoo\Yarnyard\Library\EntityRepository;
+namespace Mickadoo\Yarnyard\Library\EntityHelper;
 
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\UserRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;

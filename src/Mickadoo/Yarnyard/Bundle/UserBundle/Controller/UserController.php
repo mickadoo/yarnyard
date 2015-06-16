@@ -6,6 +6,7 @@ namespace Mickadoo\Yarnyard\Bundle\UserBundle\Controller;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Mickadoo\Yarnyard\Library\Controller\RestController;
+use Mickadoo\Yarnyard\Library\EntityHelper\SetPropertiesFromArrayHelper;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,7 +58,7 @@ class UserController extends RestController
      */
     public function postUserAction(User $user)
     {
-        $validator = $this->get('yarnyard.user.user.validator');
+        $validator = $this->get('yarnyard.user.user.post_user_validator');
         $validator->setUser($user);
 
         if (! $validator->isValid()) {
@@ -79,13 +80,26 @@ class UserController extends RestController
      * @Rest\View()
      * @Rest\Route("user/{id}")
      *
-     * @ParamConverter("user", class="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User")
+     * @ParamConverter(
+     *  class="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User"
+     * )
      *
      * @param User $user
+     * @param Request $request
      * @return User
      */
-    public function patchUserAction(User $user)
+    public function patchUserAction(User $user, Request $request)
     {
+        $validator = $this->get('yarnyard.user.user.patch_user_validator');
+        $validator->setUser($user);
+
+        if (! $validator->isValid()) {
+            return $this->createResponseFromValidator($validator);
+        }
+
+        SetPropertiesFromArrayHelper::set($user, (array) $request->request->getIterator());
+        $this->getUserRepository()->update($user);
+
         return $user;
     }
 

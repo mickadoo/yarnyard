@@ -27,8 +27,12 @@ services:
 
   ##### validator ######
 
-  yarnyard.user.user.validator:
-    class: Mickadoo\Yarnyard\Bundle\UserBundle\Validator\UserValidator
+  yarnyard.user.user.post_user_validator:
+    class: Mickadoo\Yarnyard\Bundle\UserBundle\Validator\PostUserValidator
+    parent: yarnyard.library.validator.abstract_validator
+
+  yarnyard.user.user.patch_user_validator:
+    class: Mickadoo\Yarnyard\Bundle\UserBundle\Validator\PatchUserValidator
     parent: yarnyard.library.validator.abstract_validator
 
   ##### param converter ######

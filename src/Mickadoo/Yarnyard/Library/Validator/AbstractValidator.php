@@ -5,10 +5,11 @@ namespace Mickadoo\Yarnyard\Library\Validator;
 
 use FOS\OAuthServerBundle\Model\Token;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
-use Mickadoo\Yarnyard\Library\EntityRepository\RepositoryTrait;
+use Mickadoo\Yarnyard\Library\EntityHelper\RepositoryTrait;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractValidator implements ValidatorInterface, ContainerAwareInterface
 {
@@ -32,18 +33,24 @@ abstract class AbstractValidator implements ValidatorInterface, ContainerAwareIn
     protected $currentUser;
 
     /**
+     * @var Request
+     */
+    protected $request;
+
+    /**
      * @param ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
     {
         $this->setContainer($container);
+
         /** @var Token $token */
         $token = $this->container->get('security.token_storage')->getToken();
         /** @var User $user */
         $user = $token->getUser();
         $this->setCurrentUser($user);
 
-        $this->setErrorResponse('ERROR');
+        $this->setRequest($this->container->get('request'));
     }
 
     /**
@@ -114,6 +121,25 @@ abstract class AbstractValidator implements ValidatorInterface, ContainerAwareIn
     private function setCurrentUser($currentUser)
     {
         $this->currentUser = $currentUser;
+
+        return $this;
+    }
+
+    /**
+     * @return Request
+     */
+    protected function getRequest()
+    {
+        return $this->request;
+    }
+
+    /**
+     * @param Request $request
+     * @return $this
+     */
+    private function setRequest($request)
+    {
+        $this->request = $request;
 
         return $this;
     }

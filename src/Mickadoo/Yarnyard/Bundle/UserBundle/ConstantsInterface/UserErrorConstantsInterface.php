@@ -8,6 +8,7 @@ interface UserErrorConstantsInterface extends ErrorConstantsInterface
 {
 
     const ERROR_USER_NOT_SET = 'ERROR_USER_NOT_SET';
+    const ERR_REQUEST_NOT_SET = 'ERR_REQUEST_NOT_SET';
 
     const ERROR_USER_EMAIL_CONTAINS_NON_ASCII = 'ERROR_USER_EMAIL_CONTAINS_NON_ASCII';
     const ERROR_USER_EMAIL_NOT_SET = 'ERROR_USER_EMAIL_NOT_SET';
