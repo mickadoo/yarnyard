@@ -2,8 +2,8 @@
 
 namespace Mickadoo\Yarnyard\Bundle\UserBundle\Validator;
 
+use Mickadoo\Yarnyard\Bundle\UserBundle\ConstantsInterface\UserErrorConstantsInterface;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
-use Mickadoo\Yarnyard\Bundle\UserBundle\ErrorConstants\UserErrorConstantsInterface;
 use Mickadoo\Yarnyard\Library\Exception\NonCriticalException;
 use Mickadoo\Yarnyard\Library\Validator\AbstractValidator;
 

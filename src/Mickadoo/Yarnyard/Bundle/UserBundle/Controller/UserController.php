@@ -79,16 +79,14 @@ class UserController extends RestController
      * @Rest\View()
      * @Rest\Route("user/{id}")
      *
-     * @ParamConverter("user", converter="fos_rest.request_body", class="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User")
+     * @ParamConverter("user", class="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User")
      *
      * @param User $user
      * @return User
      */
     public function patchUserAction(User $user)
     {
-
+        return $user;
     }
-
-
 
 }

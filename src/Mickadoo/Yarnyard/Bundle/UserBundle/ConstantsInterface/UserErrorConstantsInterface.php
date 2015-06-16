@@ -1,6 +1,6 @@
 <?php
 
-namespace Mickadoo\Yarnyard\Bundle\UserBundle\ErrorConstants;
+namespace Mickadoo\Yarnyard\Bundle\UserBundle\ConstantsInterface;
 
 use Mickadoo\Yarnyard\Library\ErrorConstants\ErrorConstantsInterface;
 
