@@ -45,10 +45,3 @@ patchUserAction:
       dataType: 'int'
       requirement: '\d+'
       description: 'user id'
-
-getMeAction:
-  description: 'Get currently logged in user'
-  section: 'me'
-  views:
-    - 'default'
-    - 'me'
