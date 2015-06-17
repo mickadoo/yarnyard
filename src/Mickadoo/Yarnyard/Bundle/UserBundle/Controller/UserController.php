@@ -6,7 +6,6 @@ namespace Mickadoo\Yarnyard\Bundle\UserBundle\Controller;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Mickadoo\Yarnyard\Library\Controller\RestController;
-use Mickadoo\Yarnyard\Library\EntityHelper\SetPropertiesFromArrayHelper;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -97,7 +96,7 @@ class UserController extends RestController
             return $this->createResponseFromValidator($validator);
         }
 
-        SetPropertiesFromArrayHelper::set($user, (array) $request->request->getIterator());
+        $this->setPropertiesFromRequest($user, $request);
         $this->getUserRepository()->update($user);
 
         return $user;

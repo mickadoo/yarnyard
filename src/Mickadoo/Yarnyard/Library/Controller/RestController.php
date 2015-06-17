@@ -6,6 +6,8 @@ use FOS\OAuthServerBundle\Model\TokenInterface;
 use FOS\RestBundle\Controller\FOSRestController;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 use Mickadoo\Yarnyard\Library\EntityHelper\RepositoryTrait;
+use Mickadoo\Yarnyard\Library\EntityHelper\SetPropertiesFromArrayHelper;
+use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
 use Mickadoo\Yarnyard\Library\Pagination\PaginationHelper;
 use Mickadoo\Yarnyard\Library\Validator\ValidatorInterface;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
@@ -92,6 +94,16 @@ class RestController extends FOSRestController
         $response->headers = PaginationHelper::getPaginationHeaders($request, $pagerfanta);
 
         return $response;
+    }
+
+    /**
+     * @param $entity
+     * @param Request $request
+     * @throws YarnyardException
+     */
+    protected function setPropertiesFromRequest($entity, Request $request)
+    {
+        SetPropertiesFromArrayHelper::set($entity, (array) $request->request->getIterator());
     }
 
 }
