@@ -2,7 +2,6 @@
 
 namespace Mickadoo\Yarnyard\Bundle\UserBundle\Controller;
 
-
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Mickadoo\Yarnyard\Library\Controller\RestController;
@@ -31,10 +30,10 @@ class UserController extends RestController
 
     /**
      *
+     * @ApiDoc()
+     *
      * @Rest\View()
      * @Rest\Route("user/{id}")
-     *
-     * @ApiDoc()
      *
      * @param User $user
      * @return User
@@ -50,7 +49,7 @@ class UserController extends RestController
      * @Rest\View()
      * @Rest\Route("user")
      *
-     * @ParamConverter("user", converter="fos_rest.request_body", class="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User")
+     * @ParamConverter(converter="fos_rest.request_body", class="MickadooYarnyardUserBundle:User")
      *
      * @param User $user
      * @return User
@@ -79,9 +78,7 @@ class UserController extends RestController
      * @Rest\View()
      * @Rest\Route("user/{id}")
      *
-     * @ParamConverter(
-     *  class="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User"
-     * )
+     * @ParamConverter(class="MickadooYarnyardUserBundle:User")
      *
      * @param User $user
      * @param Request $request

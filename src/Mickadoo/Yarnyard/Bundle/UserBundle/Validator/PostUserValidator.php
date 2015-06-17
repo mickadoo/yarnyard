@@ -52,7 +52,7 @@ class PostUserValidator extends UserValidator
             return false;
         }
 
-        return parent::isUserPasswordValid();
+        return parent::isUserPasswordValid($password);
     }
 
 }

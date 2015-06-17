@@ -8,10 +8,15 @@ class PatchUserValidator extends UserValidator
 {
 
     /**
+     * @param $email
      * @return bool
      */
-    protected function isUserEmailValid()
+    protected function isUserEmailValid($email)
     {
+        if (! $this->requestContains(User::USER_FIELD_EMAIL)) {
+            return true;
+        }
+
         $email = $this->getRequest()->request->get(User::USER_FIELD_EMAIL);
 
         if (count($this->getUserRepository()->findBy([User::USER_FIELD_EMAIL => $email])) > 0) {
@@ -19,14 +24,19 @@ class PatchUserValidator extends UserValidator
             return false;
         }
 
-        return parent::isUserEmailValid();
+        return parent::isUserEmailValid($email);
     }
 
     /**
+     * @param $username
      * @return bool
      */
-    protected function isUserUsernameValid()
+    protected function isUserUsernameValid($username)
     {
+        if (! $this->requestContains(User::USER_FIELD_USERNAME)) {
+            return true;
+        }
+
         $username = $this->getRequest()->request->get(User::USER_FIELD_USERNAME);
 
         if (count($this->getUserRepository()->findBy([User::USER_FIELD_USERNAME => $username])) > 0) {
@@ -34,23 +44,28 @@ class PatchUserValidator extends UserValidator
             return false;
         }
 
-        return parent::isUserUsernameValid();
+        return parent::isUserUsernameValid($username);
     }
 
     /**
+     * @param $password
      * @return bool
      */
-    protected function isUserPasswordValid()
+    protected function isUserPasswordValid($password)
     {
+        if (! $this->requestContains(User::USER_FIELD_PASSWORD)) {
+            return true;
+        }
+
         $password = $this->getRequest()->request->get(User::USER_FIELD_PASSWORD);
 
-        if ($password && strlen($password) > 55) {
+        if (strlen($password) > 55) {
             $this->setErrorResponse(self::ERROR_USER_PASSWORD_TOO_LONG);
 
             return false;
         }
 
-        return parent::isUserPasswordValid();
+        return parent::isUserPasswordValid($password);
     }
 
 }

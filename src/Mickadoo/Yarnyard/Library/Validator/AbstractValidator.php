@@ -154,4 +154,13 @@ abstract class AbstractValidator implements ValidatorInterface, ContainerAwareIn
 
     }
 
+    /**
+     * @param $key
+     * @return bool
+     */
+    protected function requestContains($key)
+    {
+        return $this->getRequest()->request->has($key);
+    }
+
 }

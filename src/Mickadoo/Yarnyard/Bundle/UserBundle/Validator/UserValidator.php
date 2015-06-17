@@ -27,15 +27,15 @@ class UserValidator extends AbstractValidator implements UserErrorConstantsInter
             throw new YarnyardException(self::ERROR_USER_NOT_SET, 500);
         }
 
-        if (!$this->isUserEmailValid()) {
+        if (!$this->isUserEmailValid($user->getEmail())) {
             return false;
         }
 
-        if (!$this->isUserUsernameValid()) {
+        if (!$this->isUserUsernameValid($user->getUsername())) {
             return false;
         }
 
-        if (!$this->isUserPasswordValid()) {
+        if (!$this->isUserPasswordValid($user->getPassword())) {
             return false;
         }
 
@@ -43,12 +43,11 @@ class UserValidator extends AbstractValidator implements UserErrorConstantsInter
     }
 
     /**
+     * @param $email
      * @return bool
      */
-    protected function isUserEmailValid()
+    protected function isUserEmailValid($email)
     {
-        $email = $this->user->getEmail();
-
         if ($email == '') {
             $this->setErrorResponse(self::ERROR_USER_EMAIL_NOT_SET);
 
@@ -71,12 +70,11 @@ class UserValidator extends AbstractValidator implements UserErrorConstantsInter
     }
 
     /**
+     * @param $username
      * @return bool
      */
-    protected function isUserUsernameValid()
+    protected function isUserUsernameValid($username)
     {
-        $username = $this->user->getUsername();
-
         if ($username == '') {
             $this->setErrorResponse(self::ERROR_USER_USERNAME_NOT_SET);
 
@@ -104,10 +102,12 @@ class UserValidator extends AbstractValidator implements UserErrorConstantsInter
         return true;
     }
 
-    protected function isUserPasswordValid()
+    /**
+     * @param $password
+     * @return bool
+     */
+    protected function isUserPasswordValid($password)
     {
-        $password = $this->user->getPassword();
-
         if ($password == '') {
             $this->setErrorResponse(self::ERROR_USER_PASSWORD_NOT_SET);
 
