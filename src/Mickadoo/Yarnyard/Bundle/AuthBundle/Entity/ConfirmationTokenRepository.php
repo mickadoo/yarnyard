@@ -1,0 +1,26 @@
+<?php
+
+namespace Mickadoo\Yarnyard\Bundle\AuthBundle\Entity;
+
+use Doctrine\ORM\EntityRepository;
+use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
+
+class ConfirmationTokenRepository extends EntityRepository
+{
+
+    public function createTokenForUser(User $user)
+    {
+        $confirmationToken = new ConfirmationToken();
+
+        $confirmationToken
+            ->setUser($user)
+            ->setCreatedAt(new \DateTime())
+            ->setToken(md5($user->getSalt()))
+            ->setExpiresAt(new \DateTime('in two weeks'));
+
+        $this->_em->persist($confirmationToken);
+
+        return $confirmationToken;
+    }
+
+}

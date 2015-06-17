@@ -1,1 +1,7 @@
 services:
+
+  yarnyard.auth.confirmation_token.repository:
+    class: Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\ConfirmationTokenRepository
+    factory_method: getRepository
+    arguments:
+      - Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\ConfirmationToken

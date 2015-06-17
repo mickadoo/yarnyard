@@ -61,7 +61,7 @@ class User implements UserFieldConstantsInterface, UserInterface
      * @ORM\Column(type="datetime", nullable=true)
      * @Gedmo\Timestampable(on="create")
      */
-    private $createdTime;
+    private $createdAt;
 
     /**
      * @var \DateTime
@@ -69,7 +69,7 @@ class User implements UserFieldConstantsInterface, UserInterface
      * @ORM\Column(type="datetime", nullable=true)
      * @Gedmo\Timestampable(on="update")
      */
-    private $updatedTime;
+    private $updatedAt;
 
     /**
      *
@@ -187,17 +187,17 @@ class User implements UserFieldConstantsInterface, UserInterface
      *
      * @return \DateTime 
      */
-    public function getCreatedTime()
+    public function getCreatedAt()
     {
-        return $this->createdTime;
+        return $this->createdAt;
     }
 
     /**
      * @return \DateTime
      */
-    public function getUpdatedTime()
+    public function getUpdatedAt()
     {
-        return $this->updatedTime;
+        return $this->updatedAt;
     }
 
     /**
