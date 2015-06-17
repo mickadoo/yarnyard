@@ -86,10 +86,10 @@ fos_rest:
 # FOS Auth Configuration
 fos_oauth_server:
     db_driver: orm
-    client_class:        Mickadoo\Yarnyard\Bundle\ApplicationBundle\Entity\Client
-    access_token_class:  Mickadoo\Yarnyard\Bundle\ApplicationBundle\Entity\AccessToken
-    refresh_token_class: Mickadoo\Yarnyard\Bundle\ApplicationBundle\Entity\RefreshToken
-    auth_code_class:     Mickadoo\Yarnyard\Bundle\ApplicationBundle\Entity\AuthCode
+    client_class:        Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\Client
+    access_token_class:  Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\AccessToken
+    refresh_token_class: Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\RefreshToken
+    auth_code_class:     Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\AuthCode
     service:
         user_provider: yarnyard.user.user.provider
         options:

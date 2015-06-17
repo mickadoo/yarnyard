@@ -1,14 +1,14 @@
 <?php
 
-namespace Mickadoo\Yarnyard\Bundle\ApplicationBundle\Entity;
+namespace Mickadoo\Yarnyard\Bundle\AuthBundle\Entity;
 
-use FOS\OAuthServerBundle\Entity\AccessToken as BaseAccessToken;
+use FOS\OAuthServerBundle\Entity\AuthCode as BaseAuthCode;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  */
-class AccessToken extends BaseAccessToken
+class AuthCode extends BaseAuthCode
 {
     /**
      * @ORM\Id
@@ -18,7 +18,7 @@ class AccessToken extends BaseAccessToken
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Mickadoo\Yarnyard\Bundle\ApplicationBundle\Entity\Client")
+     * @ORM\ManyToOne(targetEntity="Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\Client")
      * @ORM\JoinColumn(nullable=false)
      */
     protected $client;

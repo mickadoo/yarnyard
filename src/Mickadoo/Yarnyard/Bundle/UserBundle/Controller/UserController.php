@@ -67,7 +67,7 @@ class UserController extends RestController
         $encoder = $this->get('security.password_encoder');
         $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
 
-        $this->get('yarnyard.user.user.repository')->save($user);
+        $this->getUserRepository()->save($user);
 
         return $user;
     }
