@@ -2,6 +2,7 @@ services:
 
   yarnyard.auth.confirmation_token.repository:
     class: Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\ConfirmationTokenRepository
+    factory_service: doctrine.orm.default_entity_manager
     factory_method: getRepository
     arguments:
-      - Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\ConfirmationToken
+    - Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\ConfirmationToken

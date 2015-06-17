@@ -49,7 +49,7 @@ class UserController extends RestController
      * @Rest\View()
      * @Rest\Route("user")
      *
-     * @ParamConverter(converter="fos_rest.request_body", class="MickadooYarnyardUserBundle:User")
+     * @ParamConverter("user", converter="fos_rest.request_body", class="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User")
      *
      * @param User $user
      * @return User
@@ -69,6 +69,9 @@ class UserController extends RestController
 
         $this->getUserRepository()->save($user);
 
+//        $token = $this->getConfirmationTokenRepository()->createTokenForUser($user);
+//        $this->get('event_dispatcher')->dispatch('NewUserCreatedEvent');
+
         return $user;
     }
 
@@ -78,7 +81,7 @@ class UserController extends RestController
      * @Rest\View()
      * @Rest\Route("user/{id}")
      *
-     * @ParamConverter(class="MickadooYarnyardUserBundle:User")
+     * @ParamConverter(class="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User")
      *
      * @param User $user
      * @param Request $request

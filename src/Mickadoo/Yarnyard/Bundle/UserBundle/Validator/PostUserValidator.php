@@ -8,9 +8,10 @@ class PostUserValidator extends UserValidator
 {
 
     /**
+     * @param $email
      * @return bool
      */
-    protected function isUserEmailValid()
+    protected function isUserEmailValid($email)
     {
         $email = $this->user->getEmail();
 
@@ -24,9 +25,10 @@ class PostUserValidator extends UserValidator
     }
 
     /**
+     * @param $username
      * @return bool
      */
-    protected function isUserUsernameValid()
+    protected function isUserUsernameValid($username)
     {
         $username = $this->user->getUsername();
 
@@ -40,9 +42,10 @@ class PostUserValidator extends UserValidator
     }
 
     /**
+     * @param $password
      * @return bool
      */
-    protected function isUserPasswordValid()
+    protected function isUserPasswordValid($password)
     {
         $password = $this->user->getPassword();
 

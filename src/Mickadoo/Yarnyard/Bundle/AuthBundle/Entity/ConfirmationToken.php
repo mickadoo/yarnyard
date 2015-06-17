@@ -3,6 +3,7 @@
 namespace Mickadoo\Yarnyard\Bundle\AuthBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\ConfirmationTokenRepository")

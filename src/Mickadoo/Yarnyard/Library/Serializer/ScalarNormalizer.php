@@ -70,7 +70,7 @@ class ScalarNormalizer  extends SerializerAwareNormalizer implements NormalizerI
     public function denormalize($data, $class, $format = null, array $context = array())
     {
         if (!class_exists($class)) {
-            throw new \Exception('Denormalization class does not exist');
+            throw new \Exception('Denormalization class does not exist: ' . $class);
         }
 
         $reflectionClass = new \ReflectionClass($class);
