@@ -2,7 +2,7 @@
 
 namespace Mickadoo\Yarnyard\Bundle\UserBundle\ConstantsInterface;
 
-interface UserFieldConstantsInterface {
+interface UserFields {
 
     const USER_FIELD_USERNAME = 'username';
     const USER_FIELD_PASSWORD = 'password';

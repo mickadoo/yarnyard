@@ -2,8 +2,11 @@
 
 namespace Mickadoo\Yarnyard\Bundle\UserBundle\Controller;
 
+use Mickadoo\Yarnyard\Bundle\UserBundle\ConstantsInterface\UserEvents;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Mickadoo\Yarnyard\Bundle\UserBundle\Event\UserCreatedEvent;
+use Mickadoo\Yarnyard\Bundle\UserBundle\Event\UserSubscriber;
 use Mickadoo\Yarnyard\Library\Controller\RestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -69,8 +72,10 @@ class UserController extends RestController
 
         $this->getUserRepository()->save($user);
 
-//        $token = $this->getConfirmationTokenRepository()->createTokenForUser($user);
-//        $this->get('event_dispatcher')->dispatch('NewUserCreatedEvent');
+        $token = $this->getConfirmationTokenRepository()->createTokenForUser($user);
+        $newUserEvent = new UserCreatedEvent($user);
+        $this->get('event_dispatcher')->addSubscriber(new UserSubscriber());
+        $this->get('event_dispatcher')->dispatch(UserEvents::USER_CREATED_EVENT, $newUserEvent);
 
         return $user;
     }

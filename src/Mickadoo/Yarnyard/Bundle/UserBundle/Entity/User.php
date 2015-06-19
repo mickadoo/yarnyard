@@ -5,7 +5,7 @@ namespace Mickadoo\Yarnyard\Bundle\UserBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Mickadoo\Yarnyard\Bundle\UserBundle\ConstantsInterface\UserFieldConstantsInterface;
+use Mickadoo\Yarnyard\Bundle\UserBundle\ConstantsInterface\UserFields;
 use Mickadoo\Yarnyard\Library\Annotation\Serializer;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @ORM\Entity(repositoryClass="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\UserRepository")
  */
-class User implements UserFieldConstantsInterface, UserInterface
+class User implements UserFields, UserInterface
 {
     /**
      * @var integer

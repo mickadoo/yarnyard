@@ -32,7 +32,7 @@ trait RepositoryTrait
     }
 
     /**
-     * @return UserRepository
+     * @return ConfirmationTokenRepository
      */
     public function getConfirmationTokenRepository()
     {

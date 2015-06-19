@@ -2,12 +2,12 @@
 
 namespace Mickadoo\Yarnyard\Bundle\UserBundle\Validator;
 
-use Mickadoo\Yarnyard\Bundle\UserBundle\ConstantsInterface\UserErrorConstantsInterface;
+use Mickadoo\Yarnyard\Bundle\UserBundle\ConstantsInterface\UserErrors;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
 use Mickadoo\Yarnyard\Library\Validator\AbstractValidator;
 
-class UserValidator extends AbstractValidator implements UserErrorConstantsInterface
+class UserValidator extends AbstractValidator implements UserErrors
 {
 
     /**

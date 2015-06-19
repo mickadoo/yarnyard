@@ -4,7 +4,7 @@ namespace Mickadoo\Yarnyard\Bundle\UserBundle\ConstantsInterface;
 
 use Mickadoo\Yarnyard\Library\ErrorConstants\ErrorConstantsInterface;
 
-interface UserErrorConstantsInterface extends ErrorConstantsInterface
+interface UserErrors extends ErrorConstantsInterface
 {
 
     const ERROR_USER_NOT_SET = 'ERROR_USER_NOT_SET';
