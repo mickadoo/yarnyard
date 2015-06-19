@@ -8,6 +8,10 @@ use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 class ConfirmationTokenRepository extends EntityRepository
 {
 
+    /**
+     * @param User $user
+     * @return ConfirmationToken
+     */
     public function createTokenForUser(User $user)
     {
         $confirmationToken = new ConfirmationToken();

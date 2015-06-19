@@ -3,9 +3,8 @@
 namespace Mickadoo\Yarnyard\Bundle\UserBundle\Event;
 
 use Mickadoo\Yarnyard\Bundle\UserBundle\ConstantsInterface\UserEvents;
+use Mickadoo\Yarnyard\Bundle\UserBundle\Mail\EmailConfirmationMail;
 use Mickadoo\Yarnyard\Library\Subscriber\AbstractContainerAwareSubscriber;
-use Symfony\Bridge\Monolog\Logger;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class UserSubscriber extends AbstractContainerAwareSubscriber implements EventSubscriberInterface
@@ -28,7 +27,8 @@ class UserSubscriber extends AbstractContainerAwareSubscriber implements EventSu
      */
     public function onUserCreated(UserCreatedEvent $event)
     {
-        $this->container->get('logger')->log(Logger::ERROR, 'lalalala ' . $event->getUser()->getUsername());
+        $confirmEmailMail = new EmailConfirmationMail($event->getConfirmationToken());
+        $this->getContainer()->get('mailer')->send($confirmEmailMail);
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace Mickadoo\Yarnyard\Bundle\UserBundle\Event;
 
+use Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\ConfirmationToken;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 use Symfony\Component\EventDispatcher\Event;
 
@@ -14,11 +15,18 @@ class UserCreatedEvent extends Event
     protected $user;
 
     /**
-     * @param $user
+     * @var ConfirmationToken
      */
-    function __construct($user)
+    protected $confirmationToken;
+
+    /**
+     * @param User $user
+     * @param ConfirmationToken $confirmationToken
+     */
+    function __construct(ConfirmationToken $confirmationToken)
     {
-        $this->user = $user;
+        $this->user = $confirmationToken->getUser();
+        $this->confirmationToken = $confirmationToken;
     }
 
     /**
@@ -29,5 +37,12 @@ class UserCreatedEvent extends Event
         return $this->user;
     }
 
+    /**
+     * @return ConfirmationToken
+     */
+    public function getConfirmationToken()
+    {
+        return $this->confirmationToken;
+    }
 
 }

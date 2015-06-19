@@ -71,9 +71,9 @@ class UserController extends RestController
 
         $this->getUserRepository()->save($user);
 
-        $token = $this->getConfirmationTokenRepository()->createTokenForUser($user);
+        $confirmationToken = $this->getConfirmationTokenRepository()->createTokenForUser($user);
 
-        $newUserEvent = new UserCreatedEvent($user);
+        $newUserEvent = new UserCreatedEvent($confirmationToken);
         $this->get('event_dispatcher')->dispatch(UserEvents::USER_CREATED_EVENT, $newUserEvent);
 
         return $user;

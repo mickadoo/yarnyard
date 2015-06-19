@@ -19,4 +19,12 @@ abstract class AbstractContainerAwareSubscriber implements ContainerAwareInterfa
         $this->setContainer($container);
     }
 
+    /**
+     * @return ContainerInterface
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
 }
