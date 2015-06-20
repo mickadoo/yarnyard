@@ -13,6 +13,10 @@ interface MailInterface
     /**
      * @return string
      */
-    public function getMailBody();
+    public function getMailTemplate();
 
+    /**
+     * @return array
+     */
+    public function getData();
 }

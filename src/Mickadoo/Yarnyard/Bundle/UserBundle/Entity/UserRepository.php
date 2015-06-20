@@ -13,8 +13,8 @@ class UserRepository extends EntityRepository
      */
     public function save(User $user)
     {
-        $this->_em->persist($user);
-        $this->_em->flush($user);
+//        $this->_em->persist($user);
+//        $this->_em->flush($user);
 
         return $user;
     }

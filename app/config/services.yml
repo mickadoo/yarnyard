@@ -1,14 +1,26 @@
 services:
-    kernel.listener.mickadoo_exception_handler:
+
+    ##### override for external bundles ######
+
+    swiftmailer.mailer.default:
+        class: Mickadoo\Yarnyard\Library\Mail\Mailer
+        arguments:
+          - @swiftmailer.transport
+        calls:
+            - [setContainer, ['@service_container']]
+
+    ##### library services ######
+
+    yarnyard.exception_handler:
         class: Mickadoo\Yarnyard\Library\ExceptionHandler\ExceptionHandler
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
 
-    yarnyard.library.validator.abstract_validator:
+    yarnyard.validator.abstract_validator:
         abstract:  true
         arguments: ["@service_container"]
 
-    mickadoo.yarnyard.library.serializer.scalar_normalizer:
+    yarnyard.serializer.scalar_normalizer:
         class: Mickadoo\Yarnyard\Library\Serializer\ScalarNormalizer
         tags:
             - { name: serializer.normalizer }

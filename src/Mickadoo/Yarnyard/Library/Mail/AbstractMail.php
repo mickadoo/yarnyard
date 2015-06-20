@@ -6,7 +6,6 @@ use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 
 abstract class AbstractMail extends \Swift_Message implements MailInterface
 {
-
     /**
      * @param User $receiver
      */
@@ -16,7 +15,13 @@ abstract class AbstractMail extends \Swift_Message implements MailInterface
         $this->setTo($receiver->getEmail(), $receiver->getUsername());
         $this->setFrom('michael@michaeldevery.com'); // todo move to config
         $this->setSubject($this->getMailSubject());
-        $this->setBody($this->getMailBody());
     }
 
+    /**
+     * @return array
+     */
+    public function getData()
+    {
+        return [];
+    }
 }
