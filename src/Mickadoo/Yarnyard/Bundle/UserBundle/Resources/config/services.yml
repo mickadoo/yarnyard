@@ -13,10 +13,17 @@ services:
 
   yarnyard.user.user.repository:
     class: Mickadoo\Yarnyard\Bundle\UserBundle\Entity\UserRepository
-    factory_service: yarnyard.user.user.manager
+    factory_service: doctrine.orm.entity_manager
     factory_method: getRepository
     arguments:
       - Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User
+
+  yarnyard.user.role.repository:
+    class: Mickadoo\Yarnyard\Bundle\UserBundle\Entity\RoleRepository
+    factory_service: doctrine.orm.entity_manager
+    factory_method: getRepository
+    arguments:
+      - Mickadoo\Yarnyard\Bundle\UserBundle\Entity\Role
 
   ##### provider ######
 

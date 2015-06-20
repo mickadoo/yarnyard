@@ -7,7 +7,6 @@ use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 
 class ConfirmationTokenRepository extends EntityRepository
 {
-
     /**
      * @param User $user
      * @return ConfirmationToken
@@ -20,8 +19,17 @@ class ConfirmationTokenRepository extends EntityRepository
             ->setExpiresAt(new \DateTime('now + 2 weeks'));
 
         $this->_em->persist($confirmationToken);
+        $this->_em->flush($confirmationToken);
 
         return $confirmationToken;
     }
 
+    /**
+     * @param ConfirmationToken $token
+     */
+    public function delete(ConfirmationToken $token)
+    {
+        $this->_em->remove($token);
+        $this->_em->flush($token);
+    }
 }

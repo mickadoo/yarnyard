@@ -1,0 +1,3 @@
+auth_controller:
+  type:     rest
+  resource: Mickadoo\Yarnyard\Bundle\AuthBundle\Controller\AuthController

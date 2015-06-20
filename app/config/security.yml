@@ -32,6 +32,9 @@ security:
         api_docs:
             pattern:   ^/api/doc
             security:  false
+        confirm_email:
+            pattern: ^/user/\d+/confirm-mail$
+            security:  false
         oauth_token:
             pattern:    ^/oauth/v2/token
             security:   false

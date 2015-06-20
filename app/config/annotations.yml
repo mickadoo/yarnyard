@@ -45,3 +45,18 @@ patchUserAction:
       dataType: 'int'
       requirement: '\d+'
       description: 'user id'
+
+postConfirmationTokenAcceptedAction:
+  description: 'Confirm a user e-mail'
+  section: 'oauth'
+  requirements:
+    -
+      name: 'id'
+      dataType: 'int'
+      requirement: '\d+'
+      description: 'user id'
+    -
+      name: 'token'
+      dataType: 'string'
+      requirement: '\w+'
+      description: 'token string'

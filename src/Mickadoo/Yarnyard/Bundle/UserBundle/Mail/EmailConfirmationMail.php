@@ -27,6 +27,7 @@ class EmailConfirmationMail extends AbstractMail
      */
     public function getMailTemplate()
     {
+        //todo improve structure
         return __DIR__ . '/emailConfirmationMail.html.twig';
     }
 
@@ -44,7 +45,10 @@ class EmailConfirmationMail extends AbstractMail
     public function getData()
     {
         return [
-            'token' => $this->confirmationToken->getToken()
+            'token' => $this->confirmationToken->getToken(),
+            'user' => [
+                'id' => $this->confirmationToken->getUser()->getId()
+            ]
         ];
     }
 }

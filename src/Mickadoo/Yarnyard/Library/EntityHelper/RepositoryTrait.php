@@ -3,6 +3,7 @@
 namespace Mickadoo\Yarnyard\Library\EntityHelper;
 
 use Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\ConfirmationTokenRepository;
+use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\RoleRepository;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\UserRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -12,7 +13,12 @@ trait RepositoryTrait
     /**
      * @var UserRepository
      */
-    protected  $userRepository;
+    protected $userRepository;
+
+    /**
+     * @var RoleRepository
+     */
+    protected $roleRepository;
 
     /**
      * @var ConfirmationTokenRepository
@@ -31,13 +37,28 @@ trait RepositoryTrait
         return $this->userRepository;
     }
 
+
+    /**
+     * @return RoleRepository
+     */
+    public function getRoleRepository()
+    {
+        if (! isset($this->roleRepository)) {
+            $this->roleRepository = $this->getContainer()->get('yarnyard.user.role.repository');
+        }
+
+        return $this->roleRepository;
+    }
+
     /**
      * @return ConfirmationTokenRepository
      */
     public function getConfirmationTokenRepository()
     {
         if (! isset($this->confirmationTokenRepository)) {
-            $this->confirmationTokenRepository = $this->getContainer()->get('yarnyard.auth.confirmation_token.repository');
+            $this->confirmationTokenRepository = $this
+                ->getContainer()
+                ->get('yarnyard.auth.confirmation_token.repository');
         }
 
         return $this->confirmationTokenRepository;

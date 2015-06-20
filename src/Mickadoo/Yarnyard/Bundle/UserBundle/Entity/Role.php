@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Role\RoleInterface;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\RoleRepository")
  */
 class Role implements RoleInterface
 {
@@ -37,6 +37,7 @@ class Role implements RoleInterface
 
     /**
      * @param int $id
+     *
      * @return $this
      */
     public function setId($id)
@@ -56,6 +57,7 @@ class Role implements RoleInterface
 
     /**
      * @param string $role
+     *
      * @return $this
      */
     public function setRole($role)
@@ -64,5 +66,4 @@ class Role implements RoleInterface
 
         return $this;
     }
-
 }

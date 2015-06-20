@@ -2,7 +2,7 @@
 
 namespace Mickadoo\Yarnyard\Bundle\UserBundle\ConstantsInterface;
 
-interface UserEvents
+interface Roles
 {
-    const USER_CREATED = 'yarnyard.user.created';
+    const ACTIVE_USER = 'ACTIVE_USER';
 }
