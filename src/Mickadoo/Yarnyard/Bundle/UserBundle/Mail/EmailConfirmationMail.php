@@ -23,16 +23,28 @@ class EmailConfirmationMail extends AbstractMail
     }
 
     /**
-     * @return \Swift_Mime_MimePart
+     * @return string
      */
-    public function getMailBody()
+    public function getMailTemplate()
     {
-        return 'TODO implement body :' . $this->confirmationToken->getToken();
+        return __DIR__ . '/emailConfirmationMail.html.twig';
     }
 
+    /**
+     * @return string
+     */
     public function getMailSubject()
     {
         return 'MAIL.USER.CONFIRM_EMAIL';
     }
 
+    /**
+     * @return array
+     */
+    public function getData()
+    {
+        return [
+            'token' => $this->confirmationToken->getToken()
+        ];
+    }
 }

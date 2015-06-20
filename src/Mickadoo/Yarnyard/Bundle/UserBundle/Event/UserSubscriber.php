@@ -7,17 +7,7 @@ use Mickadoo\Yarnyard\Bundle\UserBundle\Mail\EmailConfirmationMail;
 use Mickadoo\Yarnyard\Library\Subscriber\ContainerAwareSubscriber;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-/**
- * MailInterface
- * @category User
- * @package MickadooYarnyard
- * @author Michael Devery <michaeldevery@gmail.com>
- * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @link www.mydocumentationsite.com
- */
-class UserSubscriber
-    extends ContainerAwareSubscriber
-    implements EventSubscriberInterface
+class UserSubscriber extends ContainerAwareSubscriber implements EventSubscriberInterface
 {
 
     /**
@@ -37,17 +27,14 @@ class UserSubscriber
     /**
      * Send the e-mail confirmation mail to the new user
      *
-     * @param UserCreatedEvent $event Event containing the user object
+     * @param UserCreatedEvent $event
      *
      * @return void
      */
     public function onUserCreated(UserCreatedEvent $event)
     {
-        $confirmationMail = new EmailConfirmationMail(
-            $event->getConfirmationToken()
-        );
+        $confirmationMail = new EmailConfirmationMail($event->getConfirmationToken());
 
         $this->getContainer()->get('mailer')->send($confirmationMail);
     }
-
 }

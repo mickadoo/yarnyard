@@ -4,7 +4,6 @@ namespace Mickadoo\Yarnyard\Library\UrlHelper;
 
 abstract class UrlHelper
 {
-
     /**
      * @param string $existingUrl
      * @param array $queryParts
@@ -24,5 +23,4 @@ abstract class UrlHelper
 
         return str_replace($existingQueryString, $newQueryString, $existingUrl);
     }
-
 }
