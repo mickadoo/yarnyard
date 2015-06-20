@@ -4,6 +4,7 @@ namespace Mickadoo\Yarnyard\Bundle\AuthBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 
 /**
  * @ORM\Entity(repositoryClass="Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\ConfirmationTokenRepository")
@@ -12,44 +13,46 @@ class ConfirmationToken
 {
 
     /**
+     * @var int
+     *
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     * @var int
      */
-    private $id;
+    protected $id;
 
     /**
+     * @var User
+     *
      * @ORM\ManyToOne(targetEntity="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User")
      */
-    private $user;
+    protected $user;
 
     /**
-     * @ORM\Column(type="string", length=255 )
-     *
      * @var string
+     *
+     * @ORM\Column(type="string", length=255 )
      */
-    private $token;
+    protected $token;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime",nullable=true)
      * @Gedmo\Timestampable(on="create")
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime",nullable=true)
      * @Gedmo\Timestampable(on="create")
      */
-    private $expiresAt;
+    protected $expiresAt;
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getId()
     {

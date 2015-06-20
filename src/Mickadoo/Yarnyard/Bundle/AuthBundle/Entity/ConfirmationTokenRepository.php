@@ -16,10 +16,7 @@ class ConfirmationTokenRepository extends EntityRepository
     {
         $confirmationToken = new ConfirmationToken();
 
-        $confirmationToken
-            ->setUser($user)
-            ->setCreatedAt(new \DateTime())
-            ->setToken(md5($user->getSalt()))
+        $confirmationToken->setUser($user)->setCreatedAt(new \DateTime())->setToken(md5($user->getSalt()))
             ->setExpiresAt(new \DateTime('now + 2 weeks'));
 
         $this->_em->persist($confirmationToken);

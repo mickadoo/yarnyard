@@ -1,38 +1,41 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mickadoo
- * Date: 08.03.15
- * Time: 15:16
- */
 
 namespace Mickadoo\Yarnyard\Bundle\ApplicationBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Security;
 
 class SecurityController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function loginAction(Request $request)
     {
         $session = $request->getSession();
 
-        if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
-            $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
-        } elseif (null !== $session && $session->has(SecurityContext::AUTHENTICATION_ERROR)) {
-            $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
-            $session->remove(SecurityContext::AUTHENTICATION_ERROR);
+        if ($request->attributes->has(Security::AUTHENTICATION_ERROR)) {
+            $error = $request->attributes->get(Security::AUTHENTICATION_ERROR);
+        } elseif (null !== $session
+            &&  $session->has(Security::AUTHENTICATION_ERROR)
+        ) {
+            $error = $session->get(Security::AUTHENTICATION_ERROR);
+            $session->remove(Security::AUTHENTICATION_ERROR);
         } else {
             $error = '';
         }
 
         if ($error) {
-            $error = $error->getMessage(
-            ); // WARNING! Symfony source code identifies this line as a potential security threat.
+            // WARNING! Symfony source code identifies this line as a potential
+            // security threat.
+            $error = $error->getMessage();
         }
 
-        $lastUsername = (null === $session) ? '' : $session->get(SecurityContext::LAST_USERNAME);
+        $lastUsername = (null === $session) ?
+            '' : $session->get(Security::LAST_USERNAME);
 
         return $this->render(
             'MickadooYarnyardApplicationBundle:Security:login.html.twig',
@@ -43,6 +46,9 @@ class SecurityController extends Controller
         );
     }
 
+    /**
+     * @param Request $request
+     */
     public function loginCheckAction(Request $request)
     {
 

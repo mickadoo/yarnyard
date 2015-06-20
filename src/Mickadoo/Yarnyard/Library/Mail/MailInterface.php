@@ -1,10 +1,9 @@
 <?php
 
-
 namespace Mickadoo\Yarnyard\Library\Mail;
 
-
-interface MailInterface {
+interface MailInterface
+{
 
     /**
      * @return string

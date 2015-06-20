@@ -2,9 +2,9 @@
 
 namespace Mickadoo\Yarnyard\Bundle\UserBundle\Controller;
 
+use FOS\RestBundle\Controller\Annotations as Rest;
 use Mickadoo\Yarnyard\Bundle\UserBundle\ConstantsInterface\UserEvents;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
-use FOS\RestBundle\Controller\Annotations as Rest;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Event\UserCreatedEvent;
 use Mickadoo\Yarnyard\Library\Controller\RestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -15,13 +15,14 @@ class UserController extends RestController
 {
 
     /**
+     * @param Request $request
+     *
+     * @return User[]
+     *
      * @ApiDoc()
      *
      * @Rest\View()
      * @Rest\Route("user")
-     *
-     * @param Request $request
-     * @return User[]
      */
     public function getAllUsersAction(Request $request)
     {
@@ -31,14 +32,14 @@ class UserController extends RestController
     }
 
     /**
+     * @param User $user The target user
+     *
+     * @return User
      *
      * @ApiDoc()
      *
      * @Rest\View()
      * @Rest\Route("user/{id}")
-     *
-     * @param User $user
-     * @return User
      */
     public function getUserAction(User $user)
     {
@@ -46,22 +47,27 @@ class UserController extends RestController
     }
 
     /**
+     * @param User $user
+     *
+     * @return User
+     *
      * @ApiDoc()
      *
      * @Rest\View()
      * @Rest\Route("user")
      *
-     * @ParamConverter("user", converter="fos_rest.request_body", class="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User")
-     *
-     * @param User $user
-     * @return User
+     * @ParamConverter(
+     *  "user",
+     *  converter="fos_rest.request_body",
+     *  class="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User"
+     * )
      */
     public function postUserAction(User $user)
     {
         $validator = $this->get('yarnyard.user.user.post_user_validator');
         $validator->setUser($user);
 
-        if (! $validator->isValid()) {
+        if (!$validator->isValid()) {
             return $this->createResponseFromValidator($validator);
         }
 
@@ -71,32 +77,36 @@ class UserController extends RestController
 
         $this->getUserRepository()->save($user);
 
-        $confirmationToken = $this->getConfirmationTokenRepository()->createTokenForUser($user);
+        $confirmationToken = $this
+            ->getConfirmationTokenRepository()
+            ->createTokenForUser($user);
 
         $newUserEvent = new UserCreatedEvent($confirmationToken);
-        $this->get('event_dispatcher')->dispatch(UserEvents::USER_CREATED_EVENT, $newUserEvent);
+
+        $this->get('event_dispatcher')->dispatch(UserEvents::USER_CREATED, $newUserEvent);
 
         return $user;
     }
 
     /**
+     * @param User $user
+     * @param Request $request
+     *
+     * @return User
+     *
      * @ApiDoc()
      *
      * @Rest\View()
      * @Rest\Route("user/{id}")
      *
      * @ParamConverter(class="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User")
-     *
-     * @param User $user
-     * @param Request $request
-     * @return User
      */
     public function patchUserAction(User $user, Request $request)
     {
         $validator = $this->get('yarnyard.user.user.patch_user_validator');
         $validator->setUser($user);
 
-        if (! $validator->isValid()) {
+        if (!$validator->isValid()) {
             return $this->createResponseFromValidator($validator);
         }
 

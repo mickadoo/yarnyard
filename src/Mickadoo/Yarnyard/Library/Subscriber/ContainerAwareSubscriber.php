@@ -6,7 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-abstract class AbstractContainerAwareSubscriber implements ContainerAwareInterface
+abstract class ContainerAwareSubscriber implements ContainerAwareInterface
 {
 
     use ContainerAwareTrait;
