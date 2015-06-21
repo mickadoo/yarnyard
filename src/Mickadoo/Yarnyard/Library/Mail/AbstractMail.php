@@ -18,6 +18,21 @@ abstract class AbstractMail extends \Swift_Message implements MailInterface
     }
 
     /**
+     * @return string
+     */
+    public function getMailTemplate()
+    {
+        $reflection = new \ReflectionClass($this);
+        $directory = dirname($reflection->getFileName()) . DIRECTORY_SEPARATOR;
+        $className = $reflection->getShortName();
+
+        $templateName = $directory . '../View/' . $className . '.html.twig';
+        $realPath = realpath($templateName);
+
+        return $realPath;
+    }
+
+    /**
      * @return array
      */
     public function getData()

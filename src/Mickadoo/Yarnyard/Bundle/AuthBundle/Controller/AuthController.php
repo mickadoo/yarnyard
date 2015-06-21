@@ -29,8 +29,8 @@ class AuthController extends RestController
      */
     public function postConfirmationTokenAcceptedAction(Request $request, User $user)
     {
+        // todo: when frontend exists this should be real POST and email link should point to frontend page
         $tokenString = $request->query->get(RequestParameter::TOKEN);
-
         $token = $this->getConfirmationTokenRepository()->findOneBy([
             'user' => $user,
             'token' => $tokenString

@@ -3,7 +3,7 @@
 namespace Mickadoo\Yarnyard\Bundle\UserBundle\Event;
 
 use Mickadoo\Yarnyard\Bundle\UserBundle\ConstantsInterface\UserEvents;
-use Mickadoo\Yarnyard\Bundle\UserBundle\Mail\EmailConfirmationMail;
+use Mickadoo\Yarnyard\Bundle\UserBundle\Mail\MailClass\EmailConfirmationMail;
 use Mickadoo\Yarnyard\Library\Subscriber\ContainerAwareSubscriber;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

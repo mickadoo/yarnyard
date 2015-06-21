@@ -1,6 +1,6 @@
 <?php
 
-namespace Mickadoo\Yarnyard\Bundle\UserBundle\Mail;
+namespace Mickadoo\Yarnyard\Bundle\UserBundle\Mail\MailClass;
 
 use Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\ConfirmationToken;
 use Mickadoo\Yarnyard\Library\Mail\AbstractMail;
@@ -20,15 +20,6 @@ class EmailConfirmationMail extends AbstractMail
     {
         $this->confirmationToken = $confirmationToken;
         parent::__construct($confirmationToken->getUser());
-    }
-
-    /**
-     * @return string
-     */
-    public function getMailTemplate()
-    {
-        //todo improve structure
-        return __DIR__ . '/emailConfirmationMail.html.twig';
     }
 
     /**
