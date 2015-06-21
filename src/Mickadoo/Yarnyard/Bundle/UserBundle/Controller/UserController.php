@@ -53,7 +53,7 @@ class UserController extends RestController
      *
      * @ApiDoc()
      *
-     * @Rest\View()
+     * @Rest\View(statusCode=201)
      * @Rest\Route("user")
      *
      * @ParamConverter(
@@ -71,16 +71,17 @@ class UserController extends RestController
             return $this->createResponseFromValidator($validator);
         }
 
+        // maybe this should be in another layer
         $user->setSalt(uniqid(mt_rand(), true));
         $encoder = $this->get('security.password_encoder');
         $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
-
         $this->getUserRepository()->save($user);
+        // to here?
 
         $confirmationToken = $this->getConfirmationTokenRepository()->createTokenForUser($user);
+        // or here?
 
         $newUserEvent = new UserCreatedEvent($confirmationToken);
-
         $this->get('event_dispatcher')->dispatch(UserEvents::USER_CREATED, $newUserEvent);
 
         return $user;

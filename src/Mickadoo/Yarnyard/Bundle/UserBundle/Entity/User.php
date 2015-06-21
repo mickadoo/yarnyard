@@ -80,7 +80,7 @@ class User implements UserFields, UserInterface
      */
     private $userRoles;
 
-    function __construct()
+    public function __construct()
     {
         $this->userRoles = new ArrayCollection();
     }
@@ -107,7 +107,7 @@ class User implements UserFields, UserInterface
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -130,7 +130,7 @@ class User implements UserFields, UserInterface
     /**
      * Get username
      *
-     * @return string 
+     * @return string
      */
     public function getUsername()
     {
@@ -153,7 +153,7 @@ class User implements UserFields, UserInterface
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -176,7 +176,7 @@ class User implements UserFields, UserInterface
     /**
      * Get password
      *
-     * @return string 
+     * @return string
      */
     public function getPassword()
     {
@@ -185,7 +185,7 @@ class User implements UserFields, UserInterface
 
     /**
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -209,12 +209,15 @@ class User implements UserFields, UserInterface
     }
 
     /**
-     * @param mixed $salt
+     * @param $salt
      *
+     * @return $this
      */
     public function setSalt($salt)
     {
         $this->salt = $salt;
+
+        return $this;
     }
 
     /**
@@ -227,6 +230,8 @@ class User implements UserFields, UserInterface
      */
     public function getRoles()
     {
+        $roles = $this->getUserRoles()->toArray();
+
         return $this->getUserRoles()->toArray();
     }
 

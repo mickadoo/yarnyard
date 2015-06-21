@@ -6,6 +6,7 @@ namespace Mickadoo\Yarnyard\Library\Validator;
 use FOS\OAuthServerBundle\Model\Token;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 use Mickadoo\Yarnyard\Library\EntityHelper\RepositoryTrait;
+use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -47,8 +48,10 @@ abstract class AbstractValidator implements ValidatorInterface, ContainerAwareIn
         /** @var Token $token */
         $token = $this->container->get('security.token_storage')->getToken();
         /** @var User $user */
-        $user = $token->getUser();
-        $this->setCurrentUser($user);
+        if ($token) {
+            $user = $token->getUser();
+            $this->setCurrentUser($user);
+        }
 
         $this->setRequest($this->container->get('request'));
     }
@@ -108,10 +111,15 @@ abstract class AbstractValidator implements ValidatorInterface, ContainerAwareIn
 
     /**
      * @return User
+     * @throws YarnyardException
      */
     protected function getCurrentUser()
     {
-        return $this->currentUser;
+        if ($this->currentUser) {
+            return $this->currentUser;
+        }
+
+        throw new YarnyardException("Current user not set. Request is not authenticated?");
     }
 
     /**

@@ -12,7 +12,7 @@ abstract class UrlHelper
     public static function rebuildUrlQuery($existingUrl, array $queryParts)
     {
         $urlParts = parse_url($existingUrl);
-        $existingQueryString = $urlParts['query'];
+        $existingQueryString = isset($urlParts['query']) ? $urlParts['query'] : null;
 
         $existingQueryStringParts = [];
         if (!empty($existingQueryString)) {
