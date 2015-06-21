@@ -21,6 +21,7 @@ abstract class PaginationHelper
      */
     public static function getPaginationHeaders(Request $request, Pagerfanta $pagerfanta)
     {
+        // todo doesn't work in test
         $currentUrl = $request->getUri();
         $maxPerPage = $pagerfanta->getMaxPerPage();
 

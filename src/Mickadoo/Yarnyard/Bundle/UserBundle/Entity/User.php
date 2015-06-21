@@ -230,9 +230,13 @@ class User implements UserFields, UserInterface
      */
     public function getRoles()
     {
-        $roles = $this->getUserRoles()->toArray();
+        $roles = [];
 
-        return $this->getUserRoles()->toArray();
+        foreach ($this->getUserRoles() as $userRole) {
+            $roles[] = $userRole->getRole();
+        }
+
+        return $roles;
     }
 
     /**

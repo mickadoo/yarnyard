@@ -11,6 +11,7 @@ use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 use Mickadoo\Yarnyard\Library\Controller\RequestParameter;
 use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader as DataFixturesLoader;
+use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpKernel\Kernel;
 
@@ -24,7 +25,26 @@ abstract class ApiTestCase extends WebTestCase
     /**
      * @var User
      */
-    protected $userWithToken;
+    protected $loggedInUser;
+
+    /**
+     * @var Client
+     */
+    private $unauthorizedClient;
+
+    /**
+     * @var Client
+     */
+    private $authorizedClient;
+
+    /**
+     * @var array
+     */
+    private $testUserDetails = [
+        'username' => 'mickadoo',
+        'email' => 'michaeldevery@gmail.com',
+        'password' => 'user123'
+    ];
 
     /**
      * always create and boot kernel
@@ -40,7 +60,7 @@ abstract class ApiTestCase extends WebTestCase
      * @param $username
      * @return User
      */
-    protected function getUserByUsername($username)
+    private function getUserByUsername($username)
     {
         return self::$kernel
             ->getContainer()
@@ -49,13 +69,13 @@ abstract class ApiTestCase extends WebTestCase
             ->findOneBy(['username' => $username]);
     }
 
-    protected function getUserWithToken()
+    protected function getLoggedInUser()
     {
-        if (!$this->userWithToken) {
-            $this->userWithToken = $this->createUserWithToken();
+        if (!$this->loggedInUser) {
+            $this->loggedInUser = $this->createUserWithToken();
         }
 
-        return $this->userWithToken;
+        return $this->loggedInUser;
     }
 
     /**
@@ -64,16 +84,17 @@ abstract class ApiTestCase extends WebTestCase
      */
     private function createUserWithToken()
     {
-        $client = static::createClient();
+        $this->unauthorizedClient = static::createClient();
+        $user = $this->postUser($this->testUserDetails);
+        $this->confirmEmailAddress($user);
+        $this->loginUser($user);
 
-        // create user
-        $userDetails = [
-            'username' => 'mickadoo',
-            'email' => 'michaeldevery@gmail.com',
-            'password' => 'user123'
-        ];
+        return $user;
+    }
 
-        $crawler = $client->request(
+    private function postUser(array $userDetails)
+    {
+        $this->unauthorizedClient->request(
             'POST',
             'user',
             [],
@@ -82,55 +103,61 @@ abstract class ApiTestCase extends WebTestCase
             json_encode($userDetails)
         );
 
-        $response = $client->getResponse();
+        $response = $this->unauthorizedClient->getResponse();
+
         if ($response->getStatusCode() !== Codes::HTTP_CREATED) {
-            throw new YarnyardException('Error, user creation failed in test');
+            throw new YarnyardException('Error, user creation failed');
         }
 
-        // confirm e-mail
-        $user = $this->getUserByUsername('mickadoo');
+        return $this->getUserByUsername('mickadoo');
+    }
+
+    /**
+     * @param User $user
+     * @throws YarnyardException
+     */
+    private function confirmEmailAddress(User $user)
+    {
         $confirmationToken = static::$kernel
             ->getContainer()
             ->get('yarnyard.auth.confirmation_token.repository')
             ->findOneBy(['user' => $user]);
 
-        $crawler = $client->request(
+        $this->unauthorizedClient->request(
             'GET',
             '/user/' . $user->getId() . '/confirm-mail',
             [RequestParameter::TOKEN => $confirmationToken->getToken()]
         );
-        $response = $client->getResponse();
+        $response = $this->unauthorizedClient->getResponse();
 
         if ($response->getStatusCode() !== Codes::HTTP_OK) {
             throw new YarnyardException('Error, user email confirmation request failed');
         }
+    }
 
-        // login
+    private function loginUser(User $user)
+    {
         $oauthClient = self::$kernel->getContainer()->get('fos_oauth_server.client_manager')->findClientBy(['id' => 1]);
 
         $clientId = $oauthClient->getPublicId();
         $clientSecret  = $oauthClient->getSecret();
         $grantType = 'password';
-        $username = $userDetails['username'];
-        $password = $userDetails['password'];
         $loginRoute = '/oauth/v2/token';
 
         $params = [
             'client_id' => $clientId,
             'client_secret' => $clientSecret,
             'grant_type' => $grantType,
-            'username' => $username,
-            'password' => $password
+            'username' => $user->getUsername(),
+            'password' => $this->testUserDetails['password']
         ];
 
-        $crawler = $client->request('GET', $loginRoute, $params);
-        $response = $client->getResponse();
+        $this->unauthorizedClient->request('GET', $loginRoute, $params);
+        $response = $this->unauthorizedClient->getResponse();
 
         if ($response->getStatusCode() !== Codes::HTTP_OK) {
             throw new YarnyardException('Error, user login in test failed');
         }
-
-        return $user;
     }
 
     /**
@@ -147,17 +174,24 @@ abstract class ApiTestCase extends WebTestCase
         self::$kernel->getContainer()->set('doctrine.dbal.default_connection', self::$connection);
     }
 
-    protected function createAuthorizedClient()
+    protected function getAuthorizedClient()
     {
-        $user = $this->getUserWithToken();
+        if (! $this->authorizedClient) {
+            $user = $this->getLoggedInUser();
 
-        $token = static::$kernel
-            ->getContainer()
-            ->get('doctrine')
-            ->getRepository('MickadooYarnyardAuthBundle:AccessToken')
-            ->findOneBy(['user' => $user]);
+            $token = static::$kernel
+                ->getContainer()
+                ->get('doctrine')
+                ->getRepository('MickadooYarnyardAuthBundle:AccessToken')
+                ->findOneBy(['user' => $user]);
 
-        return static::createClient(['environment'=>'test'], ['HTTP_AUTHORIZATION' => 'Bearer '. $token->getToken()]);
+            $this->authorizedClient = static::createClient(
+                [],
+                ['HTTP_AUTHORIZATION' => 'Bearer '. $token->getToken()]
+            );
+        }
+
+        return $this->authorizedClient;
     }
 
     /**
