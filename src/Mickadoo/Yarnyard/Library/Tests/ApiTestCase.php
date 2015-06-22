@@ -30,17 +30,12 @@ abstract class ApiTestCase extends WebTestCase
     /**
      * @var Client
      */
-    private $unauthorizedClient;
-
-    /**
-     * @var Client
-     */
     private $authorizedClient;
 
     /**
      * @var array
      */
-    private $testUserDetails = [
+    protected $testUserDetails = [
         'username' => 'mickadoo',
         'email' => 'michaeldevery@gmail.com',
         'password' => 'user123'
@@ -84,17 +79,17 @@ abstract class ApiTestCase extends WebTestCase
      */
     private function createUserWithToken()
     {
-        $this->unauthorizedClient = static::createClient();
-        $user = $this->postUser($this->testUserDetails);
-        $this->confirmEmailAddress($user);
-        $this->loginUser($user);
+        $unauthorizedClient = static::createClient();
+        $user = $this->postUser($unauthorizedClient, $this->testUserDetails);
+        $this->confirmEmailAddress($unauthorizedClient, $user);
+        $this->loginUser($unauthorizedClient, $user);
 
         return $user;
     }
 
-    private function postUser(array $userDetails)
+    protected function postUser(Client $client, array $userDetails)
     {
-        $this->unauthorizedClient->request(
+        $client->request(
             'POST',
             'user',
             [],
@@ -103,7 +98,7 @@ abstract class ApiTestCase extends WebTestCase
             json_encode($userDetails)
         );
 
-        $response = $this->unauthorizedClient->getResponse();
+        $response = $client->getResponse();
 
         if ($response->getStatusCode() !== Codes::HTTP_CREATED) {
             throw new YarnyardException('Error, user creation failed');
@@ -116,26 +111,26 @@ abstract class ApiTestCase extends WebTestCase
      * @param User $user
      * @throws YarnyardException
      */
-    private function confirmEmailAddress(User $user)
+    private function confirmEmailAddress(Client $client, User $user)
     {
         $confirmationToken = static::$kernel
             ->getContainer()
             ->get('yarnyard.auth.confirmation_token.repository')
             ->findOneBy(['user' => $user]);
 
-        $this->unauthorizedClient->request(
+        $client->request(
             'GET',
             '/user/' . $user->getId() . '/confirm-mail',
             [RequestParameter::TOKEN => $confirmationToken->getToken()]
         );
-        $response = $this->unauthorizedClient->getResponse();
+        $response = $client->getResponse();
 
         if ($response->getStatusCode() !== Codes::HTTP_OK) {
             throw new YarnyardException('Error, user email confirmation request failed');
         }
     }
 
-    private function loginUser(User $user)
+    private function loginUser(Client $client, User $user)
     {
         $oauthClient = self::$kernel->getContainer()->get('fos_oauth_server.client_manager')->findClientBy(['id' => 1]);
 
@@ -152,8 +147,8 @@ abstract class ApiTestCase extends WebTestCase
             'password' => $this->testUserDetails['password']
         ];
 
-        $this->unauthorizedClient->request('GET', $loginRoute, $params);
-        $response = $this->unauthorizedClient->getResponse();
+        $client->request('GET', $loginRoute, $params);
+        $response = $client->getResponse();
 
         if ($response->getStatusCode() !== Codes::HTTP_OK) {
             throw new YarnyardException('Error, user login in test failed');

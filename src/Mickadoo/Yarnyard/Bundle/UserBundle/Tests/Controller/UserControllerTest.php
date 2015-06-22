@@ -3,10 +3,33 @@
 namespace Mickadoo\Yarnyard\Bundle\UserBundle\Tests\Controller;
 
 use FOS\RestBundle\Util\Codes;
+use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
 use Mickadoo\Yarnyard\Library\Tests\ApiTestCase;
 
 class UserControllerTest extends ApiTestCase
 {
+
+    /**
+     * Create a new user
+     *
+     * @throws YarnyardException
+     */
+    public function testPostUser()
+    {
+        $client = static::createClient();
+        $this->postUser($client, $this->testUserDetails);
+        $response = $client->getResponse();
+
+        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode());
+
+        $responseContent = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('username', $responseContent);
+        $this->assertEquals($this->testUserDetails['username'], $responseContent['username']);
+    }
+
+    /**
+     * Get all users and check if the logged-in user is part of them
+     */
     public function testGetAllUsers()
     {
         $client = $this->getAuthorizedClient();
@@ -25,6 +48,26 @@ class UserControllerTest extends ApiTestCase
         $this->assertContains($this->getLoggedInUser()->getUsername(), $usernames);
     }
 
+    /**
+     * Get the logged in user from the api
+     */
+    public function testGetUser()
+    {
+        $client = $this->getAuthorizedClient();
+        $client->request('GET', '/user/' . $this->getLoggedInUser()->getId());
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Codes::HTTP_OK, $response->getStatusCode());
+
+        $responseContent = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('username', $responseContent);
+        $this->assertEquals($this->getLoggedInUser()->getUsername(), $responseContent['username']);
+    }
+
+    /**
+     * Update a user's username and check if update succeeded
+     */
     public function testPatchUser()
     {
         $newUsername = 'philip';
