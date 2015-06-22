@@ -7,6 +7,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\DBAL\Connection;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use FOS\RestBundle\Util\Codes;
+use Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\ConfirmationToken;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 use Mickadoo\Yarnyard\Library\Controller\RequestParameter;
 use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
@@ -55,7 +56,7 @@ abstract class ApiTestCase extends WebTestCase
      * @param $username
      * @return User
      */
-    private function getUserByUsername($username)
+    protected function getUserByUsername($username)
     {
         return self::$kernel
             ->getContainer()
@@ -108,15 +109,13 @@ abstract class ApiTestCase extends WebTestCase
     }
 
     /**
+     * @param Client $client
      * @param User $user
      * @throws YarnyardException
      */
     private function confirmEmailAddress(Client $client, User $user)
     {
-        $confirmationToken = static::$kernel
-            ->getContainer()
-            ->get('yarnyard.auth.confirmation_token.repository')
-            ->findOneBy(['user' => $user]);
+        $confirmationToken = $this->getConfirmationTokenByUser($user);
 
         $client->request(
             'GET',
@@ -128,6 +127,18 @@ abstract class ApiTestCase extends WebTestCase
         if ($response->getStatusCode() !== Codes::HTTP_OK) {
             throw new YarnyardException('Error, user email confirmation request failed');
         }
+    }
+
+    /**
+     * @param User $user
+     * @return ConfirmationToken|object
+     */
+    protected function getConfirmationTokenByUser(User $user)
+    {
+        return static::$kernel
+            ->getContainer()
+            ->get('yarnyard.auth.confirmation_token.repository')
+            ->findOneBy(['user' => $user]);
     }
 
     private function loginUser(Client $client, User $user)
