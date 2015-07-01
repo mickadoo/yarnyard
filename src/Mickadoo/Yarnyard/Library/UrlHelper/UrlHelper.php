@@ -14,6 +14,7 @@ abstract class UrlHelper
         $urlParts = parse_url($existingUrl);
         $existingQueryString = isset($urlParts['query']) ? $urlParts['query'] : null;
 
+
         $existingQueryStringParts = [];
         if (!empty($existingQueryString)) {
             parse_str($existingQueryString, $existingQueryStringParts);
@@ -21,6 +22,12 @@ abstract class UrlHelper
 
         $newQueryString = http_build_query(array_merge($queryParts, $existingQueryStringParts));
 
-        return str_replace($existingQueryString, $newQueryString, $existingUrl);
+        // todo this was broken when no query string was previously set - needs clean up
+        if ($existingQueryStringParts) {
+            return str_replace($existingQueryString, $newQueryString, $existingUrl);
+        } else {
+            return $existingUrl . '?' . $newQueryString;
+        }
+
     }
 }

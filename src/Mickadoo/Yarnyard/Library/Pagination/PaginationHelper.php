@@ -39,7 +39,7 @@ abstract class PaginationHelper
         ];
 
         $linkHeaderString = sprintf(
-            "<%s>; rel='%s', <%s>; rel='%s'",
+            '<%s>;rel="%s",<%s>;rel="%s"',
             UrlHelper::rebuildUrlQuery($currentUrl, $currentPageQueryParts),
             'self',
             UrlHelper::rebuildUrlQuery($currentUrl, $lastPageQueryParts),
