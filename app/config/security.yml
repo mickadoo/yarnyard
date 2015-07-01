@@ -26,12 +26,15 @@ security:
     # the main part of the security, where you can set up firewalls
     # for specific sections of your app
     firewalls:
+        api_docs:
+            pattern:   ^/api/doc
+            security:  false
         create_user:
-            pattern: ^/user$
+            pattern: ^/users$
             methods: [POST]
             security: false
         confirm_email:
-            pattern: ^/user/\d+/confirm-mail$
+            pattern: ^/confirm-email$
             security:  false
         oauth_token:
             pattern:    ^/oauth/v2/token
@@ -50,9 +53,6 @@ security:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        api_docs:
-            pattern:   ^/api/doc
-            security:  false
 
     access_control:
         # You can omit this if /api can be accessed both authenticated and anonymously

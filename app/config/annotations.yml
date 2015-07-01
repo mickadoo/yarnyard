@@ -51,7 +51,7 @@ postConfirmationTokenAcceptedAction:
   section: 'oauth'
   requirements:
     -
-      name: 'id'
+      name: 'userId'
       dataType: 'int'
       requirement: '\d+'
       description: 'user id'

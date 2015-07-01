@@ -1,4 +1,4 @@
 <html>
     <h1>EMAIL_CONFIRMATION_MAIL</h1>
-    <p>URL = {{ url('post_confirmation_token_accepted', {'id':user.id}) }}?token={{ token }}</p>
+    <p>URL = {{ frontendUrl }}/#/confirm-email?token={{ token }}&userId={{ user.id }}</p>
 </html>

@@ -37,6 +37,7 @@ class EmailConfirmationMail extends AbstractMail
     {
         return [
             'token' => $this->confirmationToken->getToken(),
+            'frontendUrl' => 'http://localhost:8000/app', // todo do this properly
             'user' => [
                 'id' => $this->confirmationToken->getUser()->getId()
             ]
