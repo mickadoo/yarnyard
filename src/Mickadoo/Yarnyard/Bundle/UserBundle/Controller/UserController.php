@@ -22,7 +22,7 @@ class UserController extends RestController
      * @ApiDoc()
      *
      * @Rest\View()
-     * @Rest\Route("user")
+     * @Rest\Route("users")
      */
     public function getAllUsersAction(Request $request)
     {
@@ -39,7 +39,7 @@ class UserController extends RestController
      * @ApiDoc()
      *
      * @Rest\View()
-     * @Rest\Route("user/{id}")
+     * @Rest\Route("users/{id}")
      */
     public function getUserAction(User $user)
     {
@@ -54,7 +54,7 @@ class UserController extends RestController
      * @ApiDoc()
      *
      * @Rest\View(statusCode=201)
-     * @Rest\Route("user")
+     * @Rest\Route("users")
      *
      * @ParamConverter(
      *  "user",
@@ -96,7 +96,7 @@ class UserController extends RestController
      * @ApiDoc()
      *
      * @Rest\View()
-     * @Rest\Route("user/{id}")
+     * @Rest\Route("users/{id}")
      *
      * @ParamConverter(class="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User")
      */
