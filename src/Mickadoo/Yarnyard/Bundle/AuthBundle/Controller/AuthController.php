@@ -7,7 +7,7 @@ use Mickadoo\Yarnyard\Bundle\UserBundle\ConstantsInterface\Roles;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 use Mickadoo\Yarnyard\Library\Controller\RequestParameter;
 use Mickadoo\Yarnyard\Library\Controller\RestController;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
 use Symfony\Component\HttpFoundation\Request;
 
 class AuthController extends RestController
@@ -15,6 +15,7 @@ class AuthController extends RestController
 
     /**
      * @param Request $request
+     * @throws YarnyardException
      * @return User
      *
      * @ApiDoc()
@@ -27,6 +28,10 @@ class AuthController extends RestController
     {
         $tokenString = $request->query->get(RequestParameter::TOKEN);
         $userId = $request->query->get(RequestParameter::USER);
+
+        if (!$tokenString || !$userId) {
+            throw new YarnyardException('userId or token not set in request');
+        }
 
         $user = $this->getUserRepository()->find($userId);
 
