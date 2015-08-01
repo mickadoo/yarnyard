@@ -8,6 +8,7 @@ use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 use Mickadoo\Yarnyard\Library\Controller\RequestParameter;
 use Mickadoo\Yarnyard\Library\Controller\RestController;
 use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpFoundation\Request;
 
 class AuthController extends RestController
