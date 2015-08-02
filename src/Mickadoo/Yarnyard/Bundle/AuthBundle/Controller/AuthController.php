@@ -3,6 +3,8 @@
 namespace Mickadoo\Yarnyard\Bundle\AuthBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\AccessToken;
+use Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\ConfirmationToken;
 use Mickadoo\Yarnyard\Bundle\UserBundle\ConstantsInterface\Roles;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 use Mickadoo\Yarnyard\Library\Controller\RequestParameter;
@@ -27,19 +29,21 @@ class AuthController extends RestController
      */
     public function postConfirmationTokenAcceptedAction(Request $request)
     {
-        $tokenString = $request->query->get(RequestParameter::TOKEN);
-        $userId = $request->query->get(RequestParameter::USER);
+        $tokenString = $request->request->get(RequestParameter::TOKEN);
+        $userId = $request->request->get(RequestParameter::USER);
 
         if (!$tokenString || !$userId) {
             throw new YarnyardException('userId or token not set in request');
         }
 
+        /** @var User $user */
         $user = $this->getUserRepository()->find($userId);
 
         if (! $user) {
             return null;
         }
 
+        /** @var ConfirmationToken $token */
         $token = $this->getConfirmationTokenRepository()->findOneBy([
             'user' => $user,
             'token' => $tokenString

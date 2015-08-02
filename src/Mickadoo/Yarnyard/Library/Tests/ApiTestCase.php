@@ -7,6 +7,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\DBAL\Connection;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use FOS\RestBundle\Util\Codes;
+use Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\AccessToken;
 use Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\ConfirmationToken;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 use Mickadoo\Yarnyard\Library\Controller\RequestParameter;
@@ -14,6 +15,7 @@ use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader as DataFixturesLoader;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Kernel;
 
 abstract class ApiTestCase extends WebTestCase
@@ -92,7 +94,7 @@ abstract class ApiTestCase extends WebTestCase
     {
         $client->request(
             'POST',
-            'user',
+            'users',
             [],
             [],
             ['CONTENT_TYPE' => 'application/json', 'HTTP_ACCEPT' => 'application/json'],
@@ -102,7 +104,7 @@ abstract class ApiTestCase extends WebTestCase
         $response = $client->getResponse();
 
         if ($response->getStatusCode() !== Codes::HTTP_CREATED) {
-            throw new YarnyardException('Error, user creation failed');
+            throw new YarnyardException('Error, user creation failed' . $response->getContent());
         }
 
         return $this->getUserByUsername('mickadoo');
@@ -118,14 +120,17 @@ abstract class ApiTestCase extends WebTestCase
         $confirmationToken = $this->getConfirmationTokenByUser($user);
 
         $client->request(
-            'GET',
-            '/user/' . $user->getId() . '/confirm-mail',
-            [RequestParameter::TOKEN => $confirmationToken->getToken()]
+            Request::METHOD_POST,
+            '/confirm-email',
+            [
+                RequestParameter::TOKEN => $confirmationToken->getToken(),
+                RequestParameter::USER => $user->getId()
+            ]
         );
         $response = $client->getResponse();
 
         if ($response->getStatusCode() !== Codes::HTTP_OK) {
-            throw new YarnyardException('Error, user email confirmation request failed');
+            throw new YarnyardException('Error, user email confirmation request failed' . $response->getContent());
         }
     }
 

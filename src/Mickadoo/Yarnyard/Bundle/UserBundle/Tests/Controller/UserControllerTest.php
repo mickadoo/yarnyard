@@ -52,7 +52,7 @@ class UserControllerTest extends ApiTestCase
     public function testGetAllUsers()
     {
         $client = $this->getAuthorizedClient();
-        $client->request('GET', '/user');
+        $client->request('GET', '/users');
         $response = $client->getResponse();
 
         $this->assertEquals(Codes::HTTP_OK, $response->getStatusCode());
@@ -73,7 +73,7 @@ class UserControllerTest extends ApiTestCase
     public function testGetUser()
     {
         $client = $this->getAuthorizedClient();
-        $client->request('GET', '/user/' . $this->getLoggedInUser()->getId());
+        $client->request('GET', '/users/' . $this->getLoggedInUser()->getId());
 
         $response = $client->getResponse();
 
@@ -94,7 +94,7 @@ class UserControllerTest extends ApiTestCase
         $client = $this->getAuthorizedClient();
         $client->request(
             'PATCH',
-            '/user/' .$this->getLoggedInUser()->getId(),
+            '/users/' .$this->getLoggedInUser()->getId(),
             [],
             [],
             [],
