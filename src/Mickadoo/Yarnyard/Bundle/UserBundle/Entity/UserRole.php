@@ -4,32 +4,19 @@ namespace Mickadoo\Yarnyard\Bundle\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity()
- */
 class UserRole 
 {
-
     /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @var integer
      */
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User", inversedBy="userRoles")
-     *
      * @var User
      */
     private $user;
 
     /**
-     *
-     * @ORM\ManyToOne(targetEntity="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\Role")
-     *
      * @var Role
      */
     private $role;

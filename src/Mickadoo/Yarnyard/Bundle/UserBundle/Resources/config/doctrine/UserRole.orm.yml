@@ -1,0 +1,13 @@
+Mickadoo\Yarnyard\Bundle\UserBundle\Entity\UserRole:
+  type: entity
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: IDENTITY
+  manyToOne:
+    user:
+      targetEntity: User
+      inversedBy: userRoles
+    role:
+      targetEntity: Role

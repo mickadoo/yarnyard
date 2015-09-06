@@ -2,28 +2,17 @@
 
 namespace Mickadoo\Yarnyard\Bundle\UserBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Role\RoleInterface;
 
-/**
- * @ORM\Entity(repositoryClass="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\RoleRepository")
- */
 class Role implements RoleInterface
 {
-
     /**
      * @var integer
-     *
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=32)
      */
     private $role;
 
