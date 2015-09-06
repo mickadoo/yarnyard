@@ -19,12 +19,11 @@ class LoadClientData extends AbstractFixture implements OrderedFixtureInterface
     {
         $client = new Client();
         $grantTypes = ['authorization_code', 'password', 'refresh-token', 'token', 'client-credentials'];
-        $client
-            ->setAllowedGrantTypes($grantTypes)
-            ->setRedirectUris(['api.yarnyard.dev']);
+        $client->setAllowedGrantTypes($grantTypes);
+        $client->setRedirectUris(['api.yarnyard.dev']);
 
         $manager->persist($client);
-        $manager->flush($client);
+        $manager->flush();
 
         $this->setReference(FixtureReference::CLIENT, $client);
     }
