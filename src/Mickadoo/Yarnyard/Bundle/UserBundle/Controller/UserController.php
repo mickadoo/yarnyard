@@ -109,7 +109,7 @@ class UserController extends RestController
             return $this->createResponseFromValidator($validator);
         }
 
-        $this->setPropertiesFromRequest($user, $request);
+        $this->container->get('patcher')->patch($user, $request->request->all());
         $this->getUserRepository()->update($user);
 
         return $user;

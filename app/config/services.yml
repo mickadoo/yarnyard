@@ -24,3 +24,6 @@ services:
         class: Mickadoo\Yarnyard\Library\Serializer\ScalarNormalizer
         tags:
             - { name: serializer.normalizer }
+
+    patcher:
+        class: Mickadoo\Yarnyard\Library\Request\Patcher

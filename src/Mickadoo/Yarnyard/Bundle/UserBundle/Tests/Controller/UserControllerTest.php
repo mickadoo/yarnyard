@@ -6,6 +6,7 @@ use FOS\RestBundle\Util\Codes;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Mail\MailClass\EmailConfirmationMail;
 use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
 use Mickadoo\Yarnyard\Library\Mail\AbstractMail;
+use Mickadoo\Yarnyard\Library\Request\RequestConstants;
 use Mickadoo\Yarnyard\Library\Tests\ApiTestCase;
 use Symfony\Bundle\SwiftmailerBundle\DataCollector\MessageDataCollector;
 
@@ -90,6 +91,13 @@ class UserControllerTest extends ApiTestCase
     public function testPatchUser()
     {
         $newUsername = 'philip';
+        $data = [
+            [
+                'op' => RequestConstants::OP_REPLACE,
+                'path' => '/username',
+                'value' => $newUsername
+            ]
+        ];
 
         $client = $this->getAuthorizedClient();
         $client->request(
@@ -98,7 +106,7 @@ class UserControllerTest extends ApiTestCase
             [],
             [],
             [],
-            json_encode(['username'=>$newUsername])
+            json_encode($data)
         );
         $response = $client->getResponse();
 

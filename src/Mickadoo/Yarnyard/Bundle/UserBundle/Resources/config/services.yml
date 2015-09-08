@@ -20,8 +20,8 @@ services:
 
   yarnyard.user.role.repository:
     class: Mickadoo\Yarnyard\Bundle\UserBundle\Entity\RoleRepository
-    factory_service: doctrine.orm.entity_manager
-    factory_method: getRepository
+    factory_service: 'doctrine.orm.entity_manager'
+    factory_method: 'getRepository'
     arguments:
       - Mickadoo\Yarnyard\Bundle\UserBundle\Entity\Role
 
