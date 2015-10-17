@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\MappingException;
 use Mickadoo\Yarnyard\Bundle\BaseDataBundle\Services\BundleHelper;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -37,9 +38,18 @@ class LoadBaseDataCommand extends ContainerAwareCommand
      */
     private $output;
 
+    /**
+     * @var InputInterface
+     */
+    private $input;
+
     protected function configure()
     {
-        $this->setName('basedata:load');
+        $this
+            ->setName('basedata:load')
+            ->addArgument(
+                'namespace', InputArgument::OPTIONAL, 'Restrict loaded data to namespaces matching this string'
+            );
     }
 
     /**
@@ -49,6 +59,7 @@ class LoadBaseDataCommand extends ContainerAwareCommand
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
+        $this->input = $input;
         $this->entityManager = $this->getContainer()->get('doctrine.orm.default_entity_manager');
         $this->bundleHelper = $this->getContainer()->get('bundle.helper');
 
@@ -136,7 +147,7 @@ class LoadBaseDataCommand extends ContainerAwareCommand
     private function getConfigFiles()
     {
         $configFiles = [];
-        $bundles = $this->bundleHelper->getBundles('Mickadoo');
+        $bundles = $this->bundleHelper->getBundles($this->input->getArgument('namespace'));
 
         foreach ($bundles as $bundle) {
             $configPath = $bundle->getPath() . self::PATH_IN_BUNDLE;
