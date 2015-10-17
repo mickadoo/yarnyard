@@ -25,6 +25,7 @@ class AppKernel extends Kernel
             new Mickadoo\Yarnyard\Bundle\ApplicationBundle\MickadooYarnyardApplicationBundle(),
             new Mickadoo\YamlApiDocAnnotationBundle\MickadooYamlApiDocAnnotationBundle(),
             new Mickadoo\Yarnyard\Bundle\AuthBundle\MickadooYarnyardAuthBundle(),
+            new Mickadoo\Yarnyard\Bundle\BaseDataBundle\MickadooYarnyardBaseDataBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
