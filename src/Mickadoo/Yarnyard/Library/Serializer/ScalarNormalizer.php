@@ -75,7 +75,7 @@ class ScalarNormalizer  extends SerializerAwareNormalizer implements NormalizerI
 
         $reflectionClass = new \ReflectionClass($class);
 
-        if (! $reflectionClass->getConstructor()->getParameters()) {
+        if (! $reflectionClass->getConstructor() || !$reflectionClass->getConstructor()->getParameters()) {
             $object = $reflectionClass->newInstance();
         } else {
             $object = $reflectionClass->newInstanceWithoutConstructor();

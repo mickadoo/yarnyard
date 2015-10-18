@@ -54,33 +54,9 @@ class User implements UserFields, UserInterface
     private $updatedAt;
 
     /**
-     * @var UserRole[]
+     * @var ArrayCollection|Role[]
      */
-    private $userRoles;
-
-    public function __construct()
-    {
-        $this->userRoles = new ArrayCollection();
-    }
-
-    /**
-     * @return UserRole[]|ArrayCollection
-     */
-    public function getUserRoles()
-    {
-        return $this->userRoles;
-    }
-
-    /**
-     * @param UserRole[] $userRoles
-     * @return $this
-     */
-    public function setUserRoles($userRoles)
-    {
-        $this->userRoles = $userRoles;
-
-        return $this;
-    }
+    private $roles;
 
     /**
      * Get id
@@ -179,6 +155,31 @@ class User implements UserFields, UserInterface
     }
 
     /**
+     * @return Role[]
+     */
+    public function getRoles()
+    {
+        if ($this->roles) {
+            return $this->roles->toArray();
+        }
+
+        return [];
+    }
+
+    /**
+     * @param Role $role
+     * @return $this
+     */
+    public function addRole(Role $role)
+    {
+        if ($this->roles->contains($role)) {
+            $this->roles->add($role);
+        }
+
+        return $this;
+    }
+
+    /**
      * @return mixed
      */
     public function getSalt()
@@ -196,25 +197,6 @@ class User implements UserFields, UserInterface
         $this->salt = $salt;
 
         return $this;
-    }
-
-    /**
-     *
-     * Needed for UserInterface
-     * If UserInterface is removed then OauthBundle will not work
-     *
-     * @return array
-     * @deprecated
-     */
-    public function getRoles()
-    {
-        $roles = [];
-
-        foreach ($this->getUserRoles() as $userRole) {
-            $roles[] = $userRole->getRole();
-        }
-
-        return $roles;
     }
 
     /**

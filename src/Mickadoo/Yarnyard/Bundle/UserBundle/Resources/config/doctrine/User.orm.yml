@@ -29,6 +29,6 @@ Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User:
       type: datetime
       nullable: true
   oneToMany:
-    userRoles:
-      targetEntity: UserRole
+    roles:
+      targetEntity: Role
       mappedBy: user

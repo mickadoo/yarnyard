@@ -2,14 +2,19 @@
 
 namespace Mickadoo\Yarnyard\Bundle\UserBundle\Entity;
 
+use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
 use Symfony\Component\Security\Core\Role\RoleInterface;
 
 class Role implements RoleInterface
 {
+    const ACTIVE_USER = 1;
+
     /**
-     * @var integer
+     * @var array
      */
-    private $id;
+    private $validRoles = [
+        self::ACTIVE_USER
+    ];
 
     /**
      * @var string
@@ -17,24 +22,9 @@ class Role implements RoleInterface
     private $role;
 
     /**
-     * @return int
+     * @var User
      */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     *
-     * @return $this
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
+    private $user;
 
     /**
      * @return string
@@ -45,13 +35,36 @@ class Role implements RoleInterface
     }
 
     /**
-     * @param string $role
-     *
+     * @param $role
      * @return $this
+     * @throws YarnyardException
      */
     public function setRole($role)
     {
+        if (!in_array($role, $this->validRoles)) {
+            throw new YarnyardException('ERR_INVALID_ROLE');
+        }
+
         $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     * @return $this
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
 
         return $this;
     }

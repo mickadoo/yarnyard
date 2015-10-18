@@ -1,13 +1,13 @@
 Mickadoo\Yarnyard\Bundle\UserBundle\Entity\Role:
-  type: entity
-  repositoryClass:
-    Mickadoo\Yarnyard\Bundle\UserBundle\Entity\RoleRepository
-  id:
+    type: entity
+    repositoryClass:
+        Mickadoo\Yarnyard\Bundle\UserBundle\Entity\RoleRepository
     id:
-      type: integer
-      generator:
-        strategy: IDENTITY
-  fields:
-    role:
-      type: string
-      length: 32
+        role:
+            type: integer
+        user:
+            associationKey: true
+    manyToOne:
+        user:
+            targetEntity: user
+            inversedBy: roles

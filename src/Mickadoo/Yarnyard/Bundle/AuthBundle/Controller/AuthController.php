@@ -3,9 +3,8 @@
 namespace Mickadoo\Yarnyard\Bundle\AuthBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
-use Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\AccessToken;
 use Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\ConfirmationToken;
-use Mickadoo\Yarnyard\Bundle\UserBundle\ConstantsInterface\Roles;
+use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\Role;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 use Mickadoo\Yarnyard\Library\Controller\RequestParameter;
 use Mickadoo\Yarnyard\Library\Controller\RestController;
@@ -50,7 +49,7 @@ class AuthController extends RestController
         ]);
 
         if ($token) {
-            $this->getRoleRepository()->addRoleForUser($user, Roles::ACTIVE_USER);
+            $this->getRoleRepository()->addRoleForUser($user, Role::ACTIVE_USER);
             $this->getConfirmationTokenRepository()->delete($token);
         }
 

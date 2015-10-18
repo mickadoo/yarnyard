@@ -15,19 +15,13 @@ class RoleRepository extends EntityRepository
      */
     public function addRoleForUser(User $user, $roleName)
     {
-        $role = $this->findOneBy(['role' => $roleName]);
+        $role = new Role();
+        $role->setRole($roleName)
+            ->setUser($user);
 
-        if (! $role) {
-            throw new YarnyardException('ROLE_NOT_EXISTS');
-        }
+        $user->addRole($role);
 
-        $userRole = new UserRole();
-        $userRole
-            ->setUser($user)
-            ->setRole($role);
-
-        $this->_em->persist($userRole);
-        $this->_em->flush($userRole);
+        $this->_em->flush($user);
 
         return $user;
     }
