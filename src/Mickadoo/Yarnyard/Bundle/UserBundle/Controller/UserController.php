@@ -97,8 +97,6 @@ class UserController extends RestController
      *
      * @Rest\View()
      * @Rest\Route("users/{id}")
-     *
-     * @ParamConverter(class="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User")
      */
     public function patchUserAction(User $user, Request $request)
     {
