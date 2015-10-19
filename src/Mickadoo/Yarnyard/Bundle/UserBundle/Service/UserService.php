@@ -90,6 +90,21 @@ class UserService
 
     /**
      * @param User $user
+     * @param $username
+     * @param $email
+     * @return User
+     * @throws YarnyardException
+     */
+    public function update(User $user, $username, $email)
+    {
+        $this->setUsername($user, $username);
+        $this->setEmail($user, $email);
+
+        return $user;
+    }
+
+    /**
+     * @param User $user
      * @param $email
      * @throws YarnyardException
      */

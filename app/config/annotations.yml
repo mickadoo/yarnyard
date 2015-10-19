@@ -36,6 +36,16 @@ postUserAction:
       requirement: '\w+'
       description: 'password for new user'
 
+putUserAction:
+  description: 'Update a user'
+  section: 'user'
+  requirements:
+    -
+      name: 'id'
+      dataType: 'int'
+      requirement: '\d+'
+      description: 'user id'
+
 patchUserAction:
   description: 'Update a user'
   section: 'user'
