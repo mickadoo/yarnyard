@@ -159,7 +159,6 @@ abstract class AbstractValidator implements ValidatorInterface, ContainerAwareIn
     protected function isStringAsciiOnly($string)
     {
         return 0 == preg_match('/[^\x00-\x7F]/', $string);
-
     }
 
     /**

@@ -1,47 +1,49 @@
 services:
 
-  ##### manager ######
+    ##### manager ######
 
-  yarnyard.user.user.manager:
-    class: Doctrine\ORM\EntityManager
-    factory_service: "doctrine"
-    factory_method: "getManagerForClass"
-    arguments:
-      - Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User
+    yarnyard.user.user.manager:
+        class: Doctrine\ORM\EntityManager
+        factory_service: "doctrine"
+        factory_method: "getManagerForClass"
+        arguments:
+            - Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User
 
-  ##### entity repository ######
+    ##### entity repository ######
 
-  yarnyard.user.user.repository:
-    class: Mickadoo\Yarnyard\Bundle\UserBundle\Entity\UserRepository
-    factory_service: doctrine.orm.entity_manager
-    factory_method: getRepository
-    arguments:
-      - Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User
+    yarnyard.user.user.repository:
+        class: Mickadoo\Yarnyard\Bundle\UserBundle\Entity\UserRepository
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments:
+            - Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User
 
-  yarnyard.user.role.repository:
-    class: Mickadoo\Yarnyard\Bundle\UserBundle\Entity\RoleRepository
-    factory_service: 'doctrine.orm.entity_manager'
-    factory_method: 'getRepository'
-    arguments:
-      - Mickadoo\Yarnyard\Bundle\UserBundle\Entity\Role
+    yarnyard.user.role.repository:
+        class: Mickadoo\Yarnyard\Bundle\UserBundle\Entity\RoleRepository
+        factory_service: 'doctrine.orm.entity_manager'
+        factory_method: 'getRepository'
+        arguments:
+            - Mickadoo\Yarnyard\Bundle\UserBundle\Entity\Role
 
-  ##### provider ######
+    ##### provider ######
 
-  yarnyard.user.user.provider:
-    class: Mickadoo\Yarnyard\Bundle\UserBundle\Entity\UserProvider
-    arguments:
-      - @yarnyard.user.user.repository
+    yarnyard.user.user.provider:
+        class: Mickadoo\Yarnyard\Bundle\UserBundle\Entity\UserProvider
+        arguments:
+            - @yarnyard.user.user.repository
 
-  ##### validator ######
+    ##### validator ######
 
-  yarnyard.user.user.post_user_validator:
-    class: Mickadoo\Yarnyard\Bundle\UserBundle\Validator\PostUserValidator
-    parent: yarnyard.validator.abstract_validator
+    ##### param converter ######
 
-  yarnyard.user.user.patch_user_validator:
-    class: Mickadoo\Yarnyard\Bundle\UserBundle\Validator\PatchUserValidator
-    parent: yarnyard.validator.abstract_validator
-
-  ##### param converter ######
+    ##### entity services ######
+    user.service:
+        class: Mickadoo\Yarnyard\Bundle\UserBundle\Service\UserService
+        arguments:
+            - @yarnyard.user.user.repository
+            - @yarnyard.auth.confirmation_token.repository
+            - @security.password_encoder
+            - @string.helper
+            - @event_dispatcher
 
 

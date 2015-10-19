@@ -27,3 +27,6 @@ services:
 
     patcher:
         class: Mickadoo\Yarnyard\Library\Request\Patcher
+
+    string.helper:
+        class: Mickadoo\Yarnyard\Library\StringHelper\StringHelper

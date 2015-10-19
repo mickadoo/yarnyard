@@ -8,7 +8,6 @@ use Symfony\Component\EventDispatcher\Event;
 
 class UserCreatedEvent extends Event
 {
-
     /**
      * @var User
      */
@@ -20,7 +19,6 @@ class UserCreatedEvent extends Event
     protected $confirmationToken;
 
     /**
-     * @param User $user
      * @param ConfirmationToken $confirmationToken
      */
     function __construct(ConfirmationToken $confirmationToken)

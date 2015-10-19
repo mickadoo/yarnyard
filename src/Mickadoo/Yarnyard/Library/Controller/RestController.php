@@ -9,7 +9,6 @@ use Mickadoo\Yarnyard\Library\EntityHelper\RepositoryTrait;
 use Mickadoo\Yarnyard\Library\EntityHelper\SetPropertiesFromArrayHelper;
 use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
 use Mickadoo\Yarnyard\Library\Pagination\PaginationHelper;
-use Mickadoo\Yarnyard\Library\Validator\ValidatorInterface;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,25 +51,6 @@ class RestController extends FOSRestController
     }
 
     /**
-     * @param ValidatorInterface $validator
-     * @return Response
-     */
-    public function createResponseFromValidator(ValidatorInterface $validator)
-    {
-        $response = new Response();
-        $response->setStatusCode($validator->getErrorCode());
-        $responseBody = [
-            'error' =>
-                [
-                    'key' => $validator->getErrorKey()
-                ]
-        ];
-        $response->setContent(json_encode($responseBody));
-
-        return $response;
-    }
-
-    /**
      * @param Request $request
      * @param QueryBuilder $queryBuilder
      * @return Response
@@ -79,7 +59,6 @@ class RestController extends FOSRestController
     {
         $pagerfanta = new Pagerfanta(new DoctrineORMAdapter($queryBuilder));
 
-        // todo replace with parameters.yml default max
         $maxPerPage = $request->query->get(PaginationHelper::KEY_MAX_PER_PAGE, PaginationHelper::DEFAULT_MAX);
         $pagerfanta->setMaxPerPage($maxPerPage);
 

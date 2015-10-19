@@ -3,12 +3,9 @@
 namespace Mickadoo\Yarnyard\Bundle\UserBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
-use Mickadoo\Yarnyard\Bundle\UserBundle\ConstantsInterface\UserEvents;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
-use Mickadoo\Yarnyard\Bundle\UserBundle\Event\UserCreatedEvent;
 use Mickadoo\Yarnyard\Library\Controller\RestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends RestController
@@ -47,44 +44,21 @@ class UserController extends RestController
     }
 
     /**
-     * @param User $user
-     *
+     * @param Request $request
      * @return User
      *
      * @ApiDoc()
      *
      * @Rest\View(statusCode=201)
      * @Rest\Route("users")
-     *
-     * @ParamConverter(
-     *  "user",
-     *  converter="fos_rest.request_body",
-     *  class="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User"
-     * )
      */
-    public function postUserAction(User $user)
+    public function postUserAction(Request $request)
     {
-        $validator = $this->get('yarnyard.user.user.post_user_validator');
-        $validator->setUser($user);
+        $username = $request->request->get('username');
+        $email = $request->request->get('email');
+        $password = $request->request->get('password');
 
-        if (!$validator->isValid()) {
-            return $this->createResponseFromValidator($validator);
-        }
-
-        // maybe this should be in another layer
-        $user->setSalt(uniqid(mt_rand(), true));
-        $encoder = $this->get('security.password_encoder');
-        $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
-        $this->getUserRepository()->save($user);
-        // to here?
-
-        $confirmationToken = $this->getConfirmationTokenRepository()->createTokenForUser($user);
-        // or here?
-
-        $newUserEvent = new UserCreatedEvent($confirmationToken);
-        $this->get('event_dispatcher')->dispatch(UserEvents::USER_CREATED, $newUserEvent);
-
-        return $user;
+        return $this->get('user.service')->create($username, $email, $password);
     }
 
     /**
@@ -100,13 +74,6 @@ class UserController extends RestController
      */
     public function patchUserAction(User $user, Request $request)
     {
-        $validator = $this->get('yarnyard.user.user.patch_user_validator');
-        $validator->setUser($user);
-
-        if (!$validator->isValid()) {
-            return $this->createResponseFromValidator($validator);
-        }
-
         $this->container->get('patcher')->patch($user, $request->request->all());
         $this->getUserRepository()->update($user);
 
