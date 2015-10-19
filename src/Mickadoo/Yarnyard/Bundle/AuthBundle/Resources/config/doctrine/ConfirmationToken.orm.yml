@@ -1,0 +1,27 @@
+Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\ConfirmationToken:
+    type: entity
+    repositoryClass: ConfirmationTokenRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        token:
+            type: string
+            length: 255
+        createdAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: create
+        expiresAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: create
+    manyToOne:
+        user:
+            targetEntity: Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User

@@ -3,28 +3,22 @@
 namespace Mickadoo\Yarnyard\Bundle\AuthBundle\Entity;
 
 use FOS\OAuthServerBundle\Entity\RefreshToken as BaseRefreshToken;
-use Doctrine\ORM\Mapping as ORM;
+use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 
-/**
- * @ORM\Entity
- */
 class RefreshToken extends BaseRefreshToken
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var int
      */
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\Client")
-     * @ORM\JoinColumn(nullable=false)
+     * @var Client
      */
     protected $client;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User")
+     * @var User
      */
     protected $user;
 }

@@ -1,0 +1,14 @@
+Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\AccessToken:
+    type: entity
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    manyToOne:
+        client:
+            targetEntity: Client
+            joinColumn:
+                nullable: false
+        user:
+            targetEntity: Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User
