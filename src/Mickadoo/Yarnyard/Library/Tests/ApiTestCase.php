@@ -6,17 +6,14 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\DBAL\Connection;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
-use FOS\RestBundle\Util\Codes;
+use Doctrine\ORM\EntityManager;
 use Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\AccessToken;
-use Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\ConfirmationToken;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
-use Mickadoo\Yarnyard\Library\Controller\RequestParameter;
-use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader as DataFixturesLoader;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 abstract class ApiTestCase extends WebTestCase
 {
@@ -36,15 +33,6 @@ abstract class ApiTestCase extends WebTestCase
     private $authorizedClient;
 
     /**
-     * @var array
-     */
-    protected $testUserDetails = [
-        'username' => 'mickadoo',
-        'email' => 'michaeldevery@gmail.com',
-        'password' => 'user123'
-    ];
-
-    /**
      * always create and boot kernel
      */
     protected function setUp()
@@ -55,120 +43,21 @@ abstract class ApiTestCase extends WebTestCase
     }
 
     /**
-     * @param $username
-     * @return User
+     * @return User|UserInterface
      */
-    protected function getUserByUsername($username)
-    {
-        return self::$kernel
-            ->getContainer()
-            ->get('doctrine')
-            ->getRepository('MickadooYarnyardUserBundle:User')
-            ->findOneBy(['username' => $username]);
-    }
-
     protected function getLoggedInUser()
     {
         if (!$this->loggedInUser) {
-            $this->loggedInUser = $this->createUserWithToken();
+            $token = static::$kernel
+                ->getContainer()
+                ->get('doctrine')
+                ->getRepository('MickadooYarnyardAuthBundle:AccessToken')
+                ->findOneBy([]);
+
+            $this->loggedInUser = $token->getUser();
         }
 
         return $this->loggedInUser;
-    }
-
-    /**
-     * @return User
-     * @throws YarnyardException
-     */
-    private function createUserWithToken()
-    {
-        $unauthorizedClient = static::createClient();
-        $user = $this->postUser($unauthorizedClient, $this->testUserDetails);
-        $this->confirmEmailAddress($unauthorizedClient, $user);
-        $this->loginUser($unauthorizedClient, $user);
-
-        return $user;
-    }
-
-    protected function postUser(Client $client, array $userDetails)
-    {
-        $client->request(
-            'POST',
-            'users',
-            [],
-            [],
-            ['CONTENT_TYPE' => 'application/json', 'HTTP_ACCEPT' => 'application/json'],
-            json_encode($userDetails)
-        );
-
-        $response = $client->getResponse();
-
-        if ($response->getStatusCode() !== Codes::HTTP_CREATED) {
-            throw new YarnyardException('Error, user creation failed' . $response->getContent());
-        }
-
-        return $this->getUserByUsername('mickadoo');
-    }
-
-    /**
-     * @param Client $client
-     * @param User $user
-     * @throws YarnyardException
-     */
-    private function confirmEmailAddress(Client $client, User $user)
-    {
-        $confirmationToken = $this->getConfirmationTokenByUser($user);
-
-        $client->request(
-            Request::METHOD_POST,
-            '/confirm-email',
-            [
-                RequestParameter::TOKEN => $confirmationToken->getToken(),
-                RequestParameter::USER => $user->getId()
-            ]
-        );
-        $response = $client->getResponse();
-
-        if ($response->getStatusCode() !== Codes::HTTP_OK) {
-            throw new YarnyardException('Error, user email confirmation request failed' . $response->getContent());
-        }
-    }
-
-    /**
-     * @param User $user
-     * @return ConfirmationToken|object
-     */
-    protected function getConfirmationTokenByUser(User $user)
-    {
-        return static::$kernel
-            ->getContainer()
-            ->get('yarnyard.auth.confirmation_token.repository')
-            ->findOneBy(['user' => $user]);
-    }
-
-    private function loginUser(Client $client, User $user)
-    {
-        $oauthClient = self::$kernel->getContainer()->get('fos_oauth_server.client_manager')->findClientBy(['id' => 1]);
-
-        $clientId = $oauthClient->getPublicId();
-        $clientSecret  = $oauthClient->getSecret();
-        $grantType = 'password';
-        $loginRoute = '/oauth/v2/token';
-
-        $params = [
-            'client_id' => $clientId,
-            'client_secret' => $clientSecret,
-            'grant_type' => $grantType,
-            'username' => $user->getUsername(),
-            'password' => $this->testUserDetails['password']
-        ];
-
-        $client->request('GET', $loginRoute, $params);
-        $response = $client->getResponse();
-
-        if ($response->getStatusCode() !== Codes::HTTP_OK) {
-            throw new YarnyardException('Error, user login in test failed');
-        }
     }
 
     /**
@@ -185,6 +74,9 @@ abstract class ApiTestCase extends WebTestCase
         self::$kernel->getContainer()->set('doctrine.dbal.default_connection', self::$connection);
     }
 
+    /**
+     * @return Client
+     */
     protected function getAuthorizedClient()
     {
         if (! $this->authorizedClient) {
@@ -206,13 +98,12 @@ abstract class ApiTestCase extends WebTestCase
     }
 
     /**
-     * Load fixtures for all bundles
-     *
-     * @param Kernel $kernel
+     * @param KernelInterface $kernel
      */
-    private static function loadFixtures(Kernel $kernel)
+    private static function loadFixtures(KernelInterface $kernel)
     {
         $loader = new DataFixturesLoader($kernel->getContainer());
+        /** @var EntityManager $em */
         $em = $kernel->getContainer()->get('doctrine')->getManager();
 
         foreach ($kernel->getBundles() as $bundle) {

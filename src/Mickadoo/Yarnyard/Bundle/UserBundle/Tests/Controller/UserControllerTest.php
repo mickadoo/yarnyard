@@ -3,33 +3,46 @@
 namespace Mickadoo\Yarnyard\Bundle\UserBundle\Tests\Controller;
 
 use FOS\RestBundle\Util\Codes;
+use Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\ConfirmationToken;
+use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Mail\MailClass\EmailConfirmationMail;
+use Mickadoo\Yarnyard\Library\Controller\RequestParameter;
 use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
 use Mickadoo\Yarnyard\Library\Mail\AbstractMail;
 use Mickadoo\Yarnyard\Library\Request\RequestConstants;
 use Mickadoo\Yarnyard\Library\Tests\ApiTestCase;
 use Symfony\Bundle\SwiftmailerBundle\DataCollector\MessageDataCollector;
+use Symfony\Component\HttpFoundation\Request;
 
 class UserControllerTest extends ApiTestCase
 {
 
     /**
-     * Create a new user
-     *
+     * @param array $userDetails
      * @throws YarnyardException
+     * @dataProvider userDetailsDataProvider
      */
-    public function testPostUser()
+    public function testPostUser(array $userDetails)
     {
         $client = static::createClient();
         $client->enableProfiler();
-        $this->postUser($client, $this->testUserDetails);
+
+        $client->request(
+            Request::METHOD_POST,
+            'users',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json', 'HTTP_ACCEPT' => 'application/json'],
+            json_encode($userDetails)
+        );
+
         $response = $client->getResponse();
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode());
 
         $responseContent = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('username', $responseContent);
-        $this->assertEquals($this->testUserDetails['username'], $responseContent['username']);
+        $this->assertEquals($userDetails['username'], $responseContent['username']);
 
         /** @var MessageDataCollector $mailCollector */
         $mailCollector = $client->getProfile()->getCollector('swiftmailer');
@@ -41,10 +54,63 @@ class UserControllerTest extends ApiTestCase
         $this->assertTrue($mail instanceof EmailConfirmationMail);
         $this->assertContains(
             $this->getConfirmationTokenByUser(
-                $this->getUserByUsername($this->testUserDetails['username'])
+                $this->getUserByUsername($userDetails['username'])
             )->getToken(),
             $mail->getBody()
         );
+    }
+
+    /**
+     * @param array $userDetails
+     * @throws YarnyardException
+     * @dataProvider userDetailsDataProvider
+     */
+    public function testUserCreationAndLoginFlow(array $userDetails)
+    {
+        $client = static::createClient();
+
+        $client->request(
+            Request::METHOD_POST,
+            'users',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json', 'HTTP_ACCEPT' => 'application/json'],
+            json_encode($userDetails)
+        );
+
+        $username = json_decode($client->getResponse()->getContent(), true)['username'];
+        $user = $this->getUserByUsername($username);
+
+        $confirmationToken = $this->getConfirmationTokenByUser($user);
+
+        $client->request(
+            Request::METHOD_POST,
+            '/confirm-email',
+            [
+                RequestParameter::TOKEN => $confirmationToken->getToken(),
+                RequestParameter::USER => $user->getId()
+            ]
+        );
+
+        $oauthClient = self::$kernel->getContainer()->get('fos_oauth_server.client_manager')->findClientBy(['id' => 1]);
+
+        $clientId = $oauthClient->getPublicId();
+        $clientSecret  = $oauthClient->getSecret();
+        $grantType = 'password';
+        $loginRoute = '/oauth/v2/token';
+
+        $params = [
+            'client_id' => $clientId,
+            'client_secret' => $clientSecret,
+            'grant_type' => $grantType,
+            'username' => $user->getUsername(),
+            'password' => $userDetails['password']
+        ];
+
+        $client->request('GET', $loginRoute, $params);
+        $response = $client->getResponse();
+
+        $this->assertEquals(Codes::HTTP_OK, $response->getStatusCode());
     }
 
     /**
@@ -115,5 +181,46 @@ class UserControllerTest extends ApiTestCase
         $responseContent = json_decode($response->getContent(), true);
         $this->assertEquals($newUsername, $responseContent['username']);
         $this->assertEquals($this->getLoggedInUser()->getEmail(), $responseContent['email']);
+    }
+
+    /**
+     * @return array
+     */
+    public function userDetailsDataProvider()
+    {
+        return [
+            [
+                [
+                    'username' => 'mickadoo',
+                    'email' => 'michaeldevery@gmail.com',
+                    'password' => 'user123'
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @param User $user
+     * @return ConfirmationToken|object
+     */
+    protected function getConfirmationTokenByUser(User $user)
+    {
+        return static::$kernel
+            ->getContainer()
+            ->get('yarnyard.auth.confirmation_token.repository')
+            ->findOneBy(['user' => $user]);
+    }
+
+    /**
+     * @param $username
+     * @return User
+     */
+    protected function getUserByUsername($username)
+    {
+        return self::$kernel
+            ->getContainer()
+            ->get('doctrine')
+            ->getRepository('MickadooYarnyardUserBundle:User')
+            ->findOneBy(['username' => $username]);
     }
 }

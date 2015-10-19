@@ -11,8 +11,6 @@ use Mickadoo\Yarnyard\Library\EntityHelper\FixtureReference;
 class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
-     * Load data fixtures with the passed EntityManager
-     *
      * @param ObjectManager $manager
      */
     public function load(ObjectManager $manager)
@@ -25,19 +23,16 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
             ->setPassword('user123');
 
         $manager->persist($kevin);
-        $manager->flush($kevin);
+        $manager->flush();
 
         $this->setReference(FixtureReference::KEVIN, $kevin);
     }
 
     /**
-     * Get the order of this fixture
-     *
-     * @return integer
+     * @return int
      */
     public function getOrder()
     {
         return FixtureReference::ORDER_USER;
     }
-
 }
