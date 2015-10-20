@@ -4,7 +4,7 @@ namespace Mickadoo\Yarnyard\Bundle\UserBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Mickadoo\Yarnyard\Bundle\UserBundle\ConstantsInterface\UserFields;
+use Mickadoo\Yarnyard\Bundle\UserBundle\Constants\UserFields;
 use Mickadoo\Yarnyard\Library\Annotation\Serializer;
 use Symfony\Component\Security\Core\User\UserInterface;
 

@@ -2,6 +2,7 @@
 
 namespace Mickadoo\Yarnyard\Library\EntityHelper;
 
+use Mickadoo\Yarnyard\Library\ErrorConstants\Errors;
 use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
 
 class SetPropertiesFromArrayHelper
@@ -15,7 +16,7 @@ class SetPropertiesFromArrayHelper
     public static function set($entity, array $rawData)
     {
         if (! is_object($entity)) {
-            throw new YarnyardException('You must pass in an object to set properties on');
+            throw new YarnyardException(Errors::ERROR_OBJECT_EXPECTED);
         }
 
         foreach ($rawData as $propertyName => $propertyValue) {

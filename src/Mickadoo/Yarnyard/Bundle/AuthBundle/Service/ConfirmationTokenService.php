@@ -8,6 +8,7 @@ use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\Role;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\RoleRepository;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\UserRepository;
+use Mickadoo\Yarnyard\Library\ErrorConstants\Errors;
 use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
 
 class ConfirmationTokenService
@@ -54,7 +55,7 @@ class ConfirmationTokenService
         $user = $this->userRepository->find($userId);
 
         if (!$user) {
-            throw new YarnyardException('ERR_USER_NOT_FOUND');
+            throw new YarnyardException(Errors::ERROR_USER_NOT_FOUND);
         }
 
         /** @var ConfirmationToken $token */
@@ -64,7 +65,7 @@ class ConfirmationTokenService
         ]);
 
         if (!$token) {
-            throw new YarnyardException('ERR_TOKEN_NOT_FOUND');
+            throw new YarnyardException(Errors::ERROR_AUTH_ACCESS_TOKEN_NOT_FOUND);
         }
 
         $this->roleRepository->addRoleForUser($user, Role::ACTIVE_USER);

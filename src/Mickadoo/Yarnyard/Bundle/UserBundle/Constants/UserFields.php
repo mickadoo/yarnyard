@@ -1,6 +1,6 @@
 <?php
 
-namespace Mickadoo\Yarnyard\Bundle\UserBundle\ConstantsInterface;
+namespace Mickadoo\Yarnyard\Bundle\UserBundle\Constants;
 
 interface UserFields
 {

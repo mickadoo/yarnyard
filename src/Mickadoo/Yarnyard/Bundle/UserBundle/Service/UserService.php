@@ -3,11 +3,12 @@
 namespace Mickadoo\Yarnyard\Bundle\UserBundle\Service;
 
 use Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\ConfirmationTokenRepository;
-use Mickadoo\Yarnyard\Bundle\UserBundle\ConstantsInterface\UserErrors;
-use Mickadoo\Yarnyard\Bundle\UserBundle\ConstantsInterface\UserEvents;
+use Mickadoo\Yarnyard\Bundle\UserBundle\Constants\UserErrors;
+use Mickadoo\Yarnyard\Bundle\UserBundle\Constants\UserEvents;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\UserRepository;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Event\UserCreatedEvent;
+use Mickadoo\Yarnyard\Library\ErrorConstants\Errors;
 use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
 use Mickadoo\Yarnyard\Library\StringHelper\StringHelper;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -111,19 +112,19 @@ class UserService
     public function setEmail(User $user, $email)
     {
         if ($email == '') {
-            throw new YarnyardException(UserErrors::ERROR_USER_EMAIL_NOT_SET);
+            throw new YarnyardException(Errors::ERROR_USER_EMAIL_NOT_SET);
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new YarnyardException(UserErrors::ERROR_USER_EMAIL_INVALID);
+            throw new YarnyardException(Errors::ERROR_USER_EMAIL_INVALID);
         }
 
         if (!$this->stringHelper->isAsciiOnly($email)) {
-            throw new YarnyardException(UserErrors::ERROR_USER_EMAIL_CONTAINS_NON_ASCII);
+            throw new YarnyardException(Errors::ERROR_USER_EMAIL_CONTAINS_NON_ASCII);
         }
 
         if (count($this->userRepository->findBy([User::USER_FIELD_EMAIL => $email])) > 0) {
-            throw new YarnyardException(UserErrors::ERROR_USER_EMAIL_ALREADY_EXISTS);
+            throw new YarnyardException(Errors::ERROR_USER_EMAIL_ALREADY_EXISTS);
         }
 
         $user->setEmail($email);
@@ -137,19 +138,19 @@ class UserService
     public function setUsername(User $user, $username)
     {
         if ($username == '') {
-            throw new YarnyardException(UserErrors::ERROR_USER_USERNAME_NOT_SET);
+            throw new YarnyardException(Errors::ERROR_USER_USERNAME_NOT_SET);
         }
 
         if (strlen($username) < 5) {
-            throw new YarnyardException(UserErrors::ERROR_USER_USERNAME_TOO_SHORT);
+            throw new YarnyardException(Errors::ERROR_USER_USERNAME_TOO_SHORT);
         }
 
         if (strlen($username) > 16) {
-            throw new YarnyardException(UserErrors::ERROR_USER_USERNAME_TOO_LONG);
+            throw new YarnyardException(Errors::ERROR_USER_USERNAME_TOO_LONG);
         }
 
         if (!$this->stringHelper->isAsciiOnly($username)) {
-            throw new YarnyardException(UserErrors::ERROR_USER_USERNAME_CONTAINS_NON_ASCII);
+            throw new YarnyardException(Errors::ERROR_USER_USERNAME_CONTAINS_NON_ASCII);
         }
 
         if (count($this->userRepository->findBy([User::USER_FIELD_USERNAME => $username])) > 0) {
@@ -167,19 +168,19 @@ class UserService
     public function setPassword(User $user, $password)
     {
         if ($password == '') {
-            throw new YarnyardException(UserErrors::ERROR_USER_PASSWORD_NOT_SET);
+            throw new YarnyardException(Errors::ERROR_USER_PASSWORD_NOT_SET);
         }
 
         if (strlen($password) < 5) {
-            throw new YarnyardException(UserErrors::ERROR_USER_PASSWORD_TOO_SHORT);
+            throw new YarnyardException(Errors::ERROR_USER_PASSWORD_TOO_SHORT);
         }
 
         if (!$this->stringHelper->isAsciiOnly($password)) {
-            throw new YarnyardException(UserErrors::ERROR_USER_PASSWORD_CONTAINS_NON_ASCII);
+            throw new YarnyardException(Errors::ERROR_USER_PASSWORD_CONTAINS_NON_ASCII);
         }
 
         if (strlen($password) > 55) {
-            throw new YarnyardException(UserErrors::ERROR_USER_PASSWORD_TOO_LONG);
+            throw new YarnyardException(Errors::ERROR_USER_PASSWORD_TOO_LONG);
         }
 
         $user->setPassword($this->passwordEncoder->encodePassword($user, $password));

@@ -15,6 +15,17 @@ services:
         class: Mickadoo\Yarnyard\Library\ExceptionHandler\ExceptionHandler
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+        arguments:
+            - @translator
+            - @exception.code_mapping
+            - @array_helper
+
+    ##### exception code mapping ######
+    exception.code_mapping:
+        class: Mickadoo\Yarnyard\Library\Exception\ExceptionCodeMapper
+
+    array_helper:
+        class: Mickadoo\Yarnyard\Library\ArrayHelper
 
     yarnyard.validator.abstract_validator:
         abstract:  true

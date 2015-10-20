@@ -2,6 +2,7 @@
 
 namespace Mickadoo\Yarnyard\Bundle\UserBundle\Entity;
 
+use Mickadoo\Yarnyard\Library\ErrorConstants\Errors;
 use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
 use Symfony\Component\Security\Core\Role\RoleInterface;
 
@@ -42,7 +43,7 @@ class Role implements RoleInterface
     public function setRole($role)
     {
         if (!in_array($role, $this->validRoles)) {
-            throw new YarnyardException('ERR_INVALID_ROLE');
+            throw new YarnyardException(Errors::ERROR_ROLE_INVALID);
         }
 
         $this->role = $role;
