@@ -46,16 +46,6 @@ putUserAction:
       requirement: '\d+'
       description: 'user id'
 
-patchUserAction:
-  description: 'Update a user'
-  section: 'user'
-  requirements:
-    -
-      name: 'id'
-      dataType: 'int'
-      requirement: '\d+'
-      description: 'user id'
-
 postConfirmationTokenAcceptedAction:
   description: 'Confirm a user e-mail'
   section: 'oauth'

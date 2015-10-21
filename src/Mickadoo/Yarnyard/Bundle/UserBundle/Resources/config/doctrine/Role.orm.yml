@@ -9,5 +9,5 @@ Mickadoo\Yarnyard\Bundle\UserBundle\Entity\Role:
             associationKey: true
     manyToOne:
         user:
-            targetEntity: user
+            targetEntity: User
             inversedBy: roles

@@ -9,6 +9,11 @@ services:
         calls:
             - [setContainer, ['@service_container']]
 
+    ##### exception code mapping ######
+
+    exception.code_mapping:
+        class: Mickadoo\Yarnyard\Library\Exception\ExceptionCodeMapper
+
     ##### library services ######
 
     yarnyard.exception_handler:
@@ -19,10 +24,6 @@ services:
             - @translator
             - @exception.code_mapping
             - @array_helper
-
-    ##### exception code mapping ######
-    exception.code_mapping:
-        class: Mickadoo\Yarnyard\Library\Exception\ExceptionCodeMapper
 
     array_helper:
         class: Mickadoo\Yarnyard\Library\ArrayHelper
@@ -35,9 +36,6 @@ services:
         class: Mickadoo\Yarnyard\Library\Serializer\ScalarNormalizer
         tags:
             - { name: serializer.normalizer }
-
-    patcher:
-        class: Mickadoo\Yarnyard\Library\Request\Patcher
 
     string.helper:
         class: Mickadoo\Yarnyard\Library\StringHelper\StringHelper
