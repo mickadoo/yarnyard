@@ -115,6 +115,10 @@ class UserService
             throw new YarnyardException(Errors::ERROR_USER_EMAIL_NOT_SET);
         }
 
+        if ($email === $user->getEmail()) {
+            return;
+        }
+
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new YarnyardException(Errors::ERROR_USER_EMAIL_INVALID);
         }
@@ -137,8 +141,12 @@ class UserService
      */
     public function setUsername(User $user, $username)
     {
-        if ($username == '') {
+        if ($username === '') {
             throw new YarnyardException(Errors::ERROR_USER_USERNAME_NOT_SET);
+        }
+
+        if ($username === $user->getUsername()) {
+            return;
         }
 
         if (strlen($username) < 5) {

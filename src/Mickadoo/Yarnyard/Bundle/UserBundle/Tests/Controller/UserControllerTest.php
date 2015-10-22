@@ -9,7 +9,6 @@ use Mickadoo\Yarnyard\Bundle\UserBundle\Mail\MailClass\EmailConfirmationMail;
 use Mickadoo\Yarnyard\Library\Controller\RequestParameter;
 use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
 use Mickadoo\Yarnyard\Library\Mail\AbstractMail;
-use Mickadoo\Yarnyard\Library\Request\RequestConstants;
 use Mickadoo\Yarnyard\Library\Tests\ApiTestCase;
 use Symfony\Bundle\SwiftmailerBundle\DataCollector\MessageDataCollector;
 use Symfony\Component\HttpFoundation\Request;
@@ -154,24 +153,22 @@ class UserControllerTest extends ApiTestCase
     /**
      * Update a user's username and check if update succeeded
      */
-    public function testPatchUser()
+    public function testPutUser()
     {
         $newUsername = 'philip';
+
         $data = [
-            [
-                'op' => RequestConstants::OP_REPLACE,
-                'path' => '/username',
-                'value' => $newUsername
-            ]
+            'username' => $newUsername,
+            'email' => $this->getLoggedInUser()->getEmail()
         ];
 
         $client = $this->getAuthorizedClient();
         $client->request(
-            'PATCH',
+            Request::METHOD_PUT,
             '/users/' .$this->getLoggedInUser()->getId(),
             [],
             [],
-            [],
+            ['CONTENT_TYPE' => 'application/json', 'HTTP_ACCEPT' => 'application/json'],
             json_encode($data)
         );
         $response = $client->getResponse();
