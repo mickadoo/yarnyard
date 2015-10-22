@@ -38,8 +38,5 @@ monolog:
                 VERBOSITY_DEBUG: DEBUG
             channels: ["doctrine"]
 
-assetic:
-    use_controller: true
-
 swiftmailer:
     delivery_address: michaeldevery+yarnyard-dev@gmail.com
