@@ -1,19 +1,13 @@
-# you can read more about security in the related section of the documentation
-# http://symfony.com/doc/current/book/security.html
 security:
-    # http://symfony.com/doc/current/book/security.html#encoding-the-user-s-password
     encoders:
-        Symfony\Component\Security\Core\User\User: plaintext
         Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User:
             algorithm: bcrypt
             cost: 15
 
-    # http://symfony.com/doc/current/book/security.html#hierarchical-roles
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
-    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
         user_provider:
             id: yarnyard.user.user.provider
@@ -29,25 +23,12 @@ security:
         confirm_email:
             pattern: ^/confirm-email$
             security:  false
-        oauth_token:
-            pattern:    ^/oauth/v2/token
-            security:   false
-        oauth_authorize:
-            pattern:    ^/oauth/v2/auth
-            form_login:
-                provider: user_provider
-                check_path: _security_check
-                login_path: _demo_login
-            anonymous: true
-        dev:
-            pattern:  ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-        api:
-            pattern:    ^/
-            fos_oauth:  true
-            stateless:  true
+        default:
+            pattern: ^/
+            stateless: true
+            simple_preauth:
+                authenticator: jwt_auth.jwt_authenticator
 
     access_control:
         # You can omit this if /api can be accessed both authenticated and anonymously
-        - { path: ^/api, roles: [ IS_AUTHENTICATED_FULLY ] }
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/, roles: [ IS_AUTHENTICATED_FULLY ] , methods: [POST, PUT, PATCH, DELETE]}

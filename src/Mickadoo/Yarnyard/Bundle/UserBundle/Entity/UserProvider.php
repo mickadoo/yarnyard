@@ -2,24 +2,52 @@
 
 namespace Mickadoo\Yarnyard\Bundle\UserBundle\Entity;
 
+use Auth0\JWTAuthBundle\Security\Core\JWTUserProviderInterface;
+use Doctrine\ORM\NonUniqueResultException;
+use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\NoResultException;
 
-class UserProvider implements UserProviderInterface
+class UserProvider implements UserProviderInterface, JWTUserProviderInterface
 {
     /**
      * @var UserRepository
      */
     protected $userRepository;
 
-    public function __construct(ObjectRepository $userRepository){
+    /**
+     * @param UserRepository $userRepository
+     */
+    public function __construct(UserRepository $userRepository)
+    {
         $this->userRepository = $userRepository;
     }
 
+    /**
+     * @param \stdClass $jwt
+     * @return null|User
+     */
+    public function loadUserByJWT($jwt)
+    {
+        return $this->userRepository->find($jwt->userId);
+    }
+
+    /**
+     * @throws YarnyardException
+     */
+    public function getAnonymousUser()
+    {
+        throw new YarnyardException("Anonymous users not supported");
+    }
+
+    /**
+     * @param string $username
+     * @return mixed
+     * @throws NonUniqueResultException
+     */
     public function loadUserByUsername($username)
     {
         $q = $this->userRepository
@@ -32,17 +60,19 @@ class UserProvider implements UserProviderInterface
             $user = $q->getSingleResult();
         } catch (NoResultException $e) {
             $message = sprintf(
-                'Unable to find an active admin AcmeDemoBundle:User object identified by "%s".',
+                'Unable to find an active admin object identified by "%s".',
                 $username
             );
             throw new UsernameNotFoundException($message, 0, $e);
         }
 
-
-
         return $user;
     }
 
+    /**
+     * @param UserInterface|User $user
+     * @return null|object
+     */
     public function refreshUser(UserInterface $user)
     {
         $class = get_class($user);
