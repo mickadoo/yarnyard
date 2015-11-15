@@ -116,7 +116,7 @@ class ScalarNormalizer  extends SerializerAwareNormalizer implements NormalizerI
      */
     public function supportsNormalization($data, $format = null)
     {
-        return true;
+        return is_object($data);
     }
 
     /**
