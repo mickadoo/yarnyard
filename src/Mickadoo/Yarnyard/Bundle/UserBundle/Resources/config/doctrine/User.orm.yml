@@ -16,12 +16,6 @@ Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User:
       type: string
       length: 255
       nullable: true
-    password:
-      type: string
-      length: 60
-    salt:
-      type: string
-      length: 32
     createdAt:
       type: datetime
       nullable: true

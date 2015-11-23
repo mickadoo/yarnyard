@@ -5,10 +5,8 @@ namespace Mickadoo\Yarnyard\Bundle\UserBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Constants\UserFields;
-use Mickadoo\Yarnyard\Library\Annotation\Serializer;
-use Symfony\Component\Security\Core\User\UserInterface;
 
-class User implements UserFields, UserInterface
+class User implements UserFields
 {
     /**
      * @var integer
@@ -24,20 +22,6 @@ class User implements UserFields, UserInterface
      * @var string
      */
     private $email;
-
-    /**
-     * @var string
-     *
-     * @Serializer(ignorable=true)
-     */
-    private $password;
-
-    /**
-     * @var string
-     *
-     * @Serializer(ignorable=true)
-     */
-    private $salt;
 
     /**
      * @var \DateTime
@@ -115,29 +99,6 @@ class User implements UserFields, UserInterface
     }
 
     /**
-     * Set password
-     *
-     * @param string $password
-     * @return User
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * Get password
-     *
-     * @return string
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
      *
      * @return \DateTime
      */
@@ -178,36 +139,4 @@ class User implements UserFields, UserInterface
 
         return $this;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getSalt()
-    {
-        return $this->salt;
-    }
-
-    /**
-     * @param $salt
-     *
-     * @return $this
-     */
-    public function setSalt($salt)
-    {
-        $this->salt = $salt;
-
-        return $this;
-    }
-
-    /**
-     * Removes sensitive data from the user.
-     *
-     * This is important if, at any given point, sensitive information like
-     * the plain-text password is stored on this object.
-     */
-    public function eraseCredentials()
-    {
-
-    }
-
 }

@@ -2,17 +2,12 @@
 
 namespace Mickadoo\Yarnyard\Bundle\UserBundle\Service;
 
-use Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\ConfirmationTokenRepository;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Constants\UserErrors;
-use Mickadoo\Yarnyard\Bundle\UserBundle\Constants\UserEvents;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\UserRepository;
-use Mickadoo\Yarnyard\Bundle\UserBundle\Event\UserCreatedEvent;
 use Mickadoo\Yarnyard\Library\ErrorConstants\Errors;
 use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
 use Mickadoo\Yarnyard\Library\StringHelper\StringHelper;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 
 class UserService
 {
@@ -22,69 +17,35 @@ class UserService
     protected $userRepository;
 
     /**
-     * @var ConfirmationTokenRepository
-     */
-    protected $confirmationTokenRepository;
-
-    /**
-     * @var UserPasswordEncoder
-     */
-    protected $passwordEncoder;
-
-    /**
      * @var StringHelper
      */
     protected $stringHelper;
 
     /**
-     * @var EventDispatcherInterface
-     */
-    protected $eventDispatcher;
-
-    /**
+     * UserService constructor.
      * @param UserRepository $userRepository
-     * @param ConfirmationTokenRepository $confirmationTokenRepository
-     * @param UserPasswordEncoder $passwordEncoder
      * @param StringHelper $stringHelper
-     * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(
-        UserRepository $userRepository,
-        ConfirmationTokenRepository $confirmationTokenRepository,
-        UserPasswordEncoder $passwordEncoder,
-        StringHelper $stringHelper,
-        EventDispatcherInterface $eventDispatcher
-    )
+    public function __construct(UserRepository $userRepository, StringHelper $stringHelper)
     {
         $this->userRepository = $userRepository;
-        $this->confirmationTokenRepository = $confirmationTokenRepository;
-        $this->passwordEncoder = $passwordEncoder;
         $this->stringHelper = $stringHelper;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
      * @param $username
      * @param $email
-     * @param $password
      * @return User
      * @throws YarnyardException
      */
-    public function create($username, $email, $password)
+    public function create($username, $email)
     {
         $user = new User();
 
         $this->setUsername($user, $username);
         $this->setEmail($user, $email);
-        $this->setPassword($user, $password);
-        $user->setSalt(uniqid(mt_rand(), true));
 
         $this->userRepository->save($user);
-
-        $confirmationToken = $this->confirmationTokenRepository->createTokenForUser($user);
-
-        $newUserEvent = new UserCreatedEvent($confirmationToken);
-        $this->eventDispatcher->dispatch(UserEvents::USER_CREATED, $newUserEvent);
 
         return $user;
     }
@@ -166,31 +127,5 @@ class UserService
         }
 
         $user->setUsername($username);
-    }
-
-    /**
-     * @param User $user
-     * @param $password
-     * @throws YarnyardException
-     */
-    public function setPassword(User $user, $password)
-    {
-        if ($password == '') {
-            throw new YarnyardException(Errors::ERROR_USER_PASSWORD_NOT_SET);
-        }
-
-        if (strlen($password) < 5) {
-            throw new YarnyardException(Errors::ERROR_USER_PASSWORD_TOO_SHORT);
-        }
-
-        if (!$this->stringHelper->isAsciiOnly($password)) {
-            throw new YarnyardException(Errors::ERROR_USER_PASSWORD_CONTAINS_NON_ASCII);
-        }
-
-        if (strlen($password) > 55) {
-            throw new YarnyardException(Errors::ERROR_USER_PASSWORD_TOO_LONG);
-        }
-
-        $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
     }
 }

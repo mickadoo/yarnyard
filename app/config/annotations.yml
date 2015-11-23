@@ -30,11 +30,6 @@ postUserAction:
       dataType: 'string'
       requirement: '\w+'
       description: 'username for new user'
-    -
-      name: 'password'
-      dataType: 'string'
-      requirement: '\w+'
-      description: 'password for new user'
 
 putUserAction:
   description: 'Update a user'

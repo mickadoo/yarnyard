@@ -22,7 +22,6 @@ class AppKernel extends Kernel
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Mickadoo\Yarnyard\Bundle\UserBundle\MickadooYarnyardUserBundle(),
             new Mickadoo\Yarnyard\Bundle\ApplicationBundle\MickadooYarnyardApplicationBundle(),
-            new Mickadoo\Yarnyard\Bundle\AuthBundle\MickadooYarnyardAuthBundle(),
             new Mickadoo\YamlApiDocAnnotationBundle\MickadooYamlApiDocAnnotationBundle(),
             new Mickadoo\BaseDataBundle\MickadooBaseDataBundle()
         );

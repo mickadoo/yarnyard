@@ -1,7 +1,3 @@
-mickadoo_yarnyard_auth:
-    resource: "@MickadooYarnyardAuthBundle/Resources/config/routing.yml"
-    prefix:   /
-
 mickadoo_yarnyard_user:
     resource: "@MickadooYarnyardUserBundle/Resources/config/routing.yml"
     prefix:   /

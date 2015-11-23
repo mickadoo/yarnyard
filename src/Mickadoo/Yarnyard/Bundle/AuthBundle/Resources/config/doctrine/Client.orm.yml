@@ -1,7 +1,0 @@
-Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\Client:
-    type: entity
-    id:
-        id:
-            type: integer
-            generator:
-                strategy: AUTO

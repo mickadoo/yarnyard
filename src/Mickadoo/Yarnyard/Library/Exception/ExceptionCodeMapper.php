@@ -3,7 +3,6 @@
 namespace Mickadoo\Yarnyard\Library\Exception;
 
 use FOS\RestBundle\Util\Codes;
-use Mickadoo\Yarnyard\Bundle\AuthBundle\Exception\AuthExceptionCodeMapper;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Exception\UserExceptionCodeMapping;
 
 class ExceptionCodeMapper
@@ -17,7 +16,6 @@ class ExceptionCodeMapper
     {
         $this->mappers = [
             new UserExceptionCodeMapping(),
-            new AuthExceptionCodeMapper()
         ];
     }
 

@@ -41,9 +41,6 @@ services:
         class: Mickadoo\Yarnyard\Bundle\UserBundle\Service\UserService
         arguments:
             - @yarnyard.user.user.repository
-            - @yarnyard.auth.confirmation_token.repository
-            - @security.password_encoder
             - @string.helper
-            - @event_dispatcher
 
 
