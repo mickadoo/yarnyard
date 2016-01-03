@@ -44,40 +44,4 @@ class UserController extends RestController
     {
         return $user;
     }
-
-    /**
-     * @param Request $request
-     * @return User
-     *
-     * @ApiDoc()
-     *
-     * @Rest\View(statusCode=201)
-     * @Rest\Route("users")
-     */
-    public function postUserAction(Request $request)
-    {
-        $username = $request->request->get('username');
-        $email = $request->request->get('email');
-
-        return $this->get('user.service')->create($username, $email);
-    }
-
-    /**
-     * @param User $user
-     * @param Request $request
-     *
-     * @return User
-     *
-     * @ApiDoc()
-     *
-     * @Rest\View()
-     * @Rest\Route("users/{id}")
-     */
-    public function putUserAction(User $user, Request $request)
-    {
-        $username = $request->request->get('username');
-        $email = $request->request->get('email');
-
-        return $this->get('user.service')->update($user, $username, $email);
-    }
 }

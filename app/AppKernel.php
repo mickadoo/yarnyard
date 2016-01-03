@@ -21,7 +21,6 @@ class AppKernel extends Kernel
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Mickadoo\Yarnyard\Bundle\UserBundle\MickadooYarnyardUserBundle(),
-            new Mickadoo\Yarnyard\Bundle\ApplicationBundle\MickadooYarnyardApplicationBundle(),
             new Mickadoo\YamlApiDocAnnotationBundle\MickadooYamlApiDocAnnotationBundle(),
             new Mickadoo\BaseDataBundle\MickadooBaseDataBundle()
         );

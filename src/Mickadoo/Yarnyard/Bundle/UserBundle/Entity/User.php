@@ -5,8 +5,10 @@ namespace Mickadoo\Yarnyard\Bundle\UserBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Mickadoo\Yarnyard\Bundle\UserBundle\Constants\UserFields;
+use Mickadoo\Yarnyard\Library\Annotation\Serializer;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-class User implements UserFields
+class User implements UserFields, UserInterface
 {
     /**
      * @var integer
@@ -16,12 +18,7 @@ class User implements UserFields
     /**
      * @var string
      */
-    private $username;
-
-    /**
-     * @var string
-     */
-    private $email;
+    private $uuid;
 
     /**
      * @var \DateTime
@@ -43,8 +40,15 @@ class User implements UserFields
     private $roles;
 
     /**
-     * Get id
-     *
+     * User constructor.
+     * @param string $uuid
+     */
+    public function __construct($uuid)
+    {
+        $this->uuid = $uuid;
+    }
+
+    /**
      * @return integer
      */
     public function getId()
@@ -53,49 +57,11 @@ class User implements UserFields
     }
 
     /**
-     * Set username
-     *
-     * @param string $username
-     * @return User
-     */
-    public function setUsername($username)
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    /**
-     * Get username
-     *
      * @return string
      */
     public function getUsername()
     {
-        return $this->username;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     * @return User
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
+        return $this->uuid;
     }
 
     /**
@@ -138,5 +104,28 @@ class User implements UserFields
         }
 
         return $this;
+    }
+
+    /**
+     * @Serializer(ignorable=true)
+     * @return string
+     */
+    public function getPassword()
+    {
+        return '';
+    }
+
+    /**
+     * @Serializer(ignorable=true)
+     * @return string
+     */
+    public function getSalt()
+    {
+        return '';
+    }
+
+    public function eraseCredentials()
+    {
+        // wat
     }
 }

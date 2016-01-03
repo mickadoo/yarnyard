@@ -8,14 +8,11 @@ Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User:
       generator:
         strategy: IDENTITY
   fields:
-    username:
+    uuid:
       type: string
-      length: 16
+      length: 24
       nullable: false
-    email:
-      type: string
-      length: 255
-      nullable: true
+      unique: true
     createdAt:
       type: datetime
       nullable: true

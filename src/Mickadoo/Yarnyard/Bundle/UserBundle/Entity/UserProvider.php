@@ -4,6 +4,7 @@ namespace Mickadoo\Yarnyard\Bundle\UserBundle\Entity;
 
 use Auth0\JWTAuthBundle\Security\Core\JWTUserProviderInterface;
 use Doctrine\ORM\NonUniqueResultException;
+use Mickadoo\Yarnyard\Bundle\UserBundle\Service\UserService;
 use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -19,11 +20,18 @@ class UserProvider implements UserProviderInterface, JWTUserProviderInterface
     protected $userRepository;
 
     /**
-     * @param UserRepository $userRepository
+     * @var UserService
      */
-    public function __construct(UserRepository $userRepository)
+    protected $userService;
+
+    /**
+     * @param UserRepository $userRepository
+     * @param UserService $userService
+     */
+    public function __construct(UserRepository $userRepository, UserService $userService)
     {
         $this->userRepository = $userRepository;
+        $this->userService = $userService;
     }
 
     /**
@@ -32,7 +40,13 @@ class UserProvider implements UserProviderInterface, JWTUserProviderInterface
      */
     public function loadUserByJWT($jwt)
     {
-        return $this->userRepository->find($jwt->userId);
+        $user = $this->userRepository->findOneBy(['uuid' => $jwt->userId]);
+
+        if (!$user) {
+            $user = $this->userService->create($jwt->userId);
+        }
+
+        return $user;
     }
 
     /**

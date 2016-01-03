@@ -8,13 +8,13 @@ use Symfony\Component\Security\Core\Role\RoleInterface;
 
 class Role implements RoleInterface
 {
-    const ACTIVE_USER = 1;
+    const ADMIN = 1;
 
     /**
      * @var array
      */
     private $validRoles = [
-        self::ACTIVE_USER
+        self::ADMIN
     ];
 
     /**
