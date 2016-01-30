@@ -14,7 +14,6 @@ abstract class UrlHelper
         $urlParts = parse_url($existingUrl);
         $existingQueryString = isset($urlParts['query']) ? $urlParts['query'] : null;
 
-
         $existingQueryStringParts = [];
         if (!empty($existingQueryString)) {
             parse_str($existingQueryString, $existingQueryStringParts);
@@ -28,6 +27,5 @@ abstract class UrlHelper
         } else {
             return $existingUrl . '?' . $newQueryString;
         }
-
     }
 }

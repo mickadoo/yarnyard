@@ -8,7 +8,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use Doctrine\ORM\EntityManager;
 use Mickadoo\Yarnyard\Bundle\AuthBundle\Entity\AccessToken;
-use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
+use YarnyardBundle\Entity\User;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader as DataFixturesLoader;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -47,17 +47,7 @@ abstract class ApiTestCase extends WebTestCase
      */
     protected function getLoggedInUser()
     {
-        if (!$this->loggedInUser) {
-            $token = static::$kernel
-                ->getContainer()
-                ->get('doctrine')
-                ->getRepository('MickadooYarnyardAuthBundle:AccessToken')
-                ->findOneBy([]);
-
-            $this->loggedInUser = $token->getUser();
-        }
-
-        return $this->loggedInUser;
+        // todo
     }
 
     /**
@@ -79,22 +69,7 @@ abstract class ApiTestCase extends WebTestCase
      */
     protected function getAuthorizedClient()
     {
-        if (! $this->authorizedClient) {
-            $user = $this->getLoggedInUser();
-
-            $token = static::$kernel
-                ->getContainer()
-                ->get('doctrine')
-                ->getRepository('MickadooYarnyardAuthBundle:AccessToken')
-                ->findOneBy(['user' => $user]);
-
-            $this->authorizedClient = static::createClient(
-                [],
-                ['HTTP_AUTHORIZATION' => 'Bearer '. $token->getToken()]
-            );
-        }
-
-        return $this->authorizedClient;
+        // todo
     }
 
     /**

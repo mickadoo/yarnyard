@@ -3,6 +3,9 @@ imports:
     - { resource: security.yml }
     - { resource: services.yml }
 
+parameters:
+    locale: en
+
 framework:
     secret: "%secret%"
     router:
@@ -18,35 +21,33 @@ framework:
     trusted_proxies: ~
     session:
         handler_id:  ~
-    fragments: ~
+        save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
+    fragments:       ~
     http_method_override: true
+    assets: ~
     serializer:
         enabled: true
 
-# Doctrine Configuration
 doctrine:
     dbal:
-        driver:   "%database_driver%"
+        driver:   pdo_mysql
         host:     "%database_host%"
         port:     "%database_port%"
         dbname:   "%database_name%"
         user:     "%database_user%"
         password: "%database_password%"
         charset:  UTF8
-
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        auto_mapping: true
         naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
 
-# Doctrine Migration Configuration
 doctrine_migrations:
     dir_name: %kernel.root_dir%/migrations
     namespace: Application\Migrations
     table_name: migration_versions
     name: Application Migrations
 
-# FOS Rest Bundle Configuration
 fos_rest:
     param_fetcher_listener: true
     body_listener: true
@@ -66,12 +67,10 @@ fos_rest:
         json: true
     allowed_methods_listener: true
 
-# JWT Auth Configuration
 jwt_auth:
     client_id:     '%oauth_client_id%'
     client_secret: '%oauth_client_secret%'
 
-# Nelmo api docs Configuration
 nelmio_api_doc:
     sandbox:
         enabled: true

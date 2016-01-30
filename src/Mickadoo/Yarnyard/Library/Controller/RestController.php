@@ -2,9 +2,8 @@
 
 namespace Mickadoo\Yarnyard\Library\Controller;
 
-use FOS\OAuthServerBundle\Model\TokenInterface;
 use FOS\RestBundle\Controller\FOSRestController;
-use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User;
+use YarnyardBundle\Entity\User;
 use Mickadoo\Yarnyard\Library\EntityHelper\RepositoryTrait;
 use Mickadoo\Yarnyard\Library\EntityHelper\SetPropertiesFromArrayHelper;
 use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
@@ -18,25 +17,6 @@ use Doctrine\ORM\QueryBuilder;
 
 class RestController extends FOSRestController
 {
-
-    use RepositoryTrait;
-
-    /**
-     * @return User|null
-     */
-    public function getUser()
-    {
-        return $this->getToken()->getUser();
-    }
-
-    /**
-     * @return null|TokenInterface
-     */
-    public function getToken()
-    {
-        return $this->container->get('security.token_storage')->getToken();
-    }
-
     /**
      * @param $route
      * @return Response

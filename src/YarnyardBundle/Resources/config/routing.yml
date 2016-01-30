@@ -1,0 +1,3 @@
+user_controller:
+  type:     rest
+  resource: YarnyardBundle\Controller\UserController

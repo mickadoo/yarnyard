@@ -1,16 +1,12 @@
 security:
     encoders:
-        Mickadoo\Yarnyard\Bundle\UserBundle\Entity\User:
+        AppBundle\Entity\User:
             algorithm: bcrypt
             cost: 15
 
-    role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
-
     providers:
         user_provider:
-            id: yarnyard.user.user.provider
+            id: 'user.provider'
 
     firewalls:
         api_docs:

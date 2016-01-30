@@ -2,46 +2,26 @@
 
 namespace Mickadoo\Yarnyard\Library\EntityHelper;
 
-use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\RoleRepository;
-use Mickadoo\Yarnyard\Bundle\UserBundle\Entity\UserRepository;
+use YarnyardBundle\Entity\RoleRepository;
+use YarnyardBundle\Entity\UserRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 trait RepositoryTrait
 {
-
-    /**
-     * @var UserRepository
-     */
-    protected $userRepository;
-
-    /**
-     * @var RoleRepository
-     */
-    protected $roleRepository;
-
     /**
      * @return UserRepository
      */
     public function getUserRepository()
     {
-        if (! isset($this->userRepository)) {
-            $this->userRepository = $this->getContainer()->get('user.repository');
-        }
-
-        return $this->userRepository;
+        return $this->getContainer()->get('user.repository');
     }
-
 
     /**
      * @return RoleRepository
      */
     public function getRoleRepository()
     {
-        if (! isset($this->roleRepository)) {
-            $this->roleRepository = $this->getContainer()->get('yarnyard.user.role.repository');
-        }
-
-        return $this->roleRepository;
+        return $this->getContainer()->get('yarnyard.user.role.repository');
     }
 
     /**
@@ -52,5 +32,4 @@ trait RepositoryTrait
         /** @noinspection PhpUndefinedFieldInspection */
         return $this->container;
     }
-
 }

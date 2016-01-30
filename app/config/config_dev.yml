@@ -8,8 +8,7 @@ framework:
     profiler: { only_exceptions: false }
 
 web_profiler:
-    toolbar: false
-    intercept_redirects: false
+    toolbar: true
     intercept_redirects: false
 
 monolog:
@@ -37,6 +36,3 @@ monolog:
                 VERBOSITY_VERY_VERBOSE: NOTICE
                 VERBOSITY_DEBUG: DEBUG
             channels: ["doctrine"]
-
-swiftmailer:
-    delivery_address: michaeldevery+yarnyard-dev@gmail.com

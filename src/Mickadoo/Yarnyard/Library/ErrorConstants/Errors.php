@@ -3,11 +3,10 @@
 namespace Mickadoo\Yarnyard\Library\ErrorConstants;
 
 use Mickadoo\Yarnyard\Bundle\AuthBundle\Constants\AuthErrors;
-use Mickadoo\Yarnyard\Bundle\UserBundle\Constants\RoleErrors;
-use Mickadoo\Yarnyard\Bundle\UserBundle\Constants\UserErrors;
+use YarnyardBundle\Constants\RoleErrors;
+use YarnyardBundle\Constants\UserErrors;
 
 interface Errors extends
-    AuthErrors,
     RoleErrors,
     UserErrors
 {

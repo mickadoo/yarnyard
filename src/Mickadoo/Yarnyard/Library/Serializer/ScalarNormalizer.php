@@ -154,7 +154,7 @@ class ScalarNormalizer  extends SerializerAwareNormalizer implements NormalizerI
 
         foreach ($reflectionProperties as $property) {
             /** @var Serializer $propertyAnnotation */
-            $propertyAnnotation = $reader->getPropertyAnnotation($property, Serializer::CLASS_NAME);
+            $propertyAnnotation = $reader->getPropertyAnnotation($property, Serializer::class);
             if ($propertyAnnotation && $propertyAnnotation->ignorable) {
                 $ignoredAttributes[] = $property->getName();
             }
@@ -166,7 +166,7 @@ class ScalarNormalizer  extends SerializerAwareNormalizer implements NormalizerI
                 continue;
             }
 
-            $getterAnnotation = $reader->getMethodAnnotation($method, Serializer::CLASS_NAME);
+            $getterAnnotation = $reader->getMethodAnnotation($method, Serializer::class);
             if ($getterAnnotation && $getterAnnotation->ignorable) {
                 $ignoredAttributes[] = lcfirst(str_replace('get', '', $method->getName()));
             }

@@ -9,12 +9,8 @@ use Doctrine\Common\Annotations\Annotation;
  */
 final class Serializer extends Annotation
 {
-
-    const CLASS_NAME = __CLASS__;
-
     /**
      * @var bool
      */
     public $ignorable;
-
 }

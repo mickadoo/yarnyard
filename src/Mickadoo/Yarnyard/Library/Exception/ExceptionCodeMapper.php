@@ -3,7 +3,7 @@
 namespace Mickadoo\Yarnyard\Library\Exception;
 
 use FOS\RestBundle\Util\Codes;
-use Mickadoo\Yarnyard\Bundle\UserBundle\Exception\UserExceptionCodeMapping;
+use YarnyardBundle\Exception\UserExceptionCodeMapping;
 
 class ExceptionCodeMapper
 {

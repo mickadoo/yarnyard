@@ -1,34 +1,33 @@
 services:
 
-    ##### override for external bundles ######
-
-    ##### exception code mapping ######
-
     exception.code_mapping:
         class: Mickadoo\Yarnyard\Library\Exception\ExceptionCodeMapper
-
-    ##### library services ######
 
     yarnyard.exception_handler:
         class: Mickadoo\Yarnyard\Library\ExceptionHandler\ExceptionHandler
         tags:
-            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+            -
+                name: kernel.event_listener
+                event: kernel.exception
+                method: onKernelException
         arguments:
-            - @translator
-            - @exception.code_mapping
-            - @array_helper
+            - '@translator'
+            - '@exception.code_mapping'
+            - '@array_helper'
 
     array_helper:
         class: Mickadoo\Yarnyard\Library\ArrayHelper
 
     yarnyard.validator.abstract_validator:
         abstract:  true
-        arguments: ["@service_container"]
+        arguments:
+            - '@service_container'
 
     yarnyard.serializer.scalar_normalizer:
         class: Mickadoo\Yarnyard\Library\Serializer\ScalarNormalizer
         tags:
-            - { name: serializer.normalizer }
+            -
+                name: serializer.normalizer
 
     string.helper:
         class: Mickadoo\Yarnyard\Library\StringHelper\StringHelper
