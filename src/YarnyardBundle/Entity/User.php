@@ -4,8 +4,8 @@ namespace YarnyardBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
-use YarnyardBundle\Constants\UserFields;
-use Mickadoo\Yarnyard\Library\Annotation\Serializer;
+use YarnyardBundle\Exception\Constants\UserFields;
+use YarnyardBundle\Util\Serializer\Annotation\Serializer;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class User implements UserFields, UserInterface

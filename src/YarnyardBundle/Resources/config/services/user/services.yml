@@ -1,0 +1,30 @@
+services:
+
+    user.repository:
+        class: YarnyardBundle\Entity\UserRepository
+        factory: [ '@doctrine.orm.entity_manager', 'getRepository' ]
+        arguments:
+            - YarnyardBundle\Entity\User
+
+    role.repository:
+        class: YarnyardBundle\Entity\RoleRepository
+        factory: [ '@doctrine.orm.entity_manager', 'getRepository' ]
+        arguments:
+            - YarnyardBundle\Entity\Role
+
+    user.provider:
+        class: YarnyardBundle\Entity\UserProvider
+        arguments:
+            - '@user.repository'
+            - '@user.service'
+
+    user.manager:
+        class: Doctrine\ORM\EntityManager
+        factory: [ '@doctrine', 'getManagerForClass' ]
+        arguments:
+            - YarnyardBundle\Entity\User
+
+    user.service:
+        class: YarnyardBundle\Service\UserService
+        arguments:
+            - '@user.repository'

@@ -4,7 +4,7 @@ namespace YarnyardBundle\Service;
 
 use YarnyardBundle\Entity\User;
 use YarnyardBundle\Entity\UserRepository;
-use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
+use YarnyardBundle\Exception\YarnyardException;
 
 class UserService
 {

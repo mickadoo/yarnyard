@@ -5,7 +5,8 @@ namespace YarnyardBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Mickadoo\Yarnyard\Library\EntityHelper\FixtureReference;
+use YarnyardBundle\DataFixtures\Constants\FixtureReference;
+use YarnyardBundle\Entity\User;
 
 class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
 {
@@ -14,12 +15,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $kevin = new User();
-        $kevin
-            ->setUsername('kevin')
-            ->setEmail('michaeldevery+kevin@gmail.com')
-            ->setSalt(uniqid(mt_rand(), true))
-            ->setPassword('user123');
+        $kevin = new User('userUuidKevin');
 
         $manager->persist($kevin);
         $manager->flush();

@@ -2,8 +2,8 @@
 
 namespace YarnyardBundle\Entity;
 
-use Mickadoo\Yarnyard\Library\ErrorConstants\Errors;
-use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
+use YarnyardBundle\Exception\Constants\Errors;
+use YarnyardBundle\Exception\YarnyardException;
 use Symfony\Component\Security\Core\Role\RoleInterface;
 
 class Role implements RoleInterface

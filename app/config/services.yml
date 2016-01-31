@@ -1,10 +1,10 @@
 services:
 
     exception.code_mapping:
-        class: Mickadoo\Yarnyard\Library\Exception\ExceptionCodeMapper
+        class: YarnyardBundle\Exception\Mapping\ExceptionCodeMapper
 
     yarnyard.exception_handler:
-        class: Mickadoo\Yarnyard\Library\ExceptionHandler\ExceptionHandler
+        class: YarnyardBundle\Exception\Handler\ExceptionHandler
         tags:
             -
                 name: kernel.event_listener
@@ -13,10 +13,10 @@ services:
         arguments:
             - '@translator'
             - '@exception.code_mapping'
-            - '@array_helper'
+            - '@array_decorator'
 
-    array_helper:
-        class: Mickadoo\Yarnyard\Library\ArrayHelper
+    array_decorator:
+        class: YarnyardBundle\Util\ArrayHelper\ArrayDecorator
 
     yarnyard.validator.abstract_validator:
         abstract:  true
@@ -24,10 +24,10 @@ services:
             - '@service_container'
 
     yarnyard.serializer.scalar_normalizer:
-        class: Mickadoo\Yarnyard\Library\Serializer\ScalarNormalizer
+        class: YarnyardBundle\Util\Serializer\ScalarNormalizer
         tags:
             -
                 name: serializer.normalizer
 
     string.helper:
-        class: Mickadoo\Yarnyard\Library\StringHelper\StringHelper
+        class: YarnyardBundle\Util\String\StringHelper

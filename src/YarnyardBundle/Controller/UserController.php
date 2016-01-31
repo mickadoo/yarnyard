@@ -4,7 +4,6 @@ namespace YarnyardBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
 use YarnyardBundle\Entity\User;
-use Mickadoo\Yarnyard\Library\Controller\RestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +24,7 @@ class UserController extends RestController
      */
     public function getAllUsersAction(Request $request)
     {
-        $query = $this->getUserRepository()->createQueryBuilder('user');
+        $query = $this->get('user.repository')->createQueryBuilder('user');
 
         return $this->paginate($request, $query);
     }

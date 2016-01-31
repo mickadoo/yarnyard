@@ -5,7 +5,7 @@ namespace YarnyardBundle\Entity;
 use Auth0\JWTAuthBundle\Security\Core\JWTUserProviderInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use YarnyardBundle\Service\UserService;
-use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
+use YarnyardBundle\Exception\YarnyardException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -54,7 +54,8 @@ class UserProvider implements UserProviderInterface, JWTUserProviderInterface
      */
     public function getAnonymousUser()
     {
-        throw new YarnyardException("Anonymous users not supported");
+        // todo fix firewall
+        return new User('fake-uuid');
     }
 
     /**

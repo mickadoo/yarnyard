@@ -3,7 +3,7 @@
 namespace YarnyardBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use Mickadoo\Yarnyard\Library\Exception\YarnyardException;
+use YarnyardBundle\Exception\YarnyardException;
 
 class RoleRepository extends EntityRepository
 {
