@@ -18,16 +18,11 @@ services:
     array_decorator:
         class: YarnyardBundle\Util\ArrayHelper\ArrayDecorator
 
-    yarnyard.validator.abstract_validator:
-        abstract:  true
-        arguments:
-            - '@service_container'
-
     yarnyard.serializer.scalar_normalizer:
         class: YarnyardBundle\Util\Serializer\ScalarNormalizer
         tags:
             -
                 name: serializer.normalizer
 
-    string.helper:
-        class: YarnyardBundle\Util\String\StringHelper
+    string.ascii_checker:
+        class: YarnyardBundle\Util\String\AsciiChecker

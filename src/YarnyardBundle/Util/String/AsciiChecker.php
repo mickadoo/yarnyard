@@ -2,7 +2,7 @@
 
 namespace YarnyardBundle\Util\String;
 
-class StringHelper
+class AsciiChecker
 {
     /**
      * @param $string
