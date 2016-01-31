@@ -27,6 +27,7 @@
         "sensio/distribution-bundle": "^5.0",
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "^2.0",
+
         "friendsofsymfony/rest-bundle": "^1.7",
         "doctrine/doctrine-migrations-bundle": "^1.1.0",
         "auth0/jwt-auth-bundle": "^2.0",
@@ -36,9 +37,12 @@
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
         "symfony/phpunit-bridge": "^2.7",
+
         "nelmio/api-doc-bundle": "~2.8",
         "doctrine/doctrine-fixtures-bundle": "^2.3.0",
-        "mickadoo/yamlapidoc": "dev-master"
+        "mickadoo/yamlapidoc": "dev-master",
+        "phpunit/phpunit": "^5.1",
+        "phpunit/php-code-coverage": "dev-master#b8436b000263f6d72fbad1d36890e247ce84857e"
     },
     "scripts": {
         "post-install-cmd": [
