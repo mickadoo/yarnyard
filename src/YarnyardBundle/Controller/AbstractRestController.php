@@ -2,18 +2,16 @@
 
 namespace YarnyardBundle\Controller;
 
+use Doctrine\ORM\QueryBuilder;
 use FOS\RestBundle\Controller\FOSRestController;
-use YarnyardBundle\Util\ArrayHelper\SetPropertiesFromArrayHelper;
-use YarnyardBundle\Exception\YarnyardException;
-use YarnyardBundle\Util\Pagination\PaginationHelper;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Doctrine\ORM\QueryBuilder;
+use YarnyardBundle\Util\Pagination\PaginationHelper;
 
-class RestController extends FOSRestController
+abstract class AbstractRestController extends FOSRestController
 {
     /**
      * @param $route
@@ -52,15 +50,4 @@ class RestController extends FOSRestController
 
         return $response;
     }
-
-    /**
-     * @param $entity
-     * @param Request $request
-     * @throws YarnyardException
-     */
-    protected function setPropertiesFromRequest($entity, Request $request)
-    {
-        SetPropertiesFromArrayHelper::set($entity, (array) $request->request->getIterator());
-    }
-
 }

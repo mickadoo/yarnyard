@@ -3,12 +3,12 @@
 namespace YarnyardBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
-use YarnyardBundle\Entity\User;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
+use YarnyardBundle\Entity\User;
 
-class UserController extends RestController
+class UserController extends AbstractRestController
 {
     /**
      * @param Request $request
