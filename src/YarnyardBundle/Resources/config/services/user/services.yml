@@ -6,12 +6,6 @@ services:
         arguments:
             - YarnyardBundle\Entity\User
 
-    role.repository:
-        class: YarnyardBundle\Entity\RoleRepository
-        factory: [ '@doctrine.orm.entity_manager', 'getRepository' ]
-        arguments:
-            - YarnyardBundle\Entity\Role
-
     user.provider:
         class: YarnyardBundle\Entity\UserProvider
         arguments:

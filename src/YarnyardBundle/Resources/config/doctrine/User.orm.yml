@@ -18,7 +18,3 @@ YarnyardBundle\Entity\User:
         updatedAt:
             type: datetime
             nullable: true
-    oneToMany:
-        roles:
-            targetEntity: Role
-            mappedBy: user

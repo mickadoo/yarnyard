@@ -3,7 +3,6 @@
 namespace YarnyardBundle\Exception\Constants;
 
 interface Errors extends
-    RoleErrors,
     UserErrors
 {
     const ERROR_PERMISSION_NOT_ADMIN = 'You gotta be an admin for that';

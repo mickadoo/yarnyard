@@ -2,7 +2,6 @@
 
 namespace YarnyardBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -39,11 +38,6 @@ class User implements UserFields, UserInterface
      * @var \DateTime
      */
     private $updatedAt;
-
-    /**
-     * @var ArrayCollection|Role[]
-     */
-    private $roles;
 
     /**
      * User constructor.
@@ -96,28 +90,11 @@ class User implements UserFields, UserInterface
     }
 
     /**
-     * @return Role[]
+     * @return array
      */
     public function getRoles()
     {
-        if ($this->roles) {
-            return $this->roles->toArray();
-        }
-
         return [];
-    }
-
-    /**
-     * @param Role $role
-     * @return $this
-     */
-    public function addRole(Role $role)
-    {
-        if ($this->roles->contains($role)) {
-            $this->roles->add($role);
-        }
-
-        return $this;
     }
 
     /**

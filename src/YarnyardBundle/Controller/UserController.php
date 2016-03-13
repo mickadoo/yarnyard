@@ -4,7 +4,6 @@ namespace YarnyardBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use YarnyardBundle\Entity\User;
 
@@ -16,8 +15,6 @@ class UserController extends AbstractRestController
      * @return User[]
      *
      * @ApiDoc()
-     *
-     * @Security("has_role('1')")
      *
      * @Rest\View(serializerGroups={"user"})
      * @Rest\Route("users")
