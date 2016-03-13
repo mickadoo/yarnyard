@@ -19,7 +19,7 @@ class UserController extends AbstractRestController
      *
      * @Security("has_role('1')")
      *
-     * @Rest\View()
+     * @Rest\View(serializerGroups={"user"})
      * @Rest\Route("users")
      */
     public function getAllUsersAction(Request $request)
@@ -36,7 +36,7 @@ class UserController extends AbstractRestController
      *
      * @ApiDoc()
      *
-     * @Rest\View()
+     * @Rest\View(serializerGroups={"user"})
      * @Rest\Route("users/{id}")
      */
     public function getUserAction(User $user)

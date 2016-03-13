@@ -4,33 +4,39 @@ namespace YarnyardBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
-use YarnyardBundle\Exception\Constants\UserFields;
-use YarnyardBundle\Util\Serializer\Annotation\Serializer;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+use YarnyardBundle\Exception\Constants\UserFields;
 
 class User implements UserFields, UserInterface
 {
     /**
+     * @Groups({"user"})
+     *
      * @var integer
      */
     private $id;
 
     /**
+     * @Groups({"user"})
+     *
      * @var string
      */
     private $uuid;
 
     /**
+     * @Groups({"user"})
+     * @Gedmo\Timestampable(on="create")
+     *
      * @var \DateTime
      *
-     * @Gedmo\Timestampable(on="create")
      */
     private $createdAt;
 
     /**
-     * @var \DateTime
-     *
      * @Gedmo\Timestampable(on="update")
+     *
+     * @var \DateTime
      */
     private $updatedAt;
 
@@ -54,6 +60,14 @@ class User implements UserFields, UserInterface
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUuid()
+    {
+        return $this->uuid;
     }
 
     /**
@@ -107,7 +121,6 @@ class User implements UserFields, UserInterface
     }
 
     /**
-     * @Serializer(ignorable=true)
      * @return string
      */
     public function getPassword()
@@ -116,7 +129,6 @@ class User implements UserFields, UserInterface
     }
 
     /**
-     * @Serializer(ignorable=true)
      * @return string
      */
     public function getSalt()
@@ -126,6 +138,6 @@ class User implements UserFields, UserInterface
 
     public function eraseCredentials()
     {
-        // wat
+        // needed by interface
     }
 }
