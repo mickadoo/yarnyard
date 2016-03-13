@@ -2,7 +2,7 @@
 
 namespace YarnyardBundle\Exception\Mapping;
 
-use FOS\RestBundle\Util\Codes;
+use Symfony\Component\HttpFoundation\Response;
 
 class ExceptionCodeMapper
 {
@@ -30,6 +30,6 @@ class ExceptionCodeMapper
             }
         }
 
-        return Codes::HTTP_INTERNAL_SERVER_ERROR;
+        return Response::HTTP_INTERNAL_SERVER_ERROR;
     }
 }
