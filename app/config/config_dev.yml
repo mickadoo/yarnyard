@@ -36,3 +36,16 @@ monolog:
                 VERBOSITY_VERY_VERBOSE: NOTICE
                 VERBOSITY_DEBUG: DEBUG
             channels: ["doctrine"]
+
+nelmio_api_doc:
+    sandbox:
+        enabled: true
+        body_format:
+            formats:
+                - json
+        authentication:
+            name: Authorization
+            delivery: header
+
+mickadoo_yaml_api_doc_annotation:
+    filename: '../docs/myfile.yml'

@@ -27,6 +27,7 @@ framework:
     assets: ~
     serializer:
         enabled: true
+        enable_annotations: true
 
 doctrine:
     dbal:
@@ -71,20 +72,7 @@ jwt_auth:
     client_id:     '%oauth_client_id%'
     client_secret: '%oauth_client_secret%'
 
-nelmio_api_doc:
-    sandbox:
-        enabled: true
-        body_format:
-            formats:
-                - json
-        authentication:
-            name: Authorization
-            delivery: header
-
 stof_doctrine_extensions:
     orm:
         default:
             timestampable: true
-
-mickadoo_yaml_api_doc_annotation:
-    filename: '../docs/myfile.yml'

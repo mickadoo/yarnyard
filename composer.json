@@ -28,7 +28,7 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "^2.0",
 
-        "friendsofsymfony/rest-bundle": "^1.7",
+        "friendsofsymfony/rest-bundle": "*@beta",
         "doctrine/doctrine-migrations-bundle": "^1.1.0",
         "auth0/jwt-auth-bundle": "^2.0",
         "pagerfanta/pagerfanta": "1.0.3",
