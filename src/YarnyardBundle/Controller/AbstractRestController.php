@@ -41,13 +41,8 @@ abstract class AbstractRestController extends FOSRestController
         $currentPage = $request->query->get(PaginationHelper::KEY_PAGE, 1);
         $pagerfanta->setCurrentPage($currentPage);
 
-        /** @var \ArrayIterator $results */
-        $results = $pagerfanta->getCurrentPageResults();
-        $body = $this->get('serializer')->serialize($results->getArrayCopy(), 'json');
+        header('link: ' . PaginationHelper::getPaginationHeaders($request, $pagerfanta)->get('Link'));
 
-        $response = new Response($body);
-        $response->headers = PaginationHelper::getPaginationHeaders($request, $pagerfanta);
-
-        return $response;
+        return $pagerfanta->getCurrentPageResults();
     }
 }
