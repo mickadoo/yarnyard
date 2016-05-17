@@ -4,9 +4,8 @@ namespace YarnyardBundle\Entity;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
-use YarnyardBundle\Exception\Constants\UserFields;
 
-class User implements UserFields, UserInterface
+class User implements UserInterface
 {
     /**
      * @Groups({"user"})
