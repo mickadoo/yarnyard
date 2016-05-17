@@ -42,7 +42,8 @@
         "doctrine/doctrine-fixtures-bundle": "^2.3.0",
         "mickadoo/yamlapidoc": "dev-master",
         "phpunit/phpunit": "^5.1",
-        "phpunit/php-code-coverage": "dev-master#b8436b000263f6d72fbad1d36890e247ce84857e"
+        "squizlabs/php_codesniffer": "^2.6",
+        "phpmd/phpmd": "^2.4"
     },
     "scripts": {
         "post-install-cmd": [
