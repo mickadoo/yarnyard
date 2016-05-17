@@ -8,7 +8,7 @@ use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use YarnyardBundle\Util\Pagination\PaginationHelper;
+use YarnyardBundle\Util\Pagination\PaginationHeaderGenerator;
 
 abstract class AbstractRestController extends FOSRestController
 {
@@ -22,13 +22,18 @@ abstract class AbstractRestController extends FOSRestController
     {
         $pagerfanta = new Pagerfanta(new DoctrineORMAdapter($queryBuilder));
 
-        $maxPerPage = $request->query->get(PaginationHelper::KEY_MAX_PER_PAGE, PaginationHelper::DEFAULT_MAX);
+        $maxPerPage = $request->query->get(
+            PaginationHeaderGenerator::KEY_MAX_PER_PAGE,
+            PaginationHeaderGenerator::DEFAULT_MAX
+        );
+
         $pagerfanta->setMaxPerPage($maxPerPage);
 
-        $currentPage = $request->query->get(PaginationHelper::KEY_PAGE, 1);
+        $currentPage = $request->query->get(PaginationHeaderGenerator::KEY_PAGE, 1);
         $pagerfanta->setCurrentPage($currentPage);
 
-        header('link: ' . PaginationHelper::getPaginationHeaders($request, $pagerfanta)->get('Link'));
+        $generator = $this->get('pagination_header.generator');
+        header('link: ' . $generator->getPaginationHeaders($request, $pagerfanta)->get('Link'));
 
         return $pagerfanta->getCurrentPageResults();
     }

@@ -5,13 +5,26 @@ namespace YarnyardBundle\Util\Pagination;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use YarnyardBundle\Util\Request\UrlHelper;
+use YarnyardBundle\Util\Request\QueryStringRebuilder;
 
-abstract class PaginationHelper
+class PaginationHeaderGenerator
 {
     const KEY_MAX_PER_PAGE = 'per_page';
     const KEY_PAGE = 'page';
     const DEFAULT_MAX = 10;
+
+    /**
+     * @var QueryStringRebuilder
+     */
+    protected $queryRebuilder;
+
+    /**
+     * @param QueryStringRebuilder $queryRebuilder
+     */
+    public function __construct(QueryStringRebuilder $queryRebuilder)
+    {
+        $this->queryRebuilder = $queryRebuilder;
+    }
 
     /**
      * @param Request $request
@@ -19,7 +32,7 @@ abstract class PaginationHelper
      *
      * @return ResponseHeaderBag
      */
-    public static function getPaginationHeaders(Request $request, Pagerfanta $pagerfanta)
+    public function getPaginationHeaders(Request $request, Pagerfanta $pagerfanta)
     {
         // todo doesn't work in test
         $currentUrl = $request->getUri();
@@ -28,21 +41,21 @@ abstract class PaginationHelper
         $currentPageNumber = $pagerfanta->getCurrentPage();
         $lastPageNumber = $pagerfanta->getNbPages();
 
-        $currentPageQueryParts = [
+        $currentPageParts = [
             self::KEY_MAX_PER_PAGE => $maxPerPage,
             self::KEY_PAGE => $currentPageNumber,
         ];
 
-        $lastPageQueryParts = [
+        $lastPageParts = [
             self::KEY_MAX_PER_PAGE => $maxPerPage,
             self::KEY_PAGE => $lastPageNumber,
         ];
 
         $linkHeaderString = sprintf(
             '<%s>;rel="%s",<%s>;rel="%s"',
-            UrlHelper::rebuildUrlQuery($currentUrl, $currentPageQueryParts),
+            $this->queryRebuilder->addQueryToUrl($currentUrl, $currentPageParts),
             'self',
-            UrlHelper::rebuildUrlQuery($currentUrl, $lastPageQueryParts),
+            $this->queryRebuilder->addQueryToUrl($currentUrl, $lastPageParts),
             'last'
         );
 
