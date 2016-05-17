@@ -15,6 +15,12 @@ YarnyardBundle\Entity\User:
         createdAt:
             type: datetime
             nullable: true
+            gedmo:
+                timestampable:
+                    on: create
         updatedAt:
             type: datetime
             nullable: true
+            gedmo:
+                timestampable:
+                    on: update

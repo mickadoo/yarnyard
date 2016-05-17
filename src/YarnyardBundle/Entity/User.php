@@ -25,7 +25,6 @@ class User implements UserFields, UserInterface
 
     /**
      * @Groups({"user"})
-     * @Gedmo\Timestampable(on="create")
      *
      * @var \DateTime
      *
@@ -33,14 +32,11 @@ class User implements UserFields, UserInterface
     private $createdAt;
 
     /**
-     * @Gedmo\Timestampable(on="update")
-     *
      * @var \DateTime
      */
     private $updatedAt;
 
     /**
-     * User constructor.
      * @param string $uuid
      */
     public function __construct($uuid)
