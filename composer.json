@@ -43,7 +43,8 @@
         "mickadoo/yamlapidoc": "dev-master",
         "phpunit/phpunit": "^5.1",
         "squizlabs/php_codesniffer": "^2.6",
-        "phpmd/phpmd": "^2.4"
+        "phpmd/phpmd": "^2.4",
+        "fabpot/php-cs-fixer": "*"
     },
     "scripts": {
         "post-install-cmd": [
