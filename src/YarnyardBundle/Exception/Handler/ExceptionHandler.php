@@ -7,7 +7,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\Translation\TranslatorInterface;
 use YarnyardBundle\Exception\Mapping\ExceptionCodeMapper;
 use YarnyardBundle\Exception\YarnyardException;
-use YarnyardBundle\Util\ArrayHelper\ArrayDecorator;
+use YarnyardBundle\Util\ArrayDecorator;
 
 class ExceptionHandler
 {

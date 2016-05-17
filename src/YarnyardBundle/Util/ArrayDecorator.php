@@ -1,6 +1,6 @@
 <?php
 
-namespace YarnyardBundle\Util\ArrayHelper;
+namespace YarnyardBundle\Util;
 
 class ArrayDecorator
 {
