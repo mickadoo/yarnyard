@@ -13,45 +13,12 @@ getAllUsersAction:
   description: 'Get all users'
   section: 'user'
 
-getUserAction:
-  requirements:
-
-postUserAction:
-  description: 'Add a new user'
-  section: 'user'
+postStoryAction:
+  description: 'Create a story'
+  section: 'story'
   requirements:
     -
-      name: 'email'
+      name: 'title'
       dataType: 'string'
       requirement: '\w+'
-      description: 'email address'
-    -
-      name: 'username'
-      dataType: 'string'
-      requirement: '\w+'
-      description: 'username for new user'
-
-putUserAction:
-  description: 'Update a user'
-  section: 'user'
-  requirements:
-    -
-      name: 'id'
-      dataType: 'int'
-      requirement: '\d+'
-      description: 'user id'
-
-postConfirmationTokenAcceptedAction:
-  description: 'Confirm a user e-mail'
-  section: 'oauth'
-  requirements:
-    -
-      name: 'userId'
-      dataType: 'int'
-      requirement: '\d+'
-      description: 'user id'
-    -
-      name: 'token'
-      dataType: 'string'
-      requirement: '\w+'
-      description: 'token string'
+      description: 'The title of the story'
