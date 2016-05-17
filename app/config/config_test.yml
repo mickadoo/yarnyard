@@ -18,4 +18,6 @@ doctrine:
         connections:
             default:
                 driver: pdo_sqlite
-                path: %kernel.cache_dir%/yarnyard_test.db
+                path: '%kernel.cache_dir%/yarnyard_test.db'
+
+liip_functional_test: ~
