@@ -2,14 +2,13 @@
 
 namespace YarnyardBundle\Util\Pagination;
 
-use YarnyardBundle\Util\Request\UrlHelper;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use YarnyardBundle\Util\Request\UrlHelper;
 
 abstract class PaginationHelper
 {
-
     const KEY_MAX_PER_PAGE = 'per_page';
     const KEY_PAGE = 'page';
     const DEFAULT_MAX = 10;
@@ -17,6 +16,7 @@ abstract class PaginationHelper
     /**
      * @param Request $request
      * @param Pagerfanta $pagerfanta
+     *
      * @return ResponseHeaderBag
      */
     public static function getPaginationHeaders(Request $request, Pagerfanta $pagerfanta)
@@ -30,12 +30,12 @@ abstract class PaginationHelper
 
         $currentPageQueryParts = [
             self::KEY_MAX_PER_PAGE => $maxPerPage,
-            self::KEY_PAGE => $currentPageNumber
+            self::KEY_PAGE => $currentPageNumber,
         ];
 
         $lastPageQueryParts = [
             self::KEY_MAX_PER_PAGE => $maxPerPage,
-            self::KEY_PAGE => $lastPageNumber
+            self::KEY_PAGE => $lastPageNumber,
         ];
 
         $linkHeaderString = sprintf(
@@ -46,9 +46,8 @@ abstract class PaginationHelper
             'last'
         );
 
-        $headers = new ResponseHeaderBag(["Link" => $linkHeaderString]);
+        $headers = new ResponseHeaderBag(['Link' => $linkHeaderString]);
 
         return $headers;
     }
-
 }

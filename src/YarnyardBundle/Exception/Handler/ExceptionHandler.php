@@ -2,12 +2,12 @@
 
 namespace YarnyardBundle\Exception\Handler;
 
-use YarnyardBundle\Exception\Mapping\ExceptionCodeMapper;
-use YarnyardBundle\Util\ArrayHelper\ArrayDecorator;
-use YarnyardBundle\Exception\YarnyardException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\Translation\TranslatorInterface;
+use YarnyardBundle\Exception\Mapping\ExceptionCodeMapper;
+use YarnyardBundle\Exception\YarnyardException;
+use YarnyardBundle\Util\ArrayHelper\ArrayDecorator;
 
 class ExceptionHandler
 {
@@ -52,7 +52,7 @@ class ExceptionHandler
         }
 
         $responseBody = array('error' => [
-            'message' => $message
+            'message' => $message,
         ]);
 
         $event->setResponse(new Response(json_encode($responseBody), $code));

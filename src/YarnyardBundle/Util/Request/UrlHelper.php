@@ -7,6 +7,7 @@ abstract class UrlHelper
     /**
      * @param string $existingUrl
      * @param array $queryParts
+     *
      * @return string
      */
     public static function rebuildUrlQuery($existingUrl, array $queryParts)

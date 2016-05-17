@@ -6,6 +6,7 @@ class ArrayDecorator
 {
     /**
      * @param array $array
+     *
      * @return array
      */
     public function decorateKeys(array $array)

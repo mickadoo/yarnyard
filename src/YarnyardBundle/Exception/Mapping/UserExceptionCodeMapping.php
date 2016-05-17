@@ -26,7 +26,7 @@ class UserExceptionCodeMapping implements ExceptionCodeMapperInterface
             UserErrors::ERROR_USER_PASSWORD_NOT_SET => Response::HTTP_BAD_REQUEST,
             UserErrors::ERROR_USER_PASSWORD_TOO_SHORT => Response::HTTP_BAD_REQUEST,
             UserErrors::ERROR_USER_PASSWORD_TOO_LONG => Response::HTTP_BAD_REQUEST,
-            UserErrors::ERROR_USER_PASSWORD_CONTAINS_NON_ASCII => Response::HTTP_BAD_REQUEST
+            UserErrors::ERROR_USER_PASSWORD_CONTAINS_NON_ASCII => Response::HTTP_BAD_REQUEST,
         ];
     }
 }

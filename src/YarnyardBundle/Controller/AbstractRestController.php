@@ -15,6 +15,7 @@ abstract class AbstractRestController extends FOSRestController
 {
     /**
      * @param $route
+     *
      * @return Response
      */
     public function handleSubRequest($route)
@@ -29,6 +30,7 @@ abstract class AbstractRestController extends FOSRestController
     /**
      * @param Request $request
      * @param QueryBuilder $queryBuilder
+     *
      * @return Response
      */
     protected function paginate(Request $request, QueryBuilder $queryBuilder)

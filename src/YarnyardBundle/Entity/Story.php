@@ -2,7 +2,6 @@
 
 namespace YarnyardBundle\Entity;
 
-use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 class Story
@@ -67,6 +66,7 @@ class Story
 
     /**
      * @param string $title
+     *
      * @return $this
      */
     public function setTitle($title)

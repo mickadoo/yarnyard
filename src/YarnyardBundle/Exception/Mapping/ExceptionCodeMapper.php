@@ -20,6 +20,7 @@ class ExceptionCodeMapper
 
     /**
      * @param \Exception $exception
+     *
      * @return int
      */
     public function getCode(\Exception $exception)

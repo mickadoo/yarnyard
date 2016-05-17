@@ -2,7 +2,6 @@
 
 namespace YarnyardBundle\Entity;
 
-use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use YarnyardBundle\Exception\Constants\UserFields;
@@ -12,7 +11,7 @@ class User implements UserFields, UserInterface
     /**
      * @Groups({"user"})
      *
-     * @var integer
+     * @var int
      */
     private $id;
 
@@ -27,7 +26,6 @@ class User implements UserFields, UserInterface
      * @Groups({"user"})
      *
      * @var \DateTime
-     *
      */
     private $createdAt;
 
@@ -45,7 +43,7 @@ class User implements UserFields, UserInterface
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -69,7 +67,6 @@ class User implements UserFields, UserInterface
     }
 
     /**
-     *
      * @return \DateTime
      */
     public function getCreatedAt()

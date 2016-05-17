@@ -4,13 +4,13 @@ namespace YarnyardBundle\Entity;
 
 use Auth0\JWTAuthBundle\Security\Core\JWTUserProviderInterface;
 use Doctrine\ORM\NonUniqueResultException;
-use YarnyardBundle\Service\UserService;
-use YarnyardBundle\Exception\YarnyardException;
+use Doctrine\ORM\NoResultException;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
-use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Doctrine\ORM\NoResultException;
+use YarnyardBundle\Exception\YarnyardException;
+use YarnyardBundle\Service\UserService;
 
 class UserProvider implements UserProviderInterface, JWTUserProviderInterface
 {
@@ -36,6 +36,7 @@ class UserProvider implements UserProviderInterface, JWTUserProviderInterface
 
     /**
      * @param \stdClass $jwt
+     *
      * @return null|User
      */
     public function loadUserByJWT($jwt)
@@ -60,7 +61,9 @@ class UserProvider implements UserProviderInterface, JWTUserProviderInterface
 
     /**
      * @param string $username
+     *
      * @return mixed
+     *
      * @throws NonUniqueResultException
      */
     public function loadUserByUsername($username)
@@ -86,6 +89,7 @@ class UserProvider implements UserProviderInterface, JWTUserProviderInterface
 
     /**
      * @param UserInterface|User $user
+     *
      * @return null|object
      */
     public function refreshUser(UserInterface $user)
@@ -105,6 +109,7 @@ class UserProvider implements UserProviderInterface, JWTUserProviderInterface
 
     /**
      * @param string $class
+     *
      * @return bool
      */
     public function supportsClass($class)

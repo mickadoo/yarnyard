@@ -16,6 +16,7 @@ class StoryController extends AbstractRestController
      * @Rest\Route("stories")
      *
      * @param Request $request
+     *
      * @return Story
      */
     public function postStoryAction(Request $request)

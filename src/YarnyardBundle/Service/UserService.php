@@ -23,7 +23,9 @@ class UserService
 
     /**
      * @param $uuid
+     *
      * @return User
+     *
      * @throws YarnyardException
      */
     public function create($uuid)

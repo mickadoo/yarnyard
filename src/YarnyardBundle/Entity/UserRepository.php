@@ -8,6 +8,7 @@ class UserRepository extends EntityRepository
 {
     /**
      * @param User $user
+     *
      * @return User
      */
     public function save(User $user)
@@ -20,6 +21,7 @@ class UserRepository extends EntityRepository
 
     /**
      * @param User $user
+     *
      * @return User
      */
     public function update(User $user)

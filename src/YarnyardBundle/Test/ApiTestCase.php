@@ -7,19 +7,19 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\DBAL\Connection;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use Doctrine\ORM\EntityManager;
-use YarnyardBundle\Entity\User;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader as DataFixturesLoader;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use YarnyardBundle\Entity\User;
 
 abstract class ApiTestCase extends WebTestCase
 {
     /**
      * @var Connection
      */
-    static protected $connection;
+    protected static $connection;
 
     /**
      * @var User
@@ -27,21 +27,13 @@ abstract class ApiTestCase extends WebTestCase
     protected $loggedInUser;
 
     /**
-     * always create and boot kernel
+     * always create and boot kernel.
      */
     protected function setUp()
     {
         self::createKernel();
         self::bootKernel();
         self::loadFixtures(self::$kernel);
-    }
-
-    /**
-     * @return User|UserInterface
-     */
-    protected function getLoggedInUser()
-    {
-        // todo
     }
 
     /**
@@ -56,14 +48,6 @@ abstract class ApiTestCase extends WebTestCase
         }
 
         self::$kernel->getContainer()->set('doctrine.dbal.default_connection', self::$connection);
-    }
-
-    /**
-     * @return Client
-     */
-    protected function getAuthorizedClient()
-    {
-        // todo
     }
 
     /**
@@ -92,5 +76,21 @@ abstract class ApiTestCase extends WebTestCase
         $purger->setPurgeMode(ORMPurger::PURGE_MODE_TRUNCATE);
         $executor = new ORMExecutor($em, $purger);
         $executor->execute($fixtures);
+    }
+
+    /**
+     * @return User|UserInterface
+     */
+    protected function getLoggedInUser()
+    {
+        // todo
+    }
+
+    /**
+     * @return Client
+     */
+    protected function getAuthorizedClient()
+    {
+        // todo
     }
 }
