@@ -27,4 +27,19 @@ class UserControllerTest extends ApiTestCase
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $this->assertEquals($user->getId(), json_decode($response->getContent())->id);
     }
+
+    /**
+     * @test
+     */
+    public function getAllUsersWillReturnArray()
+    {
+        $this->loadFixtures([LoadUserData::class]);
+        $client = $this->createClient();
+
+        $client->request(Request::METHOD_GET, '/users');
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertTrue(is_array(json_decode($response->getContent())));
+    }
 }
