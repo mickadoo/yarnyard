@@ -3,12 +3,12 @@
 namespace YarnyardBundle\Controller;
 
 use Doctrine\ORM\QueryBuilder;
+use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use YarnyardBundle\Util\Pagination\PaginationHeaderGenerator;
 
 abstract class AbstractRestController extends FOSRestController
 {
@@ -20,21 +20,24 @@ abstract class AbstractRestController extends FOSRestController
      */
     protected function paginate(Request $request, QueryBuilder $queryBuilder)
     {
+        /** @var View $annotation */
+        $annotation = $request->attributes->get('_template');
         $pagerfanta = new Pagerfanta(new DoctrineORMAdapter($queryBuilder));
+        $generator = $this->get('pagination_header.generator');
+        $format = $request->get('_format');
 
-        $maxPerPage = $request->query->get(
-            PaginationHeaderGenerator::KEY_MAX_PER_PAGE,
-            PaginationHeaderGenerator::DEFAULT_MAX
-        );
+        $currentPage = $request->query->get($generator::KEY_PAGE, 1);
+        $maxPerPage = $request->query->get($generator::KEY_MAX_PER_PAGE, $generator::DEFAULT_MAX);
 
         $pagerfanta->setMaxPerPage($maxPerPage);
-
-        $currentPage = $request->query->get(PaginationHeaderGenerator::KEY_PAGE, 1);
         $pagerfanta->setCurrentPage($currentPage);
+        $results = $pagerfanta->getCurrentPageResults();
 
-        $generator = $this->get('pagination_header.generator');
-        header('link: ' . $generator->getPaginationHeaders($request, $pagerfanta)->get('Link'));
+        $context = ['groups' => $annotation->getSerializerGroups()];
+        $responseBody = $this->get('serializer')->serialize($results, $format, $context);
 
-        return $pagerfanta->getCurrentPageResults();
+        $headers = $generator->getPaginationHeaders($request, $pagerfanta);
+
+        return new Response($responseBody, Response::HTTP_OK, $headers);
     }
 }

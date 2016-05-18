@@ -16,9 +16,4 @@ services:
             - '@array_decorator'
 
     array_decorator:
-        class: YarnyardBundle\Util\ArrayHelper\ArrayDecorator
-
-
-
-    string.ascii_checker:
-        class: YarnyardBundle\Util\String\AsciiChecker
+        class: YarnyardBundle\Util\ArrayDecorator

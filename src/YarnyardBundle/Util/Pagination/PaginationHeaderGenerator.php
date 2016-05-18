@@ -4,7 +4,6 @@ namespace YarnyardBundle\Util\Pagination;
 
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use YarnyardBundle\Util\Request\QueryStringRebuilder;
 
 class PaginationHeaderGenerator
@@ -30,7 +29,7 @@ class PaginationHeaderGenerator
      * @param Request $request
      * @param Pagerfanta $pagerfanta
      *
-     * @return ResponseHeaderBag
+     * @return array
      */
     public function getPaginationHeaders(Request $request, Pagerfanta $pagerfanta)
     {
@@ -59,8 +58,6 @@ class PaginationHeaderGenerator
             'last'
         );
 
-        $headers = new ResponseHeaderBag(['Link' => $linkHeaderString]);
-
-        return $headers;
+        return ['Link' => $linkHeaderString];
     }
 }
