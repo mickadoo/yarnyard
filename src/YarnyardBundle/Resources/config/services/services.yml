@@ -10,3 +10,8 @@ services:
         class: YarnyardBundle\Util\Pagination\PaginationHeaderGenerator
         arguments:
             - '@query_string_rebuilder'
+
+    date_time.normalizer:
+        class: YarnyardBundle\Serializer\Normalizer\DateTimeNormalizer
+        tags:
+            -  { name: serializer.normalizer }
