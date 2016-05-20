@@ -1,4 +1,4 @@
-YarnyardBundle\Entity\Story:
+YarnyardBundle\Entity\Review:
     type: entity
     id:
         id:
@@ -6,14 +6,7 @@ YarnyardBundle\Entity\Story:
             generator:
                 strategy: IDENTITY
     fields:
-        title:
-            type: string
-        isCompleted:
-            type: boolean
-        sentenceLimit:
-            type: integer
-            nullable: true
-        contributionMode:
+        rating:
             type: integer
         createdAt:
             type: datetime
@@ -36,3 +29,5 @@ YarnyardBundle\Entity\Story:
             gedmo:
                 blameable:
                     on: update
+        story:
+            targetEntity: YarnyardBundle\Entity\Story

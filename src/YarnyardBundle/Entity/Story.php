@@ -23,6 +23,27 @@ class Story
     /**
      * @Groups({"story"})
      *
+     * @var bool
+     */
+    private $isCompleted;
+
+    /**
+     * @Groups({"story"})
+     *
+     * @var int
+     */
+    private $sentenceLimit;
+
+    /**
+     * @Groups({"story"})
+     *
+     * @var int
+     */
+    private $contributionMode;
+
+    /**
+     * @Groups({"story"})
+     *
      * @var \DateTime
      */
     private $createdAt;
@@ -35,15 +56,11 @@ class Story
     private $updatedAt;
 
     /**
-     * @Groups({"story"})
-     *
      * @var User
      */
     private $createdBy;
 
     /**
-     * @Groups({"story"})
-     *
      * @var User
      */
     private $updatedBy;
@@ -72,6 +89,66 @@ class Story
     public function setTitle($title)
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isIsCompleted()
+    {
+        return $this->isCompleted;
+    }
+
+    /**
+     * @param bool $isCompleted
+     *
+     * @return $this
+     */
+    public function setIsCompleted($isCompleted)
+    {
+        $this->isCompleted = $isCompleted;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSentenceLimit()
+    {
+        return $this->sentenceLimit;
+    }
+
+    /**
+     * @param int $sentenceLimit
+     *
+     * @return $this
+     */
+    public function setSentenceLimit($sentenceLimit)
+    {
+        $this->sentenceLimit = $sentenceLimit;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getContributionMode()
+    {
+        return $this->contributionMode;
+    }
+
+    /**
+     * @param int $contributionMode
+     *
+     * @return $this
+     */
+    public function setContributionMode($contributionMode)
+    {
+        $this->contributionMode = $contributionMode;
 
         return $this;
     }

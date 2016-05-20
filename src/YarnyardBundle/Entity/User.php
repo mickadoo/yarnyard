@@ -24,11 +24,20 @@ class User implements UserInterface
     /**
      * @Groups({"user"})
      *
+     * @var string
+     */
+    private $username;
+
+    /**
+     * @Groups({"user"})
+     *
      * @var \DateTime
      */
     private $createdAt;
 
     /**
+     * @Groups({"user"})
+     *
      * @var \DateTime
      */
     private $updatedAt;
@@ -62,7 +71,19 @@ class User implements UserInterface
      */
     public function getUsername()
     {
-        return $this->uuid;
+        return $this->username;
+    }
+
+    /**
+     * @param string $username
+     *
+     * @return $this
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
     }
 
     /**

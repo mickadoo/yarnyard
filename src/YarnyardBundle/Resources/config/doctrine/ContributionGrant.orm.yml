@@ -1,0 +1,23 @@
+YarnyardBundle\Entity\ContributionGrant:
+    type: entity
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: IDENTITY
+    fields:
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+    manyToOne:
+        user:
+            targetEntity: YarnyardBundle\Entity\User
+        story:
+            targetEntity: YarnyardBundle\Entity\Story
+        createdBy:
+            targetEntity: YarnyardBundle\Entity\User
+            gedmo:
+                blameable:
+                    on: create

@@ -7,6 +7,10 @@ YarnyardBundle\Entity\User:
             generator:
                 strategy: IDENTITY
     fields:
+        username:
+            type: string
+            nullable: true
+            unique: true
         uuid:
             type: string
             length: 24
@@ -14,13 +18,11 @@ YarnyardBundle\Entity\User:
             unique: true
         createdAt:
             type: datetime
-            nullable: true
             gedmo:
                 timestampable:
                     on: create
         updatedAt:
             type: datetime
-            nullable: true
             gedmo:
                 timestampable:
                     on: update
