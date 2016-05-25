@@ -25,9 +25,10 @@
 
         "friendsofsymfony/rest-bundle": "*@beta",
         "doctrine/doctrine-migrations-bundle": "^1.1.0",
-        "auth0/jwt-auth-bundle": "^2.0",
+        "auth0/jwt-auth-bundle": "dev-master",
         "pagerfanta/pagerfanta": "1.0.3",
-        "stof/doctrine-extensions-bundle": "dev-master"
+        "stof/doctrine-extensions-bundle": "dev-master",
+        "friendsofsymfony/elastica-bundle": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

@@ -72,6 +72,24 @@ jwt_auth:
     client_id:     '%oauth_client_id%'
     client_secret: '%oauth_client_secret%'
 
+fos_elastica:
+    clients:
+        default: { host: elasticsearch, port: 9200 }
+    serializer: ~
+    indexes:
+        app:
+            types:
+                story:
+                    serializer:
+                        groups: [elastica]
+                    persistence:
+                        driver: orm
+                        model: YarnyardBundle\Entity\Story
+                        provider: ~
+                        listener:
+                            immediate: ~
+                        finder: ~
+
 stof_doctrine_extensions:
     orm:
         default:
