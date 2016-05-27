@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6e6692938c855ad44f2351c79a6770a9",
-    "content-hash": "6f7ed9667900e1c73fdae7f514fc36b5",
+    "hash": "d18becba9c29ca25cd68fb2286c24799",
+    "content-hash": "aec39615e98fcb90d80797e837959630",
     "packages": [
         {
             "name": "adoy/oauth2",
@@ -95,22 +95,25 @@
         },
         {
             "name": "auth0/jwt-auth-bundle",
-            "version": "dev-master",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/auth0/jwt-auth-bundle.git",
-                "reference": "85d9082624ec44d68663b995881570c0feb343c2"
+                "reference": "a33e4ec332f1d9f9dc4b39126c38cbfb88b74d9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/auth0/jwt-auth-bundle/zipball/85d9082624ec44d68663b995881570c0feb343c2",
-                "reference": "85d9082624ec44d68663b995881570c0feb343c2",
+                "url": "https://api.github.com/repos/auth0/jwt-auth-bundle/zipball/a33e4ec332f1d9f9dc4b39126c38cbfb88b74d9a",
+                "reference": "a33e4ec332f1d9f9dc4b39126c38cbfb88b74d9a",
                 "shasum": ""
             },
             "require": {
                 "auth0/auth0-php": "~3.0",
                 "php": ">=5.3.3",
                 "symfony/symfony": "~3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.1"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -137,7 +140,7 @@
                 "jwt",
                 "security"
             ],
-            "time": "2016-04-21 22:00:42"
+            "time": "2016-05-26 13:45:39"
         },
         {
             "name": "behat/transliterator",
@@ -1768,21 +1771,21 @@
         },
         {
             "name": "ocramius/proxy-manager",
-            "version": "2.0.1",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ocramius/ProxyManager.git",
-                "reference": "6c89b7bd6039d8047b1473e2074cb56baa4bc15d"
+                "reference": "001e730968f17cb36816ad68914994341d16e029"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ocramius/ProxyManager/zipball/6c89b7bd6039d8047b1473e2074cb56baa4bc15d",
-                "reference": "6c89b7bd6039d8047b1473e2074cb56baa4bc15d",
+                "url": "https://api.github.com/repos/Ocramius/ProxyManager/zipball/001e730968f17cb36816ad68914994341d16e029",
+                "reference": "001e730968f17cb36816ad68914994341d16e029",
                 "shasum": ""
             },
             "require": {
                 "ocramius/package-versions": "^1.0",
-                "php": "~7.0",
+                "php": "7.0.0 - 7.0.5 || ^7.0.7",
                 "zendframework/zend-code": "~3.0"
             },
             "require-dev": {
@@ -1828,7 +1831,7 @@
                 "proxy pattern",
                 "service proxies"
             ],
-            "time": "2016-02-08 13:50:05"
+            "time": "2016-05-27 01:59:56"
         },
         {
             "name": "pagerfanta/pagerfanta",
@@ -3267,16 +3270,16 @@
         },
         {
             "name": "fabpot/php-cs-fixer",
-            "version": "v1.11.2",
+            "version": "v1.11.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "41f70154642ec0f9ea9ea9c290943f3b5dfa76fc"
+                "reference": "b0a383d856d884d6b16e15892f507ecf89f8dbd2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/41f70154642ec0f9ea9ea9c290943f3b5dfa76fc",
-                "reference": "41f70154642ec0f9ea9ea9c290943f3b5dfa76fc",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/b0a383d856d884d6b16e15892f507ecf89f8dbd2",
+                "reference": "b0a383d856d884d6b16e15892f507ecf89f8dbd2",
                 "shasum": ""
             },
             "require": {
@@ -3317,7 +3320,8 @@
                 }
             ],
             "description": "A tool to automatically fix PHP code style",
-            "time": "2016-02-26 07:37:29"
+            "abandoned": "friendsofphp/php-cs-fixer",
+            "time": "2016-05-26 23:49:24"
         },
         {
             "name": "liip/functional-test-bundle",
@@ -3825,16 +3829,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "3.3.2",
+            "version": "3.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "4862dac433cbdb4438b593fa7f79e07559ba157e"
+                "reference": "44cd8e3930e431658d1a5de7d282d5cb37837fd5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/4862dac433cbdb4438b593fa7f79e07559ba157e",
-                "reference": "4862dac433cbdb4438b593fa7f79e07559ba157e",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/44cd8e3930e431658d1a5de7d282d5cb37837fd5",
+                "reference": "44cd8e3930e431658d1a5de7d282d5cb37837fd5",
                 "shasum": ""
             },
             "require": {
@@ -3884,7 +3888,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-05-25 06:48:21"
+            "time": "2016-05-27 16:24:29"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -4900,7 +4904,6 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "friendsofsymfony/rest-bundle": 10,
-        "auth0/jwt-auth-bundle": 20,
         "stof/doctrine-extensions-bundle": 20,
         "friendsofsymfony/elastica-bundle": 20,
         "mickadoo/yamlapidoc": 20
