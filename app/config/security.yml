@@ -16,9 +16,6 @@ security:
             pattern: ^/users$
             methods: [POST]
             security: false
-        confirm_email:
-            pattern: ^/confirm-email$
-            security:  false
         default:
             pattern: ^/
             stateless: true

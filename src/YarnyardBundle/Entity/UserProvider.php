@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use YarnyardBundle\Exception\YarnyardException;
 use YarnyardBundle\Service\UserService;
 
-class UserProvider implements UserProviderInterface, JWTUserProviderInterface
+class UserProvider implements JWTUserProviderInterface
 {
     /**
      * @var UserRepository
@@ -68,19 +68,16 @@ class UserProvider implements UserProviderInterface, JWTUserProviderInterface
      */
     public function loadUserByUsername($username)
     {
-        $q = $this->userRepository
+        $query = $this->userRepository
             ->createQueryBuilder('u')
             ->where('u.username = :username')
             ->setParameter('username', $username)
             ->getQuery();
 
         try {
-            $user = $q->getSingleResult();
+            $user = $query->getSingleResult();
         } catch (NoResultException $e) {
-            $message = sprintf(
-                'Unable to find an active admin object identified by "%s".',
-                $username
-            );
+            $message = sprintf('Unable to find an active admin object identified by "%s".', $username);
             throw new UsernameNotFoundException($message, 0, $e);
         }
 
