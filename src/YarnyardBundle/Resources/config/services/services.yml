@@ -1,5 +1,6 @@
 imports:
     - { resource: user/services.yml }
+    - { resource: story/services.yml }
 
 services:
 

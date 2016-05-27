@@ -1,0 +1,7 @@
+services:
+
+    story.repository:
+        class: YarnyardBundle\Entity\StoryRepository
+        factory: [ '@doctrine.orm.entity_manager', 'getRepository' ]
+        arguments:
+            - YarnyardBundle\Entity\Story
