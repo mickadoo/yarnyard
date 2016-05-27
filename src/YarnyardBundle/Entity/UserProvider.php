@@ -9,11 +9,12 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use YarnyardBundle\Exception\YarnyardException;
 use YarnyardBundle\Service\UserService;
 
 class UserProvider implements JWTUserProviderInterface
 {
+    const ANONYMOUS_UUID = 'anonymous';
+
     /**
      * @var UserRepository
      */
@@ -51,19 +52,22 @@ class UserProvider implements JWTUserProviderInterface
     }
 
     /**
-     * @throws YarnyardException
+     * @return User
      */
     public function getAnonymousUser()
     {
-        // todo fix firewall
-        return new User('fake-uuid');
+        $user = $this->userRepository->findOneBy(['uuid' => self::ANONYMOUS_UUID]);
+
+        if (!$user) {
+            $user = new User(self::ANONYMOUS_UUID);
+        }
+
+        return $user;
     }
 
     /**
      * @param string $username
-     *
-     * @return mixed
-     *
+     * @return User
      * @throws NonUniqueResultException
      */
     public function loadUserByUsername($username)

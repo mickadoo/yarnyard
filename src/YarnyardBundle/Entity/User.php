@@ -103,11 +103,21 @@ class User implements UserInterface
     }
 
     /**
+     * If a PreAuthenticatedToken is created for a user with no roles it is regarded as not authenticated
+     *
      * @return array
      */
     public function getRoles()
     {
-        return [];
+        return $this->isAnonymous() ? [] : ['ROLE_USER'];
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAnonymous()
+    {
+        return $this->uuid === UserProvider::ANONYMOUS_UUID;
     }
 
     /**
