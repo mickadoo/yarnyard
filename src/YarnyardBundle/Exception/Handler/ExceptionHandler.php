@@ -31,7 +31,11 @@ class ExceptionHandler
      * @param ExceptionCodeMapper $exceptionCodeMapper
      * @param ArrayDecorator $arrayHelper
      */
-    public function __construct(TranslatorInterface $translator, ExceptionCodeMapper $exceptionCodeMapper, ArrayDecorator $arrayHelper)
+    public function __construct(
+        TranslatorInterface $translator,
+        ExceptionCodeMapper $exceptionCodeMapper,
+        ArrayDecorator $arrayHelper
+    )
     {
         $this->translator = $translator;
         $this->exceptionCodeMapper = $exceptionCodeMapper;
@@ -51,9 +55,13 @@ class ExceptionHandler
             $message = $this->translator->trans($message, $this->arrayHelper->decorateKeys($exception->getContext()));
         }
 
-        $responseBody = array('error' => [
-            'message' => $message,
-        ]);
+        $responseBody = [
+            'error' => [
+                'message' => $message,
+                'file' => $exception->getFile(),
+                'line' => $exception->getLine(),
+            ],
+        ];
 
         $event->setResponse(new Response(json_encode($responseBody), $code));
     }
