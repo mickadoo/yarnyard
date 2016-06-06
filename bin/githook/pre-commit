@@ -1,18 +1,12 @@
 #!/bin/bash
 
 failed=0;
-root_dir=`dirname $(readlink -f $0)`/../../;
+root_dir=`dirname $(readlink -f $0)`/../..;
 
 for FILENAME in `git diff --name-only --staged`
 do
-  full_path=${root_dir}${FILENAME};
-  result=`php -n -d 'extension=tokenizer.so;' ${root_dir}/vendor/fabpot/php-cs-fixer/php-cs-fixer fix ${full_path} --dry-run`;
-  exit;
-  if [[ ${result} == *"1)"* ]]
-  then
-    echo ${FILENAME}' failed the php-cs-fixer check';
-    failed=1;
-  fi
+  full_path=${root_dir}/${FILENAME};
+  php -n -d 'extension=tokenizer.so;' ${root_dir}/vendor/fabpot/php-cs-fixer/php-cs-fixer fix ${full_path};
 done
 
-exit ${failed};
+exit 0;
