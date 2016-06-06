@@ -16,3 +16,8 @@ services:
         class: YarnyardBundle\Serializer\Normalizer\DateTimeNormalizer
         tags:
             -  { name: serializer.normalizer }
+
+    elasticsearch_query_modifier:
+        class: YarnyardBundle\Service\ElasticsearchQueryModifier
+        arguments:
+            - '@fos_elastica.index.app'
