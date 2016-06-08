@@ -2,9 +2,30 @@ services:
 
     mickadoo_search.property_parser:
         class: Mickadoo\SearchBundle\Util\PropertyParser
+        public: false
+
+    mickadoo_search.mapping_fetcher:
+        class: Mickadoo\SearchBundle\Service\MappingFetcher
+        public: false
+        arguments:
+            - '@doctrine.orm.entity_manager'
+
+    mickadoo_search.entity_value.validator:
+        class: Mickadoo\SearchBundle\Service\EntityValueValidator
+        public: false
+        arguments:
+            - '@mickadoo_search.mapping_fetcher'
+
+    mickadoo_search.dql_value.formatter:
+        class: Mickadoo\SearchBundle\Service\DQLValueFormatter
+        public: false
+        arguments:
+            - '@mickadoo_search.entity_value.validator'
 
     mickadoo_search.entity_finder:
         class: Mickadoo\SearchBundle\Service\EntityFinder
         arguments:
-            - '@doctrine.orm.entity_manager'
             - '@mickadoo_search.property_parser'
+            - '@mickadoo_search.mapping_fetcher'
+            - '@mickadoo_search.entity_value.validator'
+            - '@mickadoo_search.dql_value.formatter'

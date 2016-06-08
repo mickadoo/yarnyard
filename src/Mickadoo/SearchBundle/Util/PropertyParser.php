@@ -34,7 +34,7 @@ class PropertyParser
      */
     private function getNode($part) : DQLNode
     {
-        if (in_array(substr($part, 0, 2), ['<', '>'])) {
+        if (in_array($part[0], ['<', '>'])) {
             return $this->createComparative($part);
         }
 

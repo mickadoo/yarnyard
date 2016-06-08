@@ -2,16 +2,14 @@
 
 namespace Mickadoo\SearchBundle\Service;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\ORM\QueryBuilder;
 use Mickadoo\SearchBundle\Util\DQLNode;
 use Mickadoo\SearchBundle\Util\PropertyParser;
 
 /**
- * Find entities based on array of values
- * Class metadata is used to decide which parameters are allowed
+ * Create query builder to find entities based on array of values.
+ * Class metadata is used to decide which parameters are allowed.
  * Check the README for information on parameter format.
  */
 class EntityFinder
@@ -20,9 +18,9 @@ class EntityFinder
     const OPERATOR_AND = 'AND';
 
     /**
-     * @var EntityManager
+     * @var string
      */
-    protected $entityManager;
+    protected $strategy = self::OPERATOR_OR;
 
     /**
      * @var PropertyParser
@@ -30,79 +28,78 @@ class EntityFinder
     protected $parser;
 
     /**
-     * @param EntityManager  $entityManager
-     * @param PropertyParser $parser
+     * @var MappingFetcher
      */
-    public function __construct(EntityManager $entityManager, PropertyParser $parser)
-    {
-        $this->entityManager = $entityManager;
+    protected $fetcher;
+
+    /**
+     * @var EntityValueValidator
+     */
+    protected $validator;
+
+    /**
+     * @var DQLValueFormatter
+     */
+    protected $formatter;
+
+    /**
+     * @param PropertyParser       $parser
+     * @param MappingFetcher       $fetcher
+     * @param EntityValueValidator $validator
+     * @param DQLValueFormatter    $formatter
+     */
+    public function __construct(
+        PropertyParser $parser,
+        MappingFetcher $fetcher,
+        EntityValueValidator $validator,
+        DQLValueFormatter $formatter
+    ) {
         $this->parser = $parser;
+        $this->fetcher = $fetcher;
+        $this->validator = $validator;
+        $this->formatter = $formatter;
     }
 
     /**
-     * @param string $entityClass
-     * @param array  $parameters
-     * @param string $operator
-     *
-     * @return array
-     */
-    public function find(string $entityClass, array $parameters, string $operator = self::OPERATOR_OR)
-    {
-        $repository = $this->entityManager->getRepository($entityClass);
-
-        return $this->createQueryBuilder($repository, $parameters, $operator)->getQuery()->getResult();
-    }
-
-    /**
-     * @param EntityRepository $repository
-     * @param array            $parameters
-     * @param string           $operator
+     * @param EntityRepository $repo
+     * @param array            $params
      *
      * @return QueryBuilder
      */
-    public function createQueryBuilder(
-        EntityRepository $repository,
-        array $parameters,
-        string $operator = self::OPERATOR_OR
-    ) {
-        $className = $repository->getClassName();
-        $alias = strtolower(substr($className, strrpos($className, '\\') + 1));
-        $queryBuilder = $repository->createQueryBuilder($alias);
+    public function createQueryBuilder(EntityRepository $repo, array $params) : QueryBuilder
+    {
+        $class = $repo->getClassName();
+        $alias = $this->getClassAlias($class);
+        $queryBuilder = $repo->createQueryBuilder($alias);
 
-        // loop through parameters
-        foreach ($parameters as $property => $valueString) {
+        foreach ($params as $field => $valueString) {
             // if argument is related entity remove 'Id' suffix
-            if (substr($property, -2) === 'Id') {
-                $property = substr($property, 0, -2);
+            if (substr($field, -2) === 'Id') {
+                $field = substr($field, 0, -2);
             }
 
-            // check if parameter matches property on entity
-            if (!$this->entityHasProperty($className, $property)) {
+            if (!$this->hasProperty($class, $field)) {
                 continue;
             }
 
-            // todo maybe this could be moved to a service specializing in creating DQL or validating it
-            $column = $alias.'.'.$property;
             $whereParts = $this->parser->parse($valueString);
 
-            // validation
-            $whereParts = array_filter($whereParts, function (DQLNode $node) use ($className, $property) {
-                return $this->isValueAllowed($className, $property, $node->getValue());
-            });
-
-            // DQL creation
-            $whereDql = array_reduce($whereParts, function ($carry, DQLNode $node) use ($column, $operator) {
-                return sprintf(
-                    '%s %s %s %s %s',
-                    $carry,
-                    $operator,
-                    $column,
-                    $node->getOperator(),
+            $validationFilter = function (DQLNode $node) use ($class, $field) {
+                return $this->validator->isValid(
+                    $class,
+                    $field,
                     $node->getValue()
                 );
-            });
-            // remove superfluous OR
-            $whereDql = substr($whereDql, 3);
+            };
+
+            // remove invalid parts
+            $whereParts = array_filter($whereParts, $validationFilter);
+
+            if (empty($whereParts)) {
+                continue;
+            }
+
+            $whereDql = $this->createDQL($whereParts, $class, $field);
 
             $queryBuilder->andWhere($whereDql);
         }
@@ -111,34 +108,51 @@ class EntityFinder
     }
 
     /**
-     * @param string $className
-     * @param string $property
+     * @param string $class
      *
-     * @return bool
+     * @return string
      */
-    private function entityHasProperty(string $className, string $property) : bool
+    private function getClassAlias(string $class) : string
     {
-        return in_array($property, $this->entityManager->getClassMetadata($className)->getFieldNames());
+        return strtolower(substr($class, strrpos($class, '\\') + 1));
     }
 
     /**
      * @param string $className
      * @param string $property
-     * @param mixed  $value
      *
      * @return bool
-     *
-     * @throws MappingException
      */
-    private function isValueAllowed(string $className, string $property, mixed $value) : bool
+    private function hasProperty(string $className, string $property) : bool
     {
-        $mapping = $this->entityManager->getClassMetadata($className)->getFieldMapping($property);
+        return in_array($property, $this->fetcher->getFields($className));
+    }
 
-        switch ($mapping['type']) {
-            case 'integer':
-                return filter_var($value, FILTER_VALIDATE_INT);
-            default:
-                return false;
+    /**
+     * @param DQLNode[] $nodes
+     * @param string    $class
+     * @param string    $field
+     *
+     * @return string
+     *
+     * @throws \Exception
+     */
+    private function createDQL(array $nodes, string $class, string $field) : string
+    {
+        $column = sprintf('%s.%s', $this->getClassAlias($class), $field);
+        $whereDql = '';
+
+        foreach ($nodes as $node) {
+            $whereDql .= sprintf(
+                ' %s %s %s %s',
+                $this->strategy,
+                $column,
+                $node->getOperator(),
+                $this->formatter->format($class, $field, $node->getValue())
+            );
         }
+
+        // remove superfluous OR
+        return substr($whereDql, 3);
     }
 }
