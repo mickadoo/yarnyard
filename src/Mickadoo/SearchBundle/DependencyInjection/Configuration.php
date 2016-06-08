@@ -19,6 +19,7 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
 //        $rootNode = $treeBuilder->root('mickadoo_search');
+        $treeBuilder->root('mickadoo_search');
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for
