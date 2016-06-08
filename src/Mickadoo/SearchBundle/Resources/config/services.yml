@@ -1,0 +1,10 @@
+services:
+
+    mickadoo_search.property_parser:
+        class: Mickadoo\SearchBundle\Util\PropertyParser
+
+    mickadoo_search.entity_finder:
+        class: Mickadoo\SearchBundle\Service\EntityFinder
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@mickadoo_search.property_parser'
