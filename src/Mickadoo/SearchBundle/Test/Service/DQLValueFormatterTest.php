@@ -1,6 +1,6 @@
 <?php
 
-namespace Mickadoo\SearchBundle\Tests\Service;
+namespace Mickadoo\SearchBundle\Test\Service;
 
 use Doctrine\DBAL\Types\Type;
 use Mickadoo\SearchBundle\Service\DQLValueFormatter;

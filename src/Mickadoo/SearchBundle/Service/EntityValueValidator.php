@@ -41,7 +41,7 @@ class EntityValueValidator
             case Type::STRING:
                 return is_string($value);
             default:
-                return false;
+                throw new \UnexpectedValueException('cannot validate type');
         }
     }
 
