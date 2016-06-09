@@ -53,7 +53,7 @@ class EntityValueValidator
      *
      * @return string
      *
-     * @throws \Exception
+     * @throws \UnexpectedValueException
      */
     public function getExpectedType(string $class, string $field) : string
     {
@@ -69,8 +69,7 @@ class EntityValueValidator
             case 'string':
                 return Type::STRING;
             default:
-                // todo exception class
-                throw new \Exception('unrecognized type');
+                throw new \UnexpectedValueException('unrecognized mapping type');
         }
     }
 }

@@ -27,7 +27,7 @@ class DQLValueFormatter
             case Type::STRING:
                 return sprintf("'%s'", $value);
             default:
-                throw new \Exception('Unrecognized type');
+                throw new \UnexpectedValueException('Unrecognized type');
         }
     }
 }

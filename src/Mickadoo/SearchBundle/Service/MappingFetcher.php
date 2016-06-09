@@ -4,6 +4,7 @@ namespace Mickadoo\SearchBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\MappingException;
+use Mickadoo\SearchBundle\Exception\MappingNotFoundException;
 
 class MappingFetcher
 {
@@ -39,8 +40,7 @@ class MappingFetcher
             return $metadata->getAssociationMapping($field);
         }
 
-        // todo exception class
-        throw new \Exception('No mapping for that property');
+        throw new MappingNotFoundException();
     }
 
     /**
@@ -54,6 +54,6 @@ class MappingFetcher
         $fieldNames = $metadata->getFieldNames();
         $relatedFieldNames = array_keys($metadata->getAssociationMappings());
 
-        return array_merge($fieldNames, $relatedFieldNames);
+        return array_unique(array_merge($fieldNames, $relatedFieldNames));
     }
 }
