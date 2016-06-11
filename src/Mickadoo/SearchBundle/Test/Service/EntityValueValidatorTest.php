@@ -49,12 +49,31 @@ class EntityValueValidatorTest extends \PHPUnit_Framework_TestCase
 
         $fetcher = $this->prophesize(MappingFetcher::class);
         $fetcher->fetch($class, $field)->willReturn($mapping);
+        $fetcher->getFields($class)->willReturn([$field]);
 
         $validator = new EntityValueValidator($fetcher->reveal());
 
         $result = $validator->isValid($class, $field, $value);
 
         $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function willNotBeValidIfFieldDoesNotExist()
+    {
+        $class = 'foo';
+        $field = 'bar';
+
+        $fetcher = $this->prophesize(MappingFetcher::class);
+        $fetcher->getFields($class)->willReturn([]);
+
+        $validator = new EntityValueValidator($fetcher->reveal());
+
+        $result = $validator->isValid($class, $field, 'lalaa');
+
+        $this->assertEquals(false, $result);
     }
 
     /**
@@ -70,6 +89,7 @@ class EntityValueValidatorTest extends \PHPUnit_Framework_TestCase
 
         $fetcher = $this->prophesize(MappingFetcher::class);
         $fetcher->fetch($class, $field)->willReturn($mapping);
+        $fetcher->getFields($class)->willReturn([$field]);
 
         $validator = new EntityValueValidator($fetcher->reveal());
 

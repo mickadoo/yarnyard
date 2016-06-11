@@ -22,10 +22,19 @@ services:
         arguments:
             - '@mickadoo_search.entity_value.validator'
 
+    mickadoo_search.alias.generator:
+        class: Mickadoo\SearchBundle\Util\AliasGenerator
+
+    mickadoo_search.dql_part.generator:
+        class: Mickadoo\SearchBundle\Service\DQLPartCreator
+        arguments:
+            - '@mickadoo_search.alias.generator'
+            - '@mickadoo_search.dql_value.formatter'
+
     mickadoo_search.entity_finder:
         class: Mickadoo\SearchBundle\Service\EntityFinder
         arguments:
             - '@mickadoo_search.property_parser'
-            - '@mickadoo_search.mapping_fetcher'
             - '@mickadoo_search.entity_value.validator'
-            - '@mickadoo_search.dql_value.formatter'
+            - '@mickadoo_search.dql_part.generator'
+            - '@mickadoo_search.alias.generator'

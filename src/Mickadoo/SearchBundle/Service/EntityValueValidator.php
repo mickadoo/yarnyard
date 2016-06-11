@@ -35,6 +35,10 @@ class EntityValueValidator
      */
     public function isValid(string $class, string $field, $value) : bool
     {
+        if (!$this->hasProperty($class, $field)) {
+            return false;
+        }
+
         switch ($this->getExpectedType($class, $field)) {
             case Type::INTEGER:
                 return filter_var($value, FILTER_VALIDATE_INT);
@@ -43,6 +47,17 @@ class EntityValueValidator
             default:
                 throw new \UnexpectedValueException('cannot validate type');
         }
+    }
+
+    /**
+     * @param string $className
+     * @param string $property
+     *
+     * @return bool
+     */
+    private function hasProperty(string $className, string $property) : bool
+    {
+        return in_array($property, $this->fetcher->getFields($className));
     }
 
     /**
