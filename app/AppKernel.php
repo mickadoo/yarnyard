@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new YarnyardBundle\YarnyardBundle(),
             new FOS\ElasticaBundle\FOSElasticaBundle(),
+            new Mickadoo\SearchBundle\MickadooSearchBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
