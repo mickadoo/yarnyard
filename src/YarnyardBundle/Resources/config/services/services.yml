@@ -21,3 +21,12 @@ services:
         class: YarnyardBundle\Service\ElasticsearchQueryModifier
         arguments:
             - '@fos_elastica.index.app'
+
+    query_builder.param_converter:
+        class: YarnyardBundle\Request\ParamConverter\QueryBuilderParamConverter
+        arguments:
+            - '@mickadoo_search.entity_finder'
+            - '@elasticsearch_query_modifier'
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: request.param_converter, converter: query_builder.param_converter }
