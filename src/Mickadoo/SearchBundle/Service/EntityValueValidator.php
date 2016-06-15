@@ -35,6 +35,8 @@ class EntityValueValidator
      */
     public function isValid(string $class, string $field, $value) : bool
     {
+        $validBooleans = [true, false, 'true', 'false', '0', '1', 0, 1];
+
         if (!$this->hasProperty($class, $field)) {
             return false;
         }
@@ -44,6 +46,8 @@ class EntityValueValidator
                 return filter_var($value, FILTER_VALIDATE_INT);
             case Type::STRING:
                 return is_string($value);
+            case Type::BOOLEAN:
+                return in_array($value, $validBooleans);
             default:
                 throw new \UnexpectedValueException('cannot validate type');
         }
@@ -81,6 +85,8 @@ class EntityValueValidator
             case ClassMetadata::MANY_TO_ONE:
             case ClassMetadata::ONE_TO_MANY:
                 return Type::INTEGER;
+            case 'boolean':
+                return Type::BOOLEAN;
             case 'string':
                 return Type::STRING;
             default:

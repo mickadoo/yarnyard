@@ -26,6 +26,8 @@ class DQLValueFormatter
                 return (int) $value;
             case Type::STRING:
                 return sprintf("'%s'", $value);
+            case Type::BOOLEAN:
+                return (int) (bool) $value;
             default:
                 throw new \UnexpectedValueException('Unrecognized type');
         }
