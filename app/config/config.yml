@@ -83,13 +83,7 @@ fos_elastica:
                     serializer:
                         groups: [elastica]
                     persistence:
-                        driver: orm
                         model: YarnyardBundle\Entity\Story
-                        provider: ~
-                        listener:
-                            immediate: ~
-                        finder: ~
-
 stof_doctrine_extensions:
     orm:
         default:
