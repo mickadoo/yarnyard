@@ -49,6 +49,7 @@ class ElasticsearchQueryModifier
             $type->search($searchTerm)->getResults()
         );
 
-        $queryBuilder->where($queryBuilder->expr()->in($alias . '.id', ':hits'))->setParameter('hits', $hits);
+        $queryBuilder->andWhere($queryBuilder->expr()->in($alias.'.id', ':hits'));
+        $queryBuilder->setParameter('hits', $hits);
     }
 }
