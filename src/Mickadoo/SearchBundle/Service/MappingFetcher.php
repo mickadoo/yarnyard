@@ -2,8 +2,8 @@
 
 namespace Mickadoo\SearchBundle\Service;
 
+use Doctrine\Common\Persistence\Mapping\MappingException;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Mapping\MappingException;
 use Mickadoo\SearchBundle\Exception\MappingNotFoundException;
 
 class MappingFetcher
@@ -55,5 +55,21 @@ class MappingFetcher
         $relatedFieldNames = array_keys($metadata->getAssociationMappings());
 
         return array_unique(array_merge($fieldNames, $relatedFieldNames));
+    }
+
+    /**
+     * @param string $class
+     *
+     * @return bool
+     */
+    public function hasMapping(string $class) : bool
+    {
+        try {
+            $this->manager->getClassMetadata($class);
+        } catch (MappingException $exception) {
+            return false;
+        }
+
+        return true;
     }
 }

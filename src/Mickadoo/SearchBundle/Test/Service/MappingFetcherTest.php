@@ -2,6 +2,7 @@
 
 namespace Mickadoo\SearchBundle\Test\Service;
 
+use Doctrine\Common\Persistence\Mapping\MappingException as PersistenceMappingException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\MappingException;
@@ -108,6 +109,39 @@ class MappingFetcherTest extends \PHPUnit_Framework_TestCase
         $result = $fetcher->getFields($class);
 
         $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function hasMappingWillReturnFalseIfMappingExceptionThrown()
+    {
+        $class = 'Foo';
+
+        $manager = $this->prophesize(EntityManager::class);
+        $exception = new PersistenceMappingException();
+        $manager->getClassMetadata($class)->willThrow($exception);
+
+        $fetcher = new MappingFetcher($manager->reveal());
+        $result = $fetcher->hasMapping($class);
+
+        $this->assertFalse($result);
+    }
+
+    /**
+     * @test
+     */
+    public function hasMappingWillReturnTrueIfNoExceptionThrown()
+    {
+        $class = 'Foo';
+
+        $manager = $this->prophesize(EntityManager::class);
+        $manager->getClassMetadata($class)->willReturn('');
+
+        $fetcher = new MappingFetcher($manager->reveal());
+        $result = $fetcher->hasMapping($class);
+
+        $this->assertTrue($result);
     }
 
     /**

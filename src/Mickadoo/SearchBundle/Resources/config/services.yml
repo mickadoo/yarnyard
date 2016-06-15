@@ -38,3 +38,10 @@ services:
             - '@mickadoo_search.entity_value.validator'
             - '@mickadoo_search.dql_part.generator'
             - '@mickadoo_search.alias.generator'
+
+    mickadoo_search.api_doc_query_param.handler:
+        class: Mickadoo\SearchBundle\Service\QueryParamAnnotationHandler
+        arguments:
+            - '@mickadoo_search.mapping_fetcher'
+        tags:
+            - { name: 'nelmio_api_doc.extractor.handler', priority: -10 }
