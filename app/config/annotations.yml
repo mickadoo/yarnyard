@@ -1,24 +1,36 @@
 
 getUserAction:
-  description: 'Get a user'
-  section: 'user'
-  requirements:
-    -
-      name: 'id'
-      dataType: 'int'
-      requirement: '\d+'
-      description: 'The user id'
+    description: 'Get a user'
+    section: 'user'
+    requirements:
+        -
+            name: 'id'
+            dataType: 'int'
+            requirement: '\d+'
+            description: 'The user id'
 
 getAllUsersAction:
-  description: 'Get all users'
-  section: 'user'
+    resourceDescription: YarnyardBundle\Entity\User
+    description: 'Get all users'
+    section: 'user'
 
 postStoryAction:
-  description: 'Create a story'
-  section: 'story'
-  requirements:
-    -
-      name: 'title'
-      dataType: 'string'
-      requirement: '\w+'
-      description: 'The title of the story'
+    description: 'Create a story'
+    section: 'story'
+    requirements:
+        -
+            name: 'title'
+            dataType: 'string'
+            requirement: '\w+'
+            description: 'The title of the story'
+            
+getStoriesAction:
+    resourceDescription: YarnyardBundle\Entity\Story
+    description: 'Get all stories'
+    section: 'story'
+    parameters:
+        -
+            name: 'search'
+            dataType: 'string'
+            description: 'string to search for'
+            required: false

@@ -7,14 +7,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Story
 {
     /**
-     * @Groups({"story"})
+     * @Groups({"story", "elastica"})
      *
      * @var int
      */
     private $id;
 
     /**
-     * @Groups({"story"})
+     * @Groups({"story", "elastica"})
      *
      * @var string
      */

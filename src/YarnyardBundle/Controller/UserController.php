@@ -2,27 +2,30 @@
 
 namespace YarnyardBundle\Controller;
 
+use Doctrine\ORM\QueryBuilder;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use YarnyardBundle\Entity\User;
 
 class UserController extends AbstractRestController
 {
     /**
-     * @param Request $request
-     *
-     * @return User[]
-     *
      * @ApiDoc()
      *
      * @Rest\View(serializerGroups={"user"})
      * @Rest\Route("users")
+     *
+     * @ParamConverter("query", options={"class"="YarnyardBundle\Entity\User"})
+     *
+     * @param Request      $request
+     * @param QueryBuilder $query
+     *
+     * @return User[]
      */
-    public function getAllUsersAction(Request $request)
+    public function getAllUsersAction(Request $request, QueryBuilder $query)
     {
-        $query = $this->get('user.repository')->createQueryBuilder('user');
-
         return $this->paginate($request, $query);
     }
 
