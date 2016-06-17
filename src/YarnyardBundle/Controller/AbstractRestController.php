@@ -13,21 +13,27 @@ use Symfony\Component\HttpFoundation\Response;
 abstract class AbstractRestController extends FOSRestController
 {
     /**
-     * @param Request $request
-     * @param QueryBuilder $queryBuilder
+     * @param Request      $request
+     * @param QueryBuilder $query
      *
      * @return Response
      */
-    protected function paginate(Request $request, QueryBuilder $queryBuilder)
+    protected function paginate(Request $request, QueryBuilder $query)
     {
         /** @var View $annotation */
         $annotation = $request->attributes->get('_template');
-        $pagerfanta = new Pagerfanta(new DoctrineORMAdapter($queryBuilder));
         $generator = $this->get('pagination_header.generator');
         $format = $request->get('_format');
-
+        $alias = $query->getRootAliases()[0];
+        $sortBy = $request->query->get('sortBy', $alias.'.id');
+        $sortOrder = $request->query->get('order', 'ASC');
         $currentPage = $request->query->get($generator::KEY_PAGE, 1);
         $maxPerPage = $request->query->get($generator::KEY_MAX_PER_PAGE, $generator::DEFAULT_MAX);
+
+        $query->groupBy($alias.'.id');
+        $query->orderBy($sortBy, $sortOrder);
+
+        $pagerfanta = new Pagerfanta(new DoctrineORMAdapter($query));
 
         $pagerfanta->setMaxPerPage($maxPerPage);
         $pagerfanta->setCurrentPage($currentPage);
