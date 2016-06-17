@@ -1,0 +1,33 @@
+YarnyardBundle\Entity\Sentence:
+    type: entity
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: IDENTITY
+    fields:
+        text:
+            type: string
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+    manyToOne:
+        story:
+            targetEntity: YarnyardBundle\Entity\Story
+        createdBy:
+            targetEntity: YarnyardBundle\Entity\User
+            gedmo:
+                blameable:
+                    on: create
+        updatedBy:
+            targetEntity: YarnyardBundle\Entity\User
+            gedmo:
+                blameable:
+                    on: update

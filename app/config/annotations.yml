@@ -34,3 +34,8 @@ getStoriesAction:
             dataType: 'string'
             description: 'string to search for'
             required: false
+        -
+            name: 'contributorId'
+            dataType: 'integer'
+            description: 'limit to stories by a certain contributor'
+            required: false
