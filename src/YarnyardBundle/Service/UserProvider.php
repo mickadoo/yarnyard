@@ -1,6 +1,6 @@
 <?php
 
-namespace YarnyardBundle\Entity;
+namespace YarnyardBundle\Service;
 
 use Auth0\JWTAuthBundle\Security\Core\JWTUserProviderInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -8,8 +8,8 @@ use Doctrine\ORM\NoResultException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use YarnyardBundle\Service\UserService;
+use YarnyardBundle\Entity\User;
+use YarnyardBundle\Entity\UserRepository;
 
 class UserProvider implements JWTUserProviderInterface
 {
@@ -27,7 +27,7 @@ class UserProvider implements JWTUserProviderInterface
 
     /**
      * @param UserRepository $userRepository
-     * @param UserService $userService
+     * @param UserService    $userService
      */
     public function __construct(UserRepository $userRepository, UserService $userService)
     {
@@ -67,7 +67,9 @@ class UserProvider implements JWTUserProviderInterface
 
     /**
      * @param string $username
+     *
      * @return User
+     *
      * @throws NonUniqueResultException
      */
     public function loadUserByUsername($username)

@@ -7,7 +7,7 @@ services:
             - YarnyardBundle\Entity\User
 
     user.provider:
-        class: YarnyardBundle\Entity\UserProvider
+        class: YarnyardBundle\Service\UserProvider
         arguments:
             - '@user.repository'
             - '@user.service'
@@ -16,7 +16,7 @@ services:
         class: Doctrine\ORM\EntityManager
         factory: [ '@doctrine', 'getManagerForClass' ]
         arguments:
-            - YarnyardBundle\Entity\User
+            - 'YarnyardBundle\Entity\User'
 
     user.service:
         class: YarnyardBundle\Service\UserService
