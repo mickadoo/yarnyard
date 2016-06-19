@@ -11,8 +11,6 @@ YarnyardBundle\Entity\Story:
             type: string
         isCompleted:
             type: boolean
-        sentenceLimit:
-            type: integer
             nullable: true
         contributionMode:
             type: integer

@@ -6,6 +6,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 class Story
 {
+    const FREE_CHOSEN = 0;
+    const FREE_RANDOM = 1;
+    const ONE_EACH_CHOSEN = 2;
+    const ONE_EACH_RANDOM = 3;
+
     /**
      * @Groups({"story", "elastica"})
      *
@@ -26,13 +31,6 @@ class Story
      * @var bool
      */
     private $isCompleted;
-
-    /**
-     * @Groups({"story"})
-     *
-     * @var int
-     */
-    private $sentenceLimit;
 
     /**
      * @Groups({"story"})
@@ -109,26 +107,6 @@ class Story
     public function setIsCompleted($isCompleted)
     {
         $this->isCompleted = $isCompleted;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getSentenceLimit()
-    {
-        return $this->sentenceLimit;
-    }
-
-    /**
-     * @param int $sentenceLimit
-     *
-     * @return $this
-     */
-    public function setSentenceLimit($sentenceLimit)
-    {
-        $this->sentenceLimit = $sentenceLimit;
 
         return $this;
     }

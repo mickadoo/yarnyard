@@ -39,3 +39,8 @@ getStoriesAction:
             dataType: 'integer'
             description: 'limit to stories by a certain contributor'
             required: false
+        -
+            name: 'granteeId'
+            dataType: 'integer'
+            description: 'limit to stories a certain user can contribute to'
+            required: false
