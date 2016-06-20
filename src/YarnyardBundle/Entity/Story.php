@@ -130,7 +130,7 @@ class Story
      *
      * @return Story
      */
-    public function setRandom(boolean $random) : Story
+    public function setRandom(bool $random) : Story
     {
         $this->random = $random;
 
