@@ -4,6 +4,7 @@ namespace YarnyardBundle\Entity;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use YarnyardBundle\Service\UserProvider;
 
 class User implements UserInterface
 {
@@ -103,7 +104,7 @@ class User implements UserInterface
     }
 
     /**
-     * If a PreAuthenticatedToken is created for a user with no roles it is regarded as not authenticated
+     * If a PreAuthenticatedToken is created for a user with no roles it is regarded as not authenticated.
      *
      * @return array
      */

@@ -1,5 +1,11 @@
 services:
 
+    story.service:
+        class: YarnyardBundle\Service\StoryService
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@validator'
+
     story.repository:
         class: YarnyardBundle\Entity\StoryRepository
         factory: [ '@doctrine.orm.entity_manager', 'getRepository' ]
