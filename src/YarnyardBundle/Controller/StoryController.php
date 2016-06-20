@@ -7,6 +7,9 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
+use YarnyardBundle\Entity\ContributionGrant;
+use YarnyardBundle\Entity\Review;
+use YarnyardBundle\Entity\Sentence;
 use YarnyardBundle\Entity\Story;
 
 class StoryController extends AbstractRestController
@@ -24,18 +27,10 @@ class StoryController extends AbstractRestController
     public function postStoryAction(Request $request)
     {
         $title = $request->request->get('title');
+        $random = (bool) $request->request->get('random');
+        $rounds = (int) $request->request->get('rounds');
 
-        $story = new Story();
-        // todo create story service
-        $story
-            ->setTitle($title)
-            ->setIsCompleted(false)
-            ->setContributionMode(1);
-
-        $this->get('doctrine.orm.default_entity_manager')->persist($story);
-        $this->get('doctrine.orm.default_entity_manager')->flush($story);
-
-        return $story;
+        return $this->get('story.service')->create($title, $random, $rounds);
     }
 
     /**
@@ -53,6 +48,45 @@ class StoryController extends AbstractRestController
      */
     public function getStoriesAction(QueryBuilder $query, Request $request)
     {
+        $contributorId = $request->query->get('contributorId');
+        $granteeId = $request->query->get('granteeId');
+        $sortBy = $request->query->get('sortBy');
+
+        if ($granteeId) {
+            $query
+                ->leftJoin(
+                    ContributionGrant::class,
+                    'grant',
+                    'WITH',
+                    'grant.story = story.id'
+                )
+                ->andWhere('grant.user = :grantee')
+                ->setParameter('grantee', $granteeId);
+        }
+
+        if ($contributorId) {
+            $query
+                ->leftJoin(
+                    Sentence::class,
+                    'sentence',
+                    'WITH',
+                    'sentence.story = story.id'
+                )
+                ->andWhere('sentence.createdBy = :contributor')
+                ->setParameter('contributor', $contributorId);
+        }
+
+        if ($sortBy === 'rating') {
+            $query
+                ->leftJoin(
+                    Review::class,
+                    'review',
+                    'WITH',
+                    'review.story = story.id'
+                )
+                ->addSelect('AVG(review.rating) AS HIDDEN rating');
+        }
+
         return $this->paginate($request, $query);
     }
 }

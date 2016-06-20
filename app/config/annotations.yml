@@ -21,8 +21,20 @@ postStoryAction:
         -
             name: 'title'
             dataType: 'string'
-            requirement: '\w+'
             description: 'The title of the story'
+        -
+            name: 'random'
+            dataType: 'boolean'
+            description: >
+                You invite the contributors yourself OR have them randomly
+                selected
+        -
+            name: 'rounds'
+            dataType: 'integer'
+            description: >
+                End story after each contributor writes this number of
+                sentences. If rounds is set to 0 then the story continues
+                until the owner finishes it
             
 getStoriesAction:
     resourceDescription: YarnyardBundle\Entity\Story
