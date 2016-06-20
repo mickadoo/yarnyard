@@ -9,10 +9,11 @@ YarnyardBundle\Entity\Story:
     fields:
         title:
             type: string
-        isCompleted:
+        completed:
             type: boolean
-            nullable: true
-        contributionMode:
+        random:
+            type: boolean
+        rounds:
             type: integer
         createdAt:
             type: datetime

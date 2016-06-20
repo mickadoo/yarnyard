@@ -6,11 +6,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 class Story
 {
-    const FREE_CHOSEN = 0;
-    const FREE_RANDOM = 1;
-    const ONE_EACH_CHOSEN = 2;
-    const ONE_EACH_RANDOM = 3;
-
     /**
      * @Groups({"story", "elastica"})
      *
@@ -30,14 +25,25 @@ class Story
      *
      * @var bool
      */
-    private $isCompleted;
+    private $completed = false;
 
     /**
+     * If true contributors are selected at random. If false owner must invite.
+     *
+     * @Groups({"story"})
+     *
+     * @var bool
+     */
+    private $random;
+
+    /**
+     * Number of sentences each contributor can add before story is completed.
+     *
      * @Groups({"story"})
      *
      * @var int
      */
-    private $contributionMode;
+    private $rounds = 0;
 
     /**
      * @Groups({"story"})
@@ -82,9 +88,9 @@ class Story
     /**
      * @param string $title
      *
-     * @return $this
+     * @return Story
      */
-    public function setTitle($title)
+    public function setTitle(string $title) : Story
     {
         $this->title = $title;
 
@@ -94,19 +100,39 @@ class Story
     /**
      * @return bool
      */
-    public function isIsCompleted()
+    public function isCompleted()
     {
-        return $this->isCompleted;
+        return $this->completed;
     }
 
     /**
-     * @param bool $isCompleted
+     * @param bool $completed
      *
-     * @return $this
+     * @return Story
      */
-    public function setIsCompleted($isCompleted)
+    public function setCompleted(boolean $completed) : Story
     {
-        $this->isCompleted = $isCompleted;
+        $this->completed = $completed;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRandom()
+    {
+        return $this->random;
+    }
+
+    /**
+     * @param bool $random
+     *
+     * @return Story
+     */
+    public function setRandom(boolean $random) : Story
+    {
+        $this->random = $random;
 
         return $this;
     }
@@ -114,19 +140,19 @@ class Story
     /**
      * @return int
      */
-    public function getContributionMode()
+    public function getRounds()
     {
-        return $this->contributionMode;
+        return $this->rounds;
     }
 
     /**
-     * @param int $contributionMode
+     * @param int $rounds
      *
-     * @return $this
+     * @return Story
      */
-    public function setContributionMode($contributionMode)
+    public function setRounds(int $rounds) : Story
     {
-        $this->contributionMode = $contributionMode;
+        $this->rounds = $rounds;
 
         return $this;
     }
