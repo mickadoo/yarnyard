@@ -27,7 +27,8 @@ class StoryController extends AbstractRestController
     public function postStoryAction(Request $request)
     {
         $title = $request->request->get('title');
-        $random = (bool) $request->request->get('random');
+        $random = $request->request->get('random');
+        $random = filter_var($random, FILTER_VALIDATE_BOOLEAN);
         $rounds = (int) $request->request->get('rounds');
 
         return $this->get('story.service')->create($title, $random, $rounds);

@@ -1,0 +1,6 @@
+services:
+
+    sentence.service:
+        class: YarnyardBundle\Service\SentenceService
+        arguments:
+            - '@doctrine.orm.entity_manager'

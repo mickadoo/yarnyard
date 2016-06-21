@@ -56,3 +56,16 @@ getStoriesAction:
             dataType: 'integer'
             description: 'limit to stories a certain user can contribute to'
             required: false
+
+postSentenceAction:
+    description: 'Add a sentence to a story'
+    section: 'sentence'
+    requirements:
+        -
+            name: 'text'
+            dataType: 'string'
+            description: 'The sentence content'
+        -
+            name: 'storyId'
+            dataType: 'integer'
+            description: 'which story to append the sentence to'

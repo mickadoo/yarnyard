@@ -1,7 +1,11 @@
-user_controller:
+user.controller:
     type: rest
     resource: "@YarnyardBundle/Controller/UserController.php"
 
-story_controller:
+story.controller:
     type: rest
     resource: "@YarnyardBundle/Controller/StoryController.php"
+
+sentence.controller:
+    type: rest
+    resource: "@YarnyardBundle/Controller/SentenceController.php"
