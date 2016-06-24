@@ -11,6 +11,3 @@ services:
         factory: [ '@doctrine.orm.entity_manager', 'getRepository' ]
         arguments:
             - YarnyardBundle\Entity\Story
-
-    participant_limit_calculator:
-        class: YarnyardBundle\Service\ParticipantLimitCalculator
