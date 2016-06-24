@@ -5,6 +5,7 @@ namespace YarnyardBundle\Service;
 use Doctrine\ORM\EntityManager;
 use YarnyardBundle\Entity\Sentence;
 use YarnyardBundle\Entity\Story;
+use YarnyardBundle\Exception\ValidationException;
 
 class SentenceService
 {
@@ -29,7 +30,10 @@ class SentenceService
      */
     public function create(Story $story, string $text) : Sentence
     {
-        // todo validate story is not complete, current user is allowed to add
+        // todo validate current user is allowed to add
+        if ($story->isCompleted()) {
+            throw new ValidationException('Story is already complete');
+        }
 
         $sentence = new Sentence();
         $sentence
