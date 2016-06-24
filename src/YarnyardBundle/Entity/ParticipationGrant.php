@@ -2,7 +2,7 @@
 
 namespace YarnyardBundle\Entity;
 
-class ContributionGrant
+class ParticipationGrant
 {
     /**
      * @var int

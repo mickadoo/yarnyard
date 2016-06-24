@@ -1,4 +1,5 @@
-YarnyardBundle\Entity\ContributionGrant:
+YarnyardBundle\Entity\ParticipationGrant:
+    repositoryClass: YarnyardBundle\Entity\ParticipationGrantRepository
     type: entity
     id:
         id:

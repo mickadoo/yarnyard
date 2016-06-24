@@ -7,7 +7,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
-use YarnyardBundle\Entity\ContributionGrant;
+use YarnyardBundle\Entity\ParticipationGrant;
 use YarnyardBundle\Entity\Review;
 use YarnyardBundle\Entity\Sentence;
 use YarnyardBundle\Entity\Story;
@@ -56,7 +56,7 @@ class StoryController extends AbstractRestController
         if ($granteeId) {
             $query
                 ->leftJoin(
-                    ContributionGrant::class,
+                    ParticipationGrant::class,
                     'grant',
                     'WITH',
                     'grant.story = story.id'
