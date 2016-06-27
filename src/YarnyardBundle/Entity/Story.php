@@ -160,7 +160,7 @@ class Story
     /**
      * @return \DateTime
      */
-    public function getCreatedAt()
+    public function getCreatedAt() : \DateTime
     {
         return $this->createdAt;
     }
@@ -168,7 +168,7 @@ class Story
     /**
      * @return \DateTime
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt() : \DateTime
     {
         return $this->updatedAt;
     }
@@ -176,7 +176,7 @@ class Story
     /**
      * @return User
      */
-    public function getCreatedBy()
+    public function getCreatedBy() : User
     {
         return $this->createdBy;
     }
@@ -184,8 +184,19 @@ class Story
     /**
      * @return User
      */
-    public function getUpdatedBy()
+    public function getUpdatedBy() : User
     {
         return $this->updatedBy;
+    }
+
+    /**
+     * Hard coded for now. Possible feature to allow creator to choose
+     * duration in the future.
+     *
+     * @return \DateInterval
+     */
+    public function getSkipTurnDuration() : \DateInterval
+    {
+        return new \DateInterval('P5D');
     }
 }
