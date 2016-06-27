@@ -110,7 +110,7 @@ class Story
      *
      * @return Story
      */
-    public function setCompleted(boolean $completed) : Story
+    public function setCompleted(bool $completed) : Story
     {
         $this->completed = $completed;
 
