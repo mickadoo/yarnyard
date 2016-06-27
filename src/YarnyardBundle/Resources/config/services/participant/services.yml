@@ -12,3 +12,10 @@ services:
         factory: [ '@doctrine.orm.entity_manager', 'getRepository' ]
         arguments:
             - YarnyardBundle\Entity\ParticipationGrant
+
+    next_participant_fetcher:
+        class: YarnyardBundle\Service\NextParticipantFetcher
+        arguments:
+            - '@participant.sorter'
+            - '@sentence.repository'
+            - '@date_interval_counter'
