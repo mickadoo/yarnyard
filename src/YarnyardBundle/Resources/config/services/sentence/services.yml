@@ -4,3 +4,9 @@ services:
         class: YarnyardBundle\Service\SentenceService
         arguments:
             - '@doctrine.orm.entity_manager'
+
+    sentence.repository:
+        class: YarnyardBundle\Entity\SentenceRepository
+        factory: [ '@doctrine.orm.entity_manager' , 'getRepository' ]
+        arguments:
+            -   YarnyardBundle\Entity\Sentence

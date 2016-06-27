@@ -1,5 +1,6 @@
 YarnyardBundle\Entity\Sentence:
     type: entity
+    repositoryClass: YarnyardBundle\Entity\SentenceRepository
     id:
         id:
             type: integer
