@@ -3,7 +3,7 @@
 failed=0;
 root_dir=`dirname $(readlink -f $0)`/../../;
 
-for FILENAME in `git diff --name-only --staged`
+for FILENAME in `git diff --diff-filter=ACMRTUXB --name-only --staged`
 do
   full_path=${root_dir}${FILENAME};
   result=`php -n -d 'extension=tokenizer.so;' -d 'extension=ctype.so;' -d 'extension=iconv.so;' ${root_dir}/vendor/fabpot/php-cs-fixer/php-cs-fixer fix ${full_path} --dry-run`;
