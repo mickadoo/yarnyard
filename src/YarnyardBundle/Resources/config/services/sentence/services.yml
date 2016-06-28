@@ -4,9 +4,17 @@ services:
         class: YarnyardBundle\Service\SentenceService
         arguments:
             - '@doctrine.orm.entity_manager'
+            - '@security.token_storage'
+            - '@turn_tracker'
+            - '@event_dispatcher'
 
     sentence.repository:
         class: YarnyardBundle\Entity\SentenceRepository
         factory: [ '@doctrine.orm.entity_manager' , 'getRepository' ]
         arguments:
             -   YarnyardBundle\Entity\Sentence
+
+    sentence_create.listener:
+        class: YarnyardBundle\EventListener\Sentence\SentenceCreatedEventListener
+        tags:
+            - { name: kernel.event_listener, event: sentence.created }
