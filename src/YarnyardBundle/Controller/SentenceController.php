@@ -24,7 +24,6 @@ class SentenceController extends AbstractRestController
     {
         $text = $request->request->get('text');
         $storyId = $request->request->get('storyId');
-        /** @var Story $story */
         $story = $this->get('story.repository')->find($storyId);
 
         if (!$story) {

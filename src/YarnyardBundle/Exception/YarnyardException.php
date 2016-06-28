@@ -2,6 +2,8 @@
 
 namespace YarnyardBundle\Exception;
 
+use Symfony\Component\HttpFoundation\Response;
+
 class YarnyardException extends \Exception
 {
     /**
@@ -10,8 +12,13 @@ class YarnyardException extends \Exception
     protected $context;
 
     /**
+     * @var int
+     */
+    protected $code = Response::HTTP_INTERNAL_SERVER_ERROR;
+
+    /**
      * @param string $message
-     * @param array $context
+     * @param array  $context
      */
     public function __construct($message, $context = [])
     {

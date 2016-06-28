@@ -5,7 +5,6 @@ namespace YarnyardBundle\Exception\Handler;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\Translation\TranslatorInterface;
-use YarnyardBundle\Exception\Mapping\ExceptionCodeMapper;
 use YarnyardBundle\Exception\YarnyardException;
 use YarnyardBundle\Util\ArrayDecorator;
 
@@ -17,28 +16,19 @@ class ExceptionHandler
     protected $translator;
 
     /**
-     * @var ExceptionCodeMapper
-     */
-    protected $exceptionCodeMapper;
-
-    /**
      * @var ArrayDecorator
      */
     protected $arrayHelper;
 
     /**
      * @param TranslatorInterface $translator
-     * @param ExceptionCodeMapper $exceptionCodeMapper
-     * @param ArrayDecorator $arrayHelper
+     * @param ArrayDecorator      $arrayHelper
      */
     public function __construct(
         TranslatorInterface $translator,
-        ExceptionCodeMapper $exceptionCodeMapper,
         ArrayDecorator $arrayHelper
-    )
-    {
+    ) {
         $this->translator = $translator;
-        $this->exceptionCodeMapper = $exceptionCodeMapper;
         $this->arrayHelper = $arrayHelper;
     }
 
@@ -49,10 +39,12 @@ class ExceptionHandler
     {
         $exception = $event->getException();
         $message = $exception->getMessage();
-        $code = $this->exceptionCodeMapper->getCode($exception);
+        $responseCode = Response::HTTP_INTERNAL_SERVER_ERROR;
 
         if ($exception instanceof YarnyardException) {
-            $message = $this->translator->trans($message, $this->arrayHelper->decorateKeys($exception->getContext()));
+            $keys = $this->arrayHelper->decorateKeys($exception->getContext());
+            $message = $this->translator->trans($message, $keys);
+            $responseCode = $exception->getCode();
         }
 
         $responseBody = [
@@ -63,6 +55,8 @@ class ExceptionHandler
             ],
         ];
 
-        $event->setResponse(new Response(json_encode($responseBody), $code));
+        $response = new Response(json_encode($responseBody), $responseCode);
+
+        $event->setResponse($response);
     }
 }

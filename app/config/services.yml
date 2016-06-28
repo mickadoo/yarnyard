@@ -1,8 +1,5 @@
 services:
 
-    exception.code_mapping:
-        class: YarnyardBundle\Exception\Mapping\ExceptionCodeMapper
-
     yarnyard.exception_handler:
         class: YarnyardBundle\Exception\Handler\ExceptionHandler
         tags:
@@ -12,7 +9,6 @@ services:
                 method: onKernelException
         arguments:
             - '@translator'
-            - '@exception.code_mapping'
             - '@array_decorator'
 
     array_decorator:
