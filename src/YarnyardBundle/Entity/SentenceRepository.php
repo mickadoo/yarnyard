@@ -17,7 +17,7 @@ class SentenceRepository extends EntityRepository
             ->createQueryBuilder('sentence')
             ->where('sentence.story = :story')
             ->setParameter('story', $story)
-            ->orderBy('sentence.createdAt');
+            ->orderBy('sentence.createdAt', 'DESC');
 
         return array_values($query->getQuery()->getResult())[0];
     }
