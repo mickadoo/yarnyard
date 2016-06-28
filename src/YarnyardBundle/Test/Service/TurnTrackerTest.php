@@ -8,11 +8,11 @@ use YarnyardBundle\Entity\SentenceRepository;
 use YarnyardBundle\Entity\Story;
 use YarnyardBundle\Entity\User;
 use YarnyardBundle\Exception\YarnyardException;
-use YarnyardBundle\Service\NextParticipantFetcher;
 use YarnyardBundle\Service\ParticipantSorter;
+use YarnyardBundle\Service\TurnTracker;
 use YarnyardBundle\Util\DateInterval\IntervalCounter;
 
-class NextParticipantFetcherTest extends \PHPUnit_Framework_TestCase
+class TurnTrackerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -25,14 +25,14 @@ class NextParticipantFetcherTest extends \PHPUnit_Framework_TestCase
         $fetcher = $this->getFetcher($sorter);
 
         $this->expectException(YarnyardException::class);
-        $fetcher->fetch($story);
+        $fetcher->getCurrentTurnUser($story);
     }
 
     /**
      * @param null $sorter
      * @param null $repo
      *
-     * @return NextParticipantFetcher
+     * @return TurnTracker
      */
     private function getFetcher($sorter = null, $repo = null)
     {
@@ -43,7 +43,7 @@ class NextParticipantFetcherTest extends \PHPUnit_Framework_TestCase
             $repo = $this->prophesize(SentenceRepository::class);
         }
 
-        return new NextParticipantFetcher(
+        return new TurnTracker(
             $sorter->reveal(),
             $repo->reveal(),
             new IntervalCounter()
@@ -69,7 +69,7 @@ class NextParticipantFetcherTest extends \PHPUnit_Framework_TestCase
         $repo->getMostRecent(Argument::any())->shouldNotBeCalled();
         $fetcher = $this->getFetcher($sorter, $repo);
 
-        $result = $fetcher->fetch($story->reveal());
+        $result = $fetcher->getCurrentTurnUser($story->reveal());
 
         $this->assertEquals($userB, $result);
     }
@@ -94,7 +94,7 @@ class NextParticipantFetcherTest extends \PHPUnit_Framework_TestCase
         $repo->getMostRecent(Argument::any())->shouldNotBeCalled();
         $fetcher = $this->getFetcher($sorter, $repo);
 
-        $result = $fetcher->fetch($story->reveal());
+        $result = $fetcher->getCurrentTurnUser($story->reveal());
 
         $this->assertEquals($userA, $result);
     }
@@ -126,7 +126,7 @@ class NextParticipantFetcherTest extends \PHPUnit_Framework_TestCase
 
         $fetcher = $this->getFetcher($sorter, $repo);
 
-        $result = $fetcher->fetch($story->reveal());
+        $result = $fetcher->getCurrentTurnUser($story->reveal());
 
         $this->assertEquals($userC, $result);
     }

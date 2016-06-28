@@ -13,8 +13,8 @@ services:
         arguments:
             - YarnyardBundle\Entity\ParticipationGrant
 
-    next_participant_fetcher:
-        class: YarnyardBundle\Service\NextParticipantFetcher
+    turn_tracker:
+        class: YarnyardBundle\Service\TurnTracker
         arguments:
             - '@participant.sorter'
             - '@sentence.repository'

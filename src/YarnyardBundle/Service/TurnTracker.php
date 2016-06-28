@@ -8,7 +8,7 @@ use YarnyardBundle\Entity\User;
 use YarnyardBundle\Exception\YarnyardException;
 use YarnyardBundle\Util\DateInterval\IntervalCounter;
 
-class NextParticipantFetcher
+class TurnTracker
 {
     /**
      * @var ParticipantSorter
@@ -41,11 +41,14 @@ class NextParticipantFetcher
     }
 
     /**
+     * Gets the user whose turn it is currently based on most recent contributor
+     * and number of skips since then.
+     *
      * @param Story $story
      *
      * @return User
      */
-    public function fetch(Story $story) : User
+    public function getCurrentTurnUser(Story $story) : User
     {
         $participants = $this->sorter->getSortedParticipants($story);
 
