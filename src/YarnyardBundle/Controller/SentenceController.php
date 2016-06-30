@@ -30,6 +30,6 @@ class SentenceController extends AbstractRestController
             throw new YarnyardException('that story does not exist');
         }
 
-        return $this->get('sentence.service')->create($story, $text);
+        return $this->get('sentence.creator')->create($story, $text);
     }
 }

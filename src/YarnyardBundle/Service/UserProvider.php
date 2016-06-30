@@ -21,18 +21,18 @@ class UserProvider implements JWTUserProviderInterface
     protected $userRepository;
 
     /**
-     * @var UserService
+     * @var UserCreator
      */
-    protected $userService;
+    protected $userCreator;
 
     /**
      * @param UserRepository $userRepository
-     * @param UserService    $userService
+     * @param UserCreator    $userService
      */
-    public function __construct(UserRepository $userRepository, UserService $userService)
+    public function __construct(UserRepository $userRepository, UserCreator $userService)
     {
         $this->userRepository = $userRepository;
-        $this->userService = $userService;
+        $this->userCreator = $userService;
     }
 
     /**
@@ -45,7 +45,7 @@ class UserProvider implements JWTUserProviderInterface
         $user = $this->userRepository->findOneBy(['uuid' => $jwt->userId]);
 
         if (!$user) {
-            $user = $this->userService->create($jwt->userId);
+            $user = $this->userCreator->create($jwt->userId);
         }
 
         return $user;
