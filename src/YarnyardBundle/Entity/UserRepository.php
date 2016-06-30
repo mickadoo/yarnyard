@@ -5,7 +5,7 @@ namespace YarnyardBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
-use YarnyardBundle\Exception\YarnyardException;
+use YarnyardBundle\Exception\NoAvailableUserException;
 
 class UserRepository extends EntityRepository
 {
@@ -43,7 +43,7 @@ class UserRepository extends EntityRepository
         $offset = $numUsers - count($exclude) - 1;
 
         if ($offset < 0) {
-            throw new YarnyardException('Negative offset, not enough users');
+            throw new NoAvailableUserException('Negative offset - not enough users');
         }
 
         $first = mt_rand(0, $offset);
