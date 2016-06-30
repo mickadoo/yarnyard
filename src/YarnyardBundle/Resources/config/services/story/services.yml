@@ -1,7 +1,7 @@
 services:
 
     story.service:
-        class: YarnyardBundle\Service\StoryService
+        class: YarnyardBundle\Service\StoryCreator
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@validator'

@@ -23,18 +23,6 @@ class UserRepository extends EntityRepository
     }
 
     /**
-     * @param User $user
-     *
-     * @return User
-     */
-    public function update(User $user)
-    {
-        $this->_em->flush($user);
-
-        return $user;
-    }
-
-    /**
      * @param array $exclude
      *
      * @return User

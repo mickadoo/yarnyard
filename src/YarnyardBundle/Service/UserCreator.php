@@ -2,23 +2,23 @@
 
 namespace YarnyardBundle\Service;
 
+use Doctrine\ORM\EntityManager;
 use YarnyardBundle\Entity\User;
-use YarnyardBundle\Entity\UserRepository;
 use YarnyardBundle\Exception\YarnyardException;
 
-class UserService
+class UserCreator
 {
     /**
-     * @var UserRepository
+     * @var EntityManager
      */
-    protected $userRepository;
+    protected $manager;
 
     /**
-     * @param UserRepository $userRepository
+     * @param EntityManager $manager
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(EntityManager $manager)
     {
-        $this->userRepository = $userRepository;
+        $this->manager = $manager;
     }
 
     /**
@@ -31,7 +31,8 @@ class UserService
     public function create($uuid)
     {
         $user = new User($uuid);
-        $this->userRepository->save($user);
+        $this->manager->persist($user);
+        $this->manager->flush($user);
 
         return $user;
     }

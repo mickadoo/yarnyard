@@ -5,7 +5,7 @@ namespace YarnyardBundle\Service;
 use Doctrine\ORM\EntityManager;
 use YarnyardBundle\Entity\Story;
 
-class StoryService
+class StoryCreator
 {
     /**
      * @var EntityManager
