@@ -13,6 +13,11 @@ services:
         arguments:
             - YarnyardBundle\Entity\ParticipationGrant
 
+    participation_grant.creator:
+        class: YarnyardBundle\Service\ParticipationGrantCreator
+        arguments:
+            - '@doctrine.orm.entity_manager'
+
     turn_tracker:
         class: YarnyardBundle\Service\TurnTracker
         arguments:
