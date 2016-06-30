@@ -15,12 +15,15 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $kevin = new User('userUuidKevin');
+        $users = ['kevin', 'philip', 'mary', 'ann'];
 
-        $manager->persist($kevin);
+        foreach ($users as $userName) {
+            $user = new User('userUuid'.ucfirst($userName));
+            $manager->persist($user);
+            $this->setReference($userName, $user);
+        }
+
         $manager->flush();
-
-        $this->setReference(FixtureReference::KEVIN, $kevin);
     }
 
     /**
