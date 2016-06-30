@@ -2,13 +2,13 @@
 
 namespace YarnyardBundle\Test\Controller;
 
+use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use YarnyardBundle\DataFixtures\ORM\LoadUserData;
 use YarnyardBundle\Entity\User;
-use YarnyardBundle\Test\ApiTestCase;
 
-class UserControllerTest extends ApiTestCase
+class UserControllerTest extends WebTestCase
 {
     /**
      * @test
@@ -19,13 +19,14 @@ class UserControllerTest extends ApiTestCase
         $client = $this->createClient();
 
         /** @var User $user */
-        $user = static::$kernel->getContainer()->get('user.repository')->findOneBy([]);
+        $user = $this->getContainer()->get('user.repository')->findOneBy([]);
 
-        $client->request(Request::METHOD_GET, '/users/' . $user->getId());
+        $client->request(Request::METHOD_GET, '/users/'.$user->getId());
         $response = $client->getResponse();
+        $returnedId = json_decode($response->getContent())->id;
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
-        $this->assertEquals($user->getId(), json_decode($response->getContent())->id);
+        $this->assertEquals($user->getId(), $returnedId);
     }
 
     /**
