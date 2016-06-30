@@ -29,12 +29,22 @@ class SentenceRepository extends EntityRepository
      */
     public function hasSentences(Story $story) : bool
     {
+        return $this->getCount($story) > 0;
+    }
+
+    /**
+     * @param Story $story
+     *
+     * @return int
+     */
+    public function getCount(Story $story) : int
+    {
         $query = $this
             ->createQueryBuilder('sentence')
             ->select('COUNT(sentence.id)')
             ->where('sentence.story = :story')
             ->setParameter('story', $story);
 
-        return $query->getQuery()->getSingleScalarResult() > 0;
+        return $query->getQuery()->getSingleScalarResult();
     }
 }
