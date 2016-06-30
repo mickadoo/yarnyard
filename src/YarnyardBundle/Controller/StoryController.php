@@ -31,7 +31,7 @@ class StoryController extends AbstractRestController
         $random = filter_var($random, FILTER_VALIDATE_BOOLEAN);
         $rounds = (int) $request->request->get('rounds');
 
-        return $this->get('story.service')->create($title, $random, $rounds);
+        return $this->get('story.creator')->create($title, $random, $rounds);
     }
 
     /**
