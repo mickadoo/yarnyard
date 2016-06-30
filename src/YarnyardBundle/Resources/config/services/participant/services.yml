@@ -19,3 +19,9 @@ services:
             - '@participant.sorter'
             - '@sentence.repository'
             - '@date_interval_counter'
+
+    random_participant_finder:
+        class: YarnyardBundle\Service\RandomParticipantFinder
+        arguments:
+            - '@user.repository'
+            - '@participation_grant.repository'
