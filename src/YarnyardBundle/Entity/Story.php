@@ -37,13 +37,11 @@ class Story
     private $random;
 
     /**
-     * Number of sentences each contributor can add before story is completed.
-     *
      * @Groups({"story"})
      *
      * @var int
      */
-    private $rounds = 0;
+    private $numSentences = 0;
 
     /**
      * @Groups({"story"})
@@ -138,26 +136,6 @@ class Story
     }
 
     /**
-     * @return int
-     */
-    public function getRounds()
-    {
-        return $this->rounds;
-    }
-
-    /**
-     * @param int $rounds
-     *
-     * @return Story
-     */
-    public function setRounds(int $rounds) : Story
-    {
-        $this->rounds = $rounds;
-
-        return $this;
-    }
-
-    /**
      * @return \DateTime
      */
     public function getCreatedAt() : \DateTime
@@ -187,6 +165,34 @@ class Story
     public function getUpdatedBy() : User
     {
         return $this->updatedBy;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasSentenceLimit() : bool
+    {
+        return $this->getNumSentences() !== 0;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumSentences()
+    {
+        return $this->numSentences;
+    }
+
+    /**
+     * @param int $numSentences
+     *
+     * @return Story
+     */
+    public function setNumSentences(int $numSentences) : Story
+    {
+        $this->numSentences = $numSentences;
+
+        return $this;
     }
 
     /**

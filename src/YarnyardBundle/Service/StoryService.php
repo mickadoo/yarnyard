@@ -33,7 +33,7 @@ class StoryService
         $story
             ->setTitle($title)
             ->setRandom($random)
-            ->setRounds($rounds);
+            ->setNumSentences($rounds);
 
         $this->manager->persist($story);
         $this->manager->flush($story);

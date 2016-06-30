@@ -13,7 +13,7 @@ YarnyardBundle\Entity\Story:
             type: boolean
         random:
             type: boolean
-        rounds:
+        numSentences:
             type: integer
         createdAt:
             type: datetime
