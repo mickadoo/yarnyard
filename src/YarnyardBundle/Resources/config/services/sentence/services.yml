@@ -1,6 +1,6 @@
 services:
 
-    sentence.service:
+    sentence.creator:
         class: YarnyardBundle\Service\SentenceService
         arguments:
             - '@doctrine.orm.entity_manager'
@@ -16,5 +16,8 @@ services:
 
     sentence_create.listener:
         class: YarnyardBundle\EventListener\Sentence\SentenceCreatedEventListener
+        arguments:
+            - '@story_completion.service'
+            - '@random_participant_adder'
         tags:
             - { name: kernel.event_listener, event: sentence.created }

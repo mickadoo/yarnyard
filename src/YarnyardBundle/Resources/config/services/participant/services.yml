@@ -30,3 +30,11 @@ services:
         arguments:
             - '@user.repository'
             - '@participation_grant.repository'
+
+    random_participant_adder:
+        class: YarnyardBundle\Service\RandomParticipantAdder
+        arguments:
+            - '@participant_limit_calculator'
+            - '@participation_grant.repository'
+            - '@random_participant_finder'
+            - '@participation_grant.creator'
