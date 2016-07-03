@@ -28,7 +28,8 @@
         "auth0/jwt-auth-bundle": "^2.0",
         "pagerfanta/pagerfanta": "^1.0",
         "stof/doctrine-extensions-bundle": "dev-master",
-        "friendsofsymfony/elastica-bundle": "dev-master"
+        "friendsofsymfony/elastica-bundle": "dev-master",
+        "php-amqplib/php-amqplib": "2.6.*"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
