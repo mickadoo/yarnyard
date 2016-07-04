@@ -35,3 +35,11 @@ services:
             - '@doctrine.orm.entity_manager'
         tags:
             - { name: request.param_converter, converter: query_builder.param_converter }
+
+    rabbit:
+        class: YarnyardBundle\Util\RabbitMQ\Connection
+        arguments:
+            - '%rabbit_mq_host%'
+            - '%rabbit_mq_port%'
+            - '%rabbit_mq_uname%'
+            - '%rabbit_mq_pass%'
