@@ -8,3 +8,7 @@ parameters:
     locale: en
     oauth_client_id:
     oauth_client_secret:
+    rabbit_mq_host:
+    rabbit_mq_port:
+    rabbit_mq_uname:
+    rabbit_mq_pass:
