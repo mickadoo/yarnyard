@@ -19,5 +19,7 @@ services:
         arguments:
             - '@story_completion.service'
             - '@random_participant_adder'
+            - '@rabbit'
+            - '@turn_tracker'
         tags:
             - { name: kernel.event_listener, event: sentence.created }
