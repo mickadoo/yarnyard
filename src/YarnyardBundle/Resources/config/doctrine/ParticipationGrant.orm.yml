@@ -1,5 +1,10 @@
 YarnyardBundle\Entity\ParticipationGrant:
     repositoryClass: YarnyardBundle\Entity\ParticipationGrantRepository
+    uniqueConstraints:
+        participation_grant_user_story:
+            columns:
+                - story_id
+                - user_id
     type: entity
     id:
         id:
