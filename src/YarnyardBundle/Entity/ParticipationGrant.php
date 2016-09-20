@@ -2,10 +2,14 @@
 
 namespace YarnyardBundle\Entity;
 
+use Symfony\Component\Serializer\Annotation\Groups;
+
 class ParticipationGrant
 {
     /**
      * @var int
+     *
+     * @Groups({"participationGrant"})
      */
     private $id;
 
@@ -25,6 +29,8 @@ class ParticipationGrant
     private $createdBy;
 
     /**
+     * @Groups({"participationGrant"})
+     *
      * @var \DateTime
      */
     private $createdAt;

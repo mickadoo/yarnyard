@@ -69,3 +69,16 @@ postSentenceAction:
             name: 'storyId'
             dataType: 'integer'
             description: 'which story to append the sentence to'
+
+postGrantAction:
+    description: 'Allow a user to contribute to a story'
+    section: 'participationGrant'
+    requirements:
+        -
+            name: 'userId'
+            dataType: 'integer'
+            description: 'The id of the contributor'
+        -
+            name: 'storyId'
+            dataType: 'integer'
+            description: 'which story to allow access to'

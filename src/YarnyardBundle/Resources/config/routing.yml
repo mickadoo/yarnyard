@@ -9,3 +9,7 @@ story.controller:
 sentence.controller:
     type: rest
     resource: "@YarnyardBundle/Controller/SentenceController.php"
+
+participation_grant.controller:
+    type: rest
+    resource: "@YarnyardBundle/Controller/ParticipationGrantController.php"
