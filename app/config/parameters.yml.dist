@@ -1,14 +1,14 @@
 parameters:
-    database_host: "%env.db_host%"
-    database_port: "%env.db_port%"
-    database_name: "%env.db_name%"
-    database_user: "%env.db_user%"
-    database_password: "%env.db_pass%"
-    secret: "%env.secret%"
-    locale: "%env.locale%"
-    oauth_client_id: "%env.oauth_client_id%"
-    oauth_client_secret: "%env.oauth_client_secret%"
-    rabbit_mq_host: "%env.rabbit_mq_host%"
-    rabbit_mq_port: "%env.rabbit_mq_port%"
-    rabbit_mq_uname: "%env.rabbit_mq_uname%"
-    rabbit_mq_pass: "%env.rabbit_mq_pass%"
+    database_host:
+    database_port:
+    database_name:
+    database_user:
+    database_password:
+    secret:
+    locale:
+    oauth_client_id:
+    oauth_client_secret:
+    rabbit_mq_host:
+    rabbit_mq_port:
+    rabbit_mq_uname:
+    rabbit_mq_pass:
