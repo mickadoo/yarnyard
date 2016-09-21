@@ -22,6 +22,8 @@ class AppKernel extends Kernel
             new YarnyardBundle\YarnyardBundle(),
             new FOS\ElasticaBundle\FOSElasticaBundle(),
             new Mickadoo\SearchBundle\MickadooSearchBundle(),
+            new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
+            new Mickadoo\YamlApiDocAnnotationBundle\MickadooYamlApiDocAnnotationBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
@@ -30,8 +32,6 @@ class AppKernel extends Kernel
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
 
-            $bundles[] = new Nelmio\ApiDocBundle\NelmioApiDocBundle();
-            $bundles[] = new Mickadoo\YamlApiDocAnnotationBundle\MickadooYamlApiDocAnnotationBundle();
             $bundles[] = new \Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
         }
 

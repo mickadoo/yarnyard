@@ -1,3 +1,7 @@
 user:
     resource: "@YarnyardBundle/Resources/config/routing.yml"
     prefix:   /
+
+nelmio_api_doc_bundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc
