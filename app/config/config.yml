@@ -74,7 +74,7 @@ jwt_auth:
 
 fos_elastica:
     clients:
-        default: { host: elasticsearch, port: 9200 }
+        default: { host: '%elastic.host%', port: 9200 }
     serializer: ~
     indexes:
         app:

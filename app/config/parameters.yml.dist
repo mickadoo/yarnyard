@@ -15,3 +15,4 @@ parameters:
     rabbit_mq_port: %env.rabbit_mq_port%
     rabbit_mq_uname: %env.rabbit_mq_uname%
     rabbit_mq_pass: %env.rabbit_mq_pass%
+    elastic_host: %env.elastic_host%
