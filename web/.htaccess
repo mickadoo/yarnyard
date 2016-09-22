@@ -1,6 +1,10 @@
 <IfModule mod_rewrite.c>
     Options +FollowSymlinks
     RewriteEngine On
+    
+    # allow auth header
+    RewriteCond %{HTTP:Authorization} ^(.*)
+    RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
 
     # Explicitly disable rewriting for front controllers
     RewriteRule ^app_dev.php - [L]
@@ -12,6 +16,4 @@
     RewriteRule ^(.*)$ /app.php [QSA,L]
     #RewriteRule ^(.*)$ /app_dev.php [QSA,L]
 
-    RewriteCond %{HTTP:Authorization} ^(.*)
-    RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
 </IfModule>
