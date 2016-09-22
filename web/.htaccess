@@ -11,4 +11,7 @@
     # Change below before deploying to production
     RewriteRule ^(.*)$ /app.php [QSA,L]
     #RewriteRule ^(.*)$ /app_dev.php [QSA,L]
+
+    RewriteCond %{HTTP:Authorization} ^(.*)
+    RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
 </IfModule>
