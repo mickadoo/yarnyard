@@ -122,7 +122,7 @@ class PhpIniRequirement extends Requirement
      *                                         or a callback function receiving the configuration value as parameter to determine the fulfillment of the requirement
      * @param bool          $approveCfgAbsence If true the Requirement will be fulfilled even if the configuration option does not exist, i.e. ini_get() returns false.
      *                                         This is helpful for abandoned configs in later PHP versions or configs of an optional extension, like Suhosin.
-     *                                         Example: You require a config to be true but PHP later removes this config and defaults it to true internally
+     *                                         Example: You require a config to be true but PHP later removes this config and defaults it to true internally.
      * @param string|null   $testMessage       The message for testing the requirement (when null and $evaluation is a boolean a default message is derived)
      * @param string|null   $helpHtml          The help text formatted in HTML for resolving the problem (when null and $evaluation is a boolean a default help is derived)
      * @param string|null   $helpText          The help text (when null, it will be inferred from $helpHtml, i.e. stripped from HTML tags)
@@ -184,6 +184,16 @@ class RequirementCollection implements IteratorAggregate
     }
 
     /**
+     * Adds a Requirement.
+     *
+     * @param Requirement $requirement A Requirement instance
+     */
+    public function add(Requirement $requirement)
+    {
+        $this->requirements[] = $requirement;
+    }
+
+    /**
      * Adds a mandatory requirement.
      *
      * @param bool        $fulfilled   Whether the requirement is fulfilled
@@ -194,16 +204,6 @@ class RequirementCollection implements IteratorAggregate
     public function addRequirement($fulfilled, $testMessage, $helpHtml, $helpText = null)
     {
         $this->add(new Requirement($fulfilled, $testMessage, $helpHtml, $helpText, false));
-    }
-
-    /**
-     * Adds a Requirement.
-     *
-     * @param Requirement $requirement A Requirement instance
-     */
-    public function add(Requirement $requirement)
-    {
-        $this->requirements[] = $requirement;
     }
 
     /**
@@ -227,7 +227,7 @@ class RequirementCollection implements IteratorAggregate
      *                                         or a callback function receiving the configuration value as parameter to determine the fulfillment of the requirement
      * @param bool          $approveCfgAbsence If true the Requirement will be fulfilled even if the configuration option does not exist, i.e. ini_get() returns false.
      *                                         This is helpful for abandoned configs in later PHP versions or configs of an optional extension, like Suhosin.
-     *                                         Example: You require a config to be true but PHP later removes this config and defaults it to true internally
+     *                                         Example: You require a config to be true but PHP later removes this config and defaults it to true internally.
      * @param string        $testMessage       The message for testing the requirement (when null and $evaluation is a boolean a default message is derived)
      * @param string        $helpHtml          The help text formatted in HTML for resolving the problem (when null and $evaluation is a boolean a default help is derived)
      * @param string|null   $helpText          The help text (when null, it will be inferred from $helpHtml, i.e. stripped from HTML tags)
@@ -245,7 +245,7 @@ class RequirementCollection implements IteratorAggregate
      *                                         or a callback function receiving the configuration value as parameter to determine the fulfillment of the requirement
      * @param bool          $approveCfgAbsence If true the Requirement will be fulfilled even if the configuration option does not exist, i.e. ini_get() returns false.
      *                                         This is helpful for abandoned configs in later PHP versions or configs of an optional extension, like Suhosin.
-     *                                         Example: You require a config to be true but PHP later removes this config and defaults it to true internally
+     *                                         Example: You require a config to be true but PHP later removes this config and defaults it to true internally.
      * @param string        $testMessage       The message for testing the requirement (when null and $evaluation is a boolean a default message is derived)
      * @param string        $helpHtml          The help text formatted in HTML for resolving the problem (when null and $evaluation is a boolean a default help is derived)
      * @param string|null   $helpText          The help text (when null, it will be inferred from $helpHtml, i.e. stripped from HTML tags)
@@ -770,30 +770,6 @@ class SymfonyRequirements extends RequirementCollection
     }
 
     /**
-     * Defines PHP required version from Symfony version.
-     *
-     * @return string|false The PHP required version or false if it could not be guessed
-     */
-    protected function getPhpRequiredVersion()
-    {
-        if (!file_exists($path = __DIR__.'/../composer.lock')) {
-            return false;
-        }
-
-        $composerLock = json_decode(file_get_contents($path), true);
-        foreach ($composerLock['packages'] as $package) {
-            $name = $package['name'];
-            if ('symfony/symfony' !== $name && 'symfony/http-kernel' !== $name) {
-                continue;
-            }
-
-            return (int) $package['version'][1] > 2 ? self::REQUIRED_PHP_VERSION : self::LEGACY_REQUIRED_PHP_VERSION;
-        }
-
-        return false;
-    }
-
-    /**
      * Loads realpath_cache_size from php.ini and converts it to int.
      *
      * (e.g. 16k is converted to 16384 int)
@@ -815,5 +791,29 @@ class SymfonyRequirements extends RequirementCollection
             default:
                 return (int) $size;
         }
+    }
+
+    /**
+     * Defines PHP required version from Symfony version.
+     *
+     * @return string|false The PHP required version or false if it could not be guessed
+     */
+    protected function getPhpRequiredVersion()
+    {
+        if (!file_exists($path = __DIR__.'/../composer.lock')) {
+            return false;
+        }
+
+        $composerLock = json_decode(file_get_contents($path), true);
+        foreach ($composerLock['packages'] as $package) {
+            $name = $package['name'];
+            if ('symfony/symfony' !== $name && 'symfony/http-kernel' !== $name) {
+                continue;
+            }
+
+            return (int) $package['version'][1] > 2 ? self::REQUIRED_PHP_VERSION : self::LEGACY_REQUIRED_PHP_VERSION;
+        }
+
+        return false;
     }
 }

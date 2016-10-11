@@ -13,7 +13,7 @@
     },
     "require": {
         "php": ">=5.5.9",
-        "symfony/symfony": "3.0.*",
+        "symfony/symfony": "3.2.x-dev",
         "doctrine/orm": "^2.5",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/doctrine-cache-bundle": "^1.2",
@@ -41,7 +41,7 @@
         "phpunit/phpunit": "^5.1",
         "squizlabs/php_codesniffer": "^2.6",
         "phpmd/phpmd": "^2.4",
-        "fabpot/php-cs-fixer": "*",
+        "friendsofphp/php-cs-fixer": "*",
         "liip/functional-test-bundle": "^1.6"
     },
     "scripts": {
