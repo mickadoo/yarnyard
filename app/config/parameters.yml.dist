@@ -1,18 +1,19 @@
 # This file is used during composer install to generate parameters.yml
-# Either set environment variables using the format SYMFONY__ENV__<name-in-ucase> or create your parameters.yml file
+# Either set environment variables using env(..) or create your parameters.yml file
 # Note: parameters not defined here are removed during composer install
 parameters:
-    database_host: %env.database_host%
-    database_port: %env.database_port%
-    database_name: %env.database_name%
-    database_user: %env.database_user%
-    database_password: %env.database_password%
-    secret: %env.secret%
-    locale: %env.locale%
-    oauth_client_id: %env.oauth_client_id%
-    oauth_client_secret: %env.oauth_client_secret%
-    rabbit_mq_host: %env.rabbit_mq_host%
-    rabbit_mq_port: %env.rabbit_mq_port%
-    rabbit_mq_uname: %env.rabbit_mq_uname%
-    rabbit_mq_pass: %env.rabbit_mq_pass%
-    elastic_host: %env.elastic_host%
+    database_host: env(YARNYARD_DATABASE_HOST)
+    database_port: 3306
+    database_name: yarnyard
+    database_user: env(YARNYARD_DATABASE_USER)
+    database_password: env(YARNYARD_DATABASE_PASSWORD)
+    database_driver: pdo_sqlite
+    secret: this_app_does_not_use_the_secret_parameter
+    locale: en
+    oauth_client_id: env(YARNYARD_OAUTH_CLIENT_ID)
+    oauth_client_secret: env(YARNYARD_OAUTH_CLIENT_SECRET)
+    rabbit_mq_host: env(YARNYARD_RABBIT_MQ_HOST)
+    rabbit_mq_port: 5672
+    rabbit_mq_uname: env(YARNYARD_RABBIT_MQ_UNAME)
+    rabbit_mq_pass: env(YARNYARD_RABBIT_MQ_PASS)
+    elastic_host: env(YARNYARD_ELASTIC_HOST)
