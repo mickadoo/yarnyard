@@ -57,3 +57,14 @@ RUN echo "xdebug.remote_enable=on \n\
           xdebug.remote_connect_back=Off \n\
           xdebug.remote_autostart=off" >> /etc/php/7.0/mods-available/xdebug.ini
 RUN echo "alias phpdb='export XDEBUG_CONFIG=\"idekey=PHPSTORM\"; export PHP_IDE_CONFIG=\"serverName=docker\"; php '" >> ~/.bashrc
+
+# ssh (for remote interpreter)
+RUN apt-get install -y openssh-server
+RUN mkdir /var/run/sshd \
+    && chmod 0755 /var/run/sshd \
+    && /usr/sbin/sshd
+RUN useradd --create-home --shell /bin/bash --groups sudo php-remote \
+    &&  echo "php-remote:php-remote" | chpasswd
+
+EXPOSE 22
+EXPOSE 80
