@@ -6,3 +6,7 @@ php:
 before_script:
   - composer install
   - php bin/console --version
+  - vendor/phpunit/phpunit/phpunit --version
+
+script:
+  vendor/phpunit/phpunit/phpunit
