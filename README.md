@@ -1,4 +1,6 @@
-yarnyard-symfony3
-=================
+Yarnyard
+========
 
-A Symfony project created on January 24, 2016, 4:35 pm.
+[![Build Status](https://travis-ci.org/mickadoo/yarnyard.svg?branch=develop)](https://travis-ci.org/mickadoo/yarnyard)
+
+Yarnyard is for creating stories with other people. 
