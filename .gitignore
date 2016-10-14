@@ -1,6 +1,4 @@
 /app/config/parameters.yml
-/build/
-/phpunit.xml
 /var/*
 !/var/cache
 /var/cache/*
@@ -14,10 +12,3 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
-
-
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-.ebextensions/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
